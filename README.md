@@ -21,26 +21,38 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 - Support Vector Machine training & testing to predict m6A RNA modifications
 
 ## Getting Started and pre-requisites
-These scripts are written in XXX. 
-
-HUANLE PLEASE ADD DETAILS HERE OF PRE-INSTALLED SOFTWARE THAT is REQUIRED
+In addition to python2.7 and python3, minimap2, jvarkit-sam2tsv.jar, and samtools1.4+ should be installed.
 
 ## Running the software
+* To extract features from basecalled FASTQ files: 
+```
+1. 'U' to 'T' conversion
+2. nanofilt to trim leading and tailing bad quality bases
+3. mapping to reference using minimap2
+4. calling variants for each single read-to-reference alignment
+5. slide results from step 4 with a window size of 5 and generate per_read variants information 
+6. assign current intensity information from fast5 event table to per_read variants.
+7. sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants)
+8. slide per_site variants with window size of 5, so that fast5 event table information can be combined
+```
+
+
 
 * To extract features from FAST5 files: 
 ``` 
-HUANLE PLEASE ADD DETAILS HERE 
+1. extract event table from fast5 files
+fast5ToEventTbl.py input.fast5 > output.event.tbl
+2. extract features needed (esp. current intensity) for downstream analyses
+extract_feature_from_event_tbl.py output.event.tbl > output.event.tbl.features
+3. combine extracted features with per_read and per_site variants information
 
 ```
-* To extract features from basecalled FASTQ files: 
-```
-HUANLE PLEASE ADD DETAILS HERE
-
-```
-
 * To build SVM and get predictions:
 ```
-HUANLE PLEASE ADD DETAILS HERE 
+This includes SVM training, perdiciton and predition performance assessment using single and multiple parameters.
+The analyses coded and performed in python3 programming environment. 
+Pandas (0.23.4), sklearn (0.19.2) and numpy (1.15.1). 
+The details can be found in "SVM_analyses" python jupyter-notebook. 
 
 ```
 
