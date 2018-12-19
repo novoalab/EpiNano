@@ -70,11 +70,11 @@ slide_ref_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.csv
 
 fast5ToEventTbl.py input.fast5 > output.event.tbl
 
-2. extract features needed (esp. current intensity) for downstream analyses
+#2 extract features needed (esp. current intensity) for downstream analyses
 
 extract_feature_from_event_tbl.py output.event.tbl > output.event.tbl.features
 
-3. combine extracted features with per_read and per_site variants information
+#3 combine extracted features with per_read and per_site variants information
 
 fastq_len.py h5t3.fastq > h5t3.fastq.len
 adjust_read_positions.py  h5t3.fastq.len output.event.tbl.features > output.event.tbl.features.readposition.adj.csv
