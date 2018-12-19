@@ -22,6 +22,7 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 
 ## Getting Started and pre-requisites
 In addition to python2.7 and python3, minimap2, jvarkit-sam2tsv.jar, and samtools1.4+ should be installed.
+Python modules including h5py, seaborn, numpy, pandas, and scikitlearn should also be installed.
 
 ## Running the software
 * To extract features from basecalled FASTQ files: 
