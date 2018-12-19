@@ -42,34 +42,55 @@ minimap2 -ax map-ont ref.fasta mod.h5t3.fastq | samtools view -bhS - | samtools 
 minimap2 -ax map-ont ref.fasta mod.h5t3.fastq | samtools view -bhS - | samtools sort -@ 6 -o mod.bam -  && samtools index mod.bam
 
 #4 calling variants for each single read-to-reference alignment
-  java -jar sam2tsv.jar -r  ref.fasta mod.bam > mod.bam.tsv
-  java -jar sam2tsv.jar -r  ref.fasta unm.bam > unm.bam.tsv
+
+java -jar sam2tsv.jar -r  ref.fasta mod.bam > mod.bam.tsv
+java -jar sam2tsv.jar -r  ref.fasta unm.bam > unm.bam.tsv
+
 #5 slide results from step 4 with a window size of 5 and generate per_read variants information 
+
 single_site_var.stats.py mod.bam.tsv > mod.single_read.var.csv
 single_site_var.stats.py unm.bam.tsv > unm.single_read.var.csv
-#6 assign current intensity information from fast5 event table to per_read variants.
+
 #6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants)
 
-8. slide per_site variants with window size of 5, so that fast5 event table information can be combined
-```
+sum_single_read_to_ref_per_site.py mod.bam.tsv > mod.ref.per_site.var.csv
+sum_single_read_to_ref_per_site.py unm.bam.tsv > unm.ref.per_site.var.csv
 
+#7 slide per_site variants with window size of 5, so that fast5 event table information can be combined
+
+slide_ref_var.py mod.ref.per_site.var.csv > mod.per_site.var.sliding.win.csv
+slide_ref_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.csv
+
+```
 
 
 * To extract features from FAST5 files: 
 ``` 
-1. extract event table from fast5 files
+#1 extract event table from fast5 files; 
+
 fast5ToEventTbl.py input.fast5 > output.event.tbl
+
 2. extract features needed (esp. current intensity) for downstream analyses
+
 extract_feature_from_event_tbl.py output.event.tbl > output.event.tbl.features
+
 3. combine extracted features with per_read and per_site variants information
+
+fastq_len.py h5t3.fastq > h5t3.fastq.len
+adjust_read_positions.py  h5t3.fastq.len output.event.tbl.features > output.event.tbl.features.readposition.adj.csv
+assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv  > per_read.var.current.csv
+sum_per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv > per_site.current.csv
+assign_per_site.current.py per_site.current.csv per_site.var.sliding.win.csv > per_site.var.current.csv
 
 ```
 * To build SVM and get predictions:
 ```
+'''
 This step includes SVM training, perdiction and prediction performance assessment using single and multiple parameters.
 The analyses are coded and performed in python3 programming environment. 
 Pandas (0.23.4), sklearn (0.19.2) and numpy (1.15.1). 
 The details can be found in "SVM_analyses" python jupyter-notebook. 
+'''
 ```
 
 ## Citing this work:
