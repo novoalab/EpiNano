@@ -26,8 +26,11 @@ In addition to python2.7 and python3, minimap2, jvarkit-sam2tsv.jar, and samtool
 ## Running the software
 * To extract features from basecalled FASTQ files: 
 ```
-1. 'U' to 'T' conversion
-2. nanofilt to trim leading and tailing bad quality bases
+#1. 'U' to 'T' conversion
+awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' mod.raw.fastq > mod.U2T.fastq
+awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' unm.raw.fastq > unm.U2T.fastq
+#2. nanofilt to trim leading and tailing bad quality bases
+
 3. mapping to reference using minimap2
 4. calling variants for each single read-to-reference alignment
 5. slide results from step 4 with a window size of 5 and generate per_read variants information 
