@@ -26,7 +26,7 @@ In addition to python2.7 and python3, minimap2, jvarkit-sam2tsv.jar, and samtool
 ## Running the software
 * To extract features from basecalled FASTQ files: 
 ```
-#1 trim leading and tailing bad quality bases with NanoFilt
+#1 trim the first and last few bad quality bases from raw fastq with NanoFilt
 
 cat MOD.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile mod.nanofilt.log > mod.h5t3.fastq
 cat UNM.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile unm.nanofilt.log > unm.h5t3.fastq
