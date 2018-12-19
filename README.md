@@ -26,16 +26,24 @@ In addition to python2.7 and python3, minimap2, jvarkit-sam2tsv.jar, and samtool
 ## Running the software
 * To extract features from basecalled FASTQ files: 
 ```
-#1. 'U' to 'T' conversion
-awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' mod.raw.fastq > mod.U2T.fastq
-awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' unm.raw.fastq > unm.U2T.fastq
-#2. nanofilt to trim leading and tailing bad quality bases
+#1 trim leading and tailing bad quality bases with NanoFilt
+cat MOD.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile mod.nanofilt.log > mod.h5t3.fastq
+cat UNM.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile unm.nanofilt.log > unm.h5t3.fastq
+#2 'U' to 'T' conversion
+awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' mod.h5t3.fastq > mod.U2T.fastq
+awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' unm.h5t3.fastq > unm.U2T.fastq
+#3 mapping to reference using minimap2
+minimap2 -ax map-ont ref.fasta mod.h5t3.fastq | samtools view -bhS - | samtools sort -@ 6 -o mod.bam -  && samtools index mod.bam
+minimap2 -ax map-ont ref.fasta mod.h5t3.fastq | samtools view -bhS - | samtools sort -@ 6 -o mod.bam -  && samtools index mod.bam
+#4 calling variants for each single read-to-reference alignment
+java -jar sam2tsv.jar -r  ref.fasta mod.bam > mod.bam.tsv
+java -jar sam2tsv.jar -r  ref.fasta unm.bam > unm.bam.tsv
+#5 slide results from step 4 with a window size of 5 and generate per_read variants information 
+single_site_var.stats.py mod.bam.tsv > mod.single_read.var.csv
+single_site_var.stats.py unm.bam.tsv > unm.single_read.var.csv
+#6 assign current intensity information from fast5 event table to per_read variants.
+#6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants)
 
-3. mapping to reference using minimap2
-4. calling variants for each single read-to-reference alignment
-5. slide results from step 4 with a window size of 5 and generate per_read variants information 
-6. assign current intensity information from fast5 event table to per_read variants.
-7. sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants)
 8. slide per_site variants with window size of 5, so that fast5 event table information can be combined
 ```
 
