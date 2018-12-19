@@ -49,7 +49,7 @@ extract_feature_from_event_tbl.py output.event.tbl > output.event.tbl.features
 ```
 * To build SVM and get predictions:
 ```
-This includes SVM training, perdiciton and predition performance assessment using single and multiple parameters.
+This includes SVM training, perdiction and prediction performance assessment using single and multiple parameters.
 The analyses coded and performed in python3 programming environment. 
 Pandas (0.23.4), sklearn (0.19.2) and numpy (1.15.1). 
 The details can be found in "SVM_analyses" python jupyter-notebook. 
