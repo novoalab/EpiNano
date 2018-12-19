@@ -94,6 +94,11 @@ The details can be found in "SVM_analyses" python jupyter-notebook.
 '''
 ```
 
+* To visulize results:
+```
+Python matplotlib.pyplot, seaborn 
+R ggplot
+```
 ## Citing this work:
 If you find this work useful, please cite:
 
