@@ -14,16 +14,12 @@ Fasta sequences used in the training/testing are included in the release.
 - Scripts to process basecalled FASTQ files into kmer pileups (similar to samtools mpileup format but for 5mer sequences). 
 - Support Vector Machine training/testing to predict m6A RNA modifications
 
-### Getting Started
+### Getting Started and pre-requisites
 These scripts are written in XXX. 
-
-HUANLE PLEASE ADD DETAILS HERE OF SOFTWARE REQUIRED
-
-### Prerequisites
 
 HUANLE PLEASE ADD DETAILS HERE OF PRE-INSTALLED SOFTWARE THAT is REQUIRED
 
-### Running the demo
+### Running the software
 
 * To extract features from FAST5 files: 
 ``` 
