@@ -18,7 +18,7 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 ## What's included
 - Scripts to extract features from FAST5 files
 - Scripts to process mapped BAM files into kmer pileups (similar to samtools mpileup format but for 5mer sequences)
-- Support Vector Machine training & testing to predict m6A RNA modifications
+- Support Vector Machine training (SVM) & testing to predict m6A RNA modifications
 
 ## Getting Started and pre-requisites
 In addition to python2.7 and python3, minimap2, jvarkit-sam2tsv.jar, and samtools1.4+ should be installed.
