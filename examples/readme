@@ -1,4 +1,5 @@
 
 Example files include:
+
   Fastq Files and fast5 files basecalled by albacore v2.1.7
   Reference sequences file, with correspondent dictionary file created using Picard's CreateSequenceDictionary functionality.
