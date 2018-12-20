@@ -49,18 +49,18 @@ java -jar sam2tsv.jar -r  ref.fasta unm.bam > unm.bam.tsv
 
 #5 slide results from step 4 with a window size of 5 and generate per_read variants information 
 
-single_site_var.stats.py mod.bam.tsv > mod.single_read.var.csv
-single_site_var.stats.py unm.bam.tsv > unm.single_read.var.csv
+per_read_var.stats.py mod.bam.tsv > mod.per_read.var.csv
+per_read_var.stats.py unm.bam.tsv > unm.per_read.var.csv
 
 #6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants)
 
-sum_single_read_to_ref_per_site.py mod.bam.tsv > mod.ref.per_site.var.csv
-sum_single_read_to_ref_per_site.py unm.bam.tsv > unm.ref.per_site.var.csv
+per_site_var.py mod.bam.tsv > mod.per_site.var.csv
+per_site_var.py unm.bam.tsv > unm.per_site.var.csv
 
 #7 slide per_site variants with window size of 5, so that fast5 event table information can be combined
 
-slide_ref_var.py mod.ref.per_site.var.csv > mod.per_site.var.sliding.win.csv
-slide_ref_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.csv
+slide_per_site_var.py mod.ref.per_site.var.csv > mod.per_site.var.sliding.win.csv
+slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.csv
 
 ```
 
@@ -73,16 +73,14 @@ fast5ToEventTbl.py input.fast5 > output.event.tbl
 
 #2 extract features needed (esp. current intensity) for downstream analyses
 
-extract_feature_from_event_tbl.py output.event.tbl > output.event.tbl.features
+event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.features
 
 #3 combine extracted features with per_read and per_site variants information
 
 fastq_len.py h5t3.fastq > h5t3.fastq.len
-adjust_read_positions.py  h5t3.fastq.len output.event.tbl.features > output.event.tbl.features.readposition.adj.csv
+adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features > output.event.tbl.features.readposition.adj.csv
 assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv  > per_read.var.current.csv
-sum_per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv > per_site.current.csv
-assign_per_site.current.py per_site.current.csv per_site.var.sliding.win.csv > per_site.var.current.csv
-
+per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv per_site.varsliding.win.csv > per_site.var.current.csv
 ```
 * To build SVM and get predictions:
 ```
