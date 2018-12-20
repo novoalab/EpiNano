@@ -5,4 +5,6 @@ minimap2 https://github.com/lh3/minimap2
 sam2tsv  http://lindenb.github.io/jvarkit/Sam2Tsv.html
 nanofilt  https://github.com/wdecoster/nanofilt
 
+They can all be cloned with `git clone`.
+
 
