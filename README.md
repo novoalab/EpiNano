@@ -78,7 +78,7 @@ event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.features
 #3 combine extracted features with per_read and per_site variants information
 
 fastq_len.py h5t3.fastq > h5t3.fastq.len
-adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features > output.event.tbl.features.readposition.adj.csv
+adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features number_of_chopped_leading_bases number_of_chopped_end_bases > output.event.tbl.features.readposition.adj.csv
 assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv  > per_read.var.current.csv
 per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv per_site.varsliding.win.csv > per_site.var.current.csv
 ```
