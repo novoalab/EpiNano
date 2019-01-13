@@ -47,7 +47,7 @@ minimap2 -ax map-ont ref.fasta mod.h5t3.fastq | samtools view -bhS - | samtools 
 java -jar sam2tsv.jar -r  ref.fasta mod.bam > mod.bam.tsv
 java -jar sam2tsv.jar -r  ref.fasta unm.bam > unm.bam.tsv
 
-#5 slide results from step 4 with a window size of 5 and generate per_read variants information 
+#5 convert results from step 4 and generate per_read variants information 
 
 per_read_var.stats.py mod.bam.tsv > mod.per_read.var.csv
 per_read_var.stats.py unm.bam.tsv > unm.per_read.var.csv
