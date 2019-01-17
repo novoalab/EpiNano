@@ -2,7 +2,7 @@
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ### About EpiNano
-EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. 
+EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications. 
 
 EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification or not. 
 Features extracted include: 
