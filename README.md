@@ -84,12 +84,11 @@ per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv p
 ```
 * To build SVM and get predictions:
 ```
-'''
-This step includes SVM training, perdiction and prediction performance assessment using single and multiple parameters.
+This step includes SVM training, prediction and performance assessment using single and multiple parameters.
 The analyses are coded and performed in python3 programming environment. 
-Pandas (0.23.4), sklearn (0.19.2) and numpy (1.15.1). 
+Uses: Pandas (0.23.4), sklearn (0.19.2) and numpy (1.15.1). 
 The details can be found in "SVM_analyses" python jupyter-notebook. 
-'''
+
 ```
 
 * To visulize results:
