@@ -82,13 +82,39 @@ adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features number_o
 assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv  > per_read.var.current.csv
 per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv per_site.varsliding.win.csv > per_site.var.current.csv
 ```
-* To build SVM and get predictions:
+* To train SVM and perform predictions:
 ```
 This step includes SVM training, prediction and performance assessment using single and multiple parameters.
 The analyses are coded and performed in python3 programming environment. 
-Uses: Pandas (0.23.4), sklearn (0.19.2) and numpy (1.15.1). 
-The details can be found in "SVM_analyses" python jupyter-notebook. 
+$ python SVM.py -h
 
+
+usage: SVM.py [-h] [-k KERNEL] -f1 TRAIN -f2 TEST -c COLUMNS
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -k KERNEL, --kernel KERNEL
+                        kernel used for training SVM, choose any one from
+                        'linear', 'poly', 'rbf', 'sigmoid'; if no choice made,
+                        all 4 kernels will be used
+
+required arguments:
+  -f1 TRAIN, --train TRAIN
+                        file name of feature table used for training
+  -f2 TEST, --test TEST
+                        file name of feature table used for testing
+  -c COLUMNS, --columns COLUMNS
+                        comma seperated column number(s) that contain features
+                        used for training and prediciton
+                        
+
+For instance, with the example svm input file from example/svm_input folder.
+The command:
+python3 SVM.py -k linear -c 14 -f1 sample1.csv -f2 sample2.csv -c 3 
+will perform SVM analysis with one the quality scores of the centred bases, and only 'linear kernel'  will be used for SVM analysis.
+While the command:
+python3 SVM.py  -c 14 -f1 sample1.csv -f2 sample2.csv -c 3,7
+will use base quality and mismatch frequencies of the centred bases and all available kernels for SVM analysis.
 ```
 
 * To visulize results:
