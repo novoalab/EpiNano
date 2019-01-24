@@ -108,7 +108,7 @@ required arguments:
                         used for training and prediciton
                         
 
-For instance, with the example svm input file from example/svm_input folder.
+For instance, with the example svm input files from example/svm_input folder.
 The command:
 python3 SVM.py -k linear -c 14 -f1 sample1.csv -f2 sample2.csv -c 3 
 will perform SVM analysis with one the quality scores of the centred bases, and only 'linear kernel'  will be used for SVM analysis.
