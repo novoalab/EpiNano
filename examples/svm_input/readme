@@ -1,0 +1,4 @@
+two csv files that can be used as input for SVM training and prediction.
+each file contains two features, i.e., base quality and mismatch frequencies.
+SVM trianing and prediction can be performed with one of both of them.
+Please refer to the help message of SVM.py for usage information.
