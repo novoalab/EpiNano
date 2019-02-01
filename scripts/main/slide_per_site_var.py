@@ -99,16 +99,33 @@ for l in f:
     k = ",".join (ks)
     k_pool.append (k)
     #print l.strip()
-    mem_window[k]['q'].append(ary[7])
-    mem_window[k]['m'].append(ary[10])
-    mem_window[k]['i'].append(ary[11])
-    mem_window[k]['d'].append(ary[12])
-    mem_window[k]['cov'].append(ary[6])
+    if (len(ary) < 13):
+        continue
+    try:
+        mem_window[k]['q'].append(ary[7])
+    except:   
+        print >>sys.stderr, "problematic line for q:", l.strip()
+    try:
+        mem_window[k]['m'].append(ary[10])
+    except:
+        print >> sys.stderr, "problematic line for m", l.strip()
+    try:
+        mem_window[k]['i'].append(ary[11])
+    except:    
+        print >>sys.stderr,"problematic line for i:", l.strip()
+    try:
+        mem_window[k]['d'].append(ary[12])
+    except:
+        print >>sys.stderr, "problematic line for d", l.strip()
+    try:
+        mem_window[k]['cov'].append(ary[6])
+    except:
+        print sys.stderr, 'problematic line for cov:', l.strip()
 f.close()
 out2 = sys.argv[1] + '.slided.onekmer.oneline.'+str(win_size) +'mer.csv'
 outh2 = open (out2,'w')
 print >> outh2, '#Kmer,Window,Ref,Coverage,q1,q2,q3,q4,q5,mis1,mis2,mis3,mis4,mis5,ins1,ins2,ins3,ins4,ins5,del1,del2,del3,del4,del5'
-for k in k_pool:
+for k in set (k_pool):
 		Qs = ",".join (mem_window[k]['q'])
 		Mis = ",".join (mem_window[k]['m'])
 		Ins = ",".join (mem_window[k]['i'])

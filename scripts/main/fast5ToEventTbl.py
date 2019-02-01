@@ -27,15 +27,18 @@ def main ():
     f5 = h5py.File(inp,'r')
     read_id = get_readid(f5)
     base_call = get_base_call_path(f5)
-    if f5['Analyses/'+base_call+'/BaseCalled_template/Fastq'].value.startswith('@'):
-        header = f5['Analyses/'+base_call+'/BaseCalled_template/Events'].value.dtype.names
-        header =  'read_id\t'+'\t'.join (list (header))
-        print header
-        for i in f5['Analyses/'+base_call+'/BaseCalled_template/Events'].value:
-            i = str(i).replace("(","")
-            i = str(i).replace(",","\t")
-            i = i[:-1]
-            print read_id+'\t'+i
+    try:
+        if f5['Analyses/'+base_call+'/BaseCalled_template/Fastq'].value.startswith('@'):
+            header = f5['Analyses/'+base_call+'/BaseCalled_template/Events'].value.dtype.names
+            header =  'read_id\t'+'\t'.join (list (header))
+            print header
+            for i in f5['Analyses/'+base_call+'/BaseCalled_template/Events'].value:
+                i = str(i).replace("(","")
+                i = str(i).replace(",","\t")
+                i = i[:-1]
+                print read_id+'\t'+i
+    except:
+        print >> sys.stderr, inp, 'extraction failed'
 
 if __name__  == '__main__':
     main()
