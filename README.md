@@ -22,6 +22,7 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 
 ## Getting Started and pre-requisites
 
+The following softwares and modules were used by EpiNano
 | Software  | Version |
 | ------------- | ------------- |
 | NanoFilt  | 2.2.0  |
