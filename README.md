@@ -67,7 +67,10 @@ slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.cs
 
 * To extract features from FAST5 files: 
 ``` 
-#1 extract event table from fast5 files; event table has 14 columns: mean    stdv    start   length  model_state     move    weights p_model_state   mp_state        p_mp_state  p_A     p_C     p_G     p_T. the meaning of these columns are explained at: https://community.nanoporetech.com/technical_documents/data-analysis/v/datd_5000_v1_revj_22aug2016/basecalled-fast5-files  
+#1 extract event table from fast5 files; event table has 14 columns: 
+mean    stdv    start   length  model_state     move    weights p_model_state   mp_state        p_mp_state  p_A     p_C     p_G     p_T.
+the meaning of these columns are explained at: https://community.nanoporetech.com/technical_documents/data-analysis/v/datd_5000_v1_revj_22aug2016/basecalled-fast5-files  
+The output contains the kmers and their positions in the reads (trimmed).
 
 fast5ToEventTbl.py input.fast5 > output.event.tbl
 
