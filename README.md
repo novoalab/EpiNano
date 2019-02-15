@@ -87,7 +87,7 @@ per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv p
 ```
 * To train SVM and perform predictions:
 ```
-This step includes SVM training, prediction and performance assessment using single and multiple parameters.
+This step includes SVM training, prediction and performance assessment using single and multiple features.
 The analyses are coded and performed in python3 programming environment. 
 $ python SVM.py -h
 
