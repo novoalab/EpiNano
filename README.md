@@ -21,8 +21,8 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 - Support Vector Machine training (SVM) & testing to predict m6A RNA modifications
 
 ## Getting Started and pre-requisites
-
 The following softwares and modules were used by EpiNano
+
 | Software  | Version |
 | ------------- | ------------- |
 | NanoFilt  | 2.2.0  |
