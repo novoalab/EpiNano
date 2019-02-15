@@ -22,7 +22,7 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 
 ## Getting Started and pre-requisites
 The following modules and softwares are needed.
-| Software and modules | Version |
+ Software and modules | Version 
  -------------------- | --------
  NanoFilt             | 2.2.0   
  minimap2             | 2.14-r886-dirty
