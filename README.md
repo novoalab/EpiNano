@@ -49,18 +49,18 @@ java -jar sam2tsv.jar -r  ref.fasta unm.bam > unm.bam.tsv
 
 #5 convert results from step 4 and generate per_read variants information; the input file can be splitted based on read into smaller files to speed this step up.
 
-per_read_var.stats.py mod.bam.tsv > mod.per_read.var.csv
-per_read_var.stats.py unm.bam.tsv > unm.per_read.var.csv
+python2 per_read_var.stats.py mod.bam.tsv > mod.per_read.var.csv
+python2 per_read_var.stats.py unm.bam.tsv > unm.per_read.var.csv
 
 #6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants); the input file can be splitted based on ref into smaller ones to speed this step up. 
 
-per_site_var.py mod.bam.tsv > mod.per_site.var.csv
-per_site_var.py unm.bam.tsv > unm.per_site.var.csv
+python2 per_site_var.py mod.bam.tsv > mod.per_site.var.csv
+python2 per_site_var.py unm.bam.tsv > unm.per_site.var.csv
 
 #7 slide per_site variants with window size of 5, so that fast5 event table information can be combined
 
-slide_per_site_var.py mod.ref.per_site.var.csv > mod.per_site.var.sliding.win.csv
-slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.csv
+python2 slide_per_site_var.py mod.ref.per_site.var.csv > mod.per_site.var.sliding.win.csv
+python2 slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.csv
 
 ```
 
@@ -70,26 +70,25 @@ slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.cs
 #1 extract event table from fast5 files; event table has 14 columns: 
 mean    stdv    start   length  model_state     move    weights p_model_state   mp_state        p_mp_state  p_A     p_C     p_G     p_T.
 the meaning of these columns are explained at: https://community.nanoporetech.com/technical_documents/data-analysis/v/datd_5000_v1_revj_22aug2016/basecalled-fast5-files  
-The output contains the kmers and their positions in the reads (trimmed).
 
-fast5ToEventTbl.py input.fast5 > output.event.tbl
 
-#2 extract features needed (esp. current intensity) for downstream analyses
+python2 fast5ToEventTbl.py input.fast5 > output.event.tbl
 
-event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.features
+#2 extract features needed (esp. current intensity) for downstream analyses. The output contains the kmers and their positions in the reads (trimmed).
+
+python2 event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.features
 
 #3 combine extracted features with per_read and per_site variants information
 
-fastq_len.py h5t3.fastq > h5t3.fastq.len
-adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features number_of_chopped_leading_bases number_of_chopped_end_bases > output.event.tbl.features.readposition.adj.csv
-assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv  > per_read.var.current.csv
-per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv per_site.varsliding.win.csv > per_site.var.current.csv
+python2 fastq_len.py h5t3.fastq > h5t3.fastq.len
+python2 adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features number_of_chopped_leading_bases number_of_chopped_end_bases > output.event.tbl.features.readposition.adj.csv
+python2 assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv  > per_read.var.current.csv
+python2 per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv per_site.varsliding.win.csv > per_site.var.current.csv
 ```
 * To train SVM and perform predictions:
 ```
 This step includes SVM training, prediction and performance assessment using single and multiple features.
-The analyses are coded and performed in python3 programming environment. 
-$ python SVM.py -h
+$ python3 SVM.py -h
 
 
 usage: SVM.py [-h] [-k KERNEL] -f1 TRAIN -f2 TEST -c COLUMNS
