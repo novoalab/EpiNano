@@ -26,12 +26,12 @@ The following softwares and modules were used by EpiNano
 | Software  | Version |
 | ------------- | ------------- |
 | NanoFilt  | 2.2.0  |
-| minimap2  | 2.14-r886-dirty  |
-| samtools  | 0.1.19-44428cd  |
+| minimap2  | 2.14-r886  |
+| samtools  | 0.1.19  |
 | sam2tsv  | a779a30d6af485d9cd669aa3752465132cf21eec   |
 | python  | 2.7.5  |
 | python  | 3.6.7   |
-| java openjdk   | 1.8.0_131    |
+| java openjdk   | 1.8.0    |
 | h5py  | 2.8.0    |
 | numpy  | 1.15.4     |
 | pandas  | 0.23.4        |
