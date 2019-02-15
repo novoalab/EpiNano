@@ -21,6 +21,13 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 - Support Vector Machine training (SVM) & testing to predict m6A RNA modifications
 
 ## Getting Started and pre-requisites
+
+| Software  | Version |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
+
 The following modules and softwares are needed.
  Software and modules | Version 
  -------------------- | --------
