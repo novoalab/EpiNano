@@ -87,7 +87,8 @@ the meaning of these columns are explained at: https://community.nanoporetech.co
 
 python2 fast5ToEventTbl.py input.fast5 > output.event.tbl
 
-#2 extract features needed (esp. current intensity) for downstream analyses. The output contains the kmers and their positions in the reads (trimmed).
+#2 extract features needed (esp. current intensity) for downstream analyses. 
+The output contains the kmers and their centre base position (1-absed) in reads.
 
 python2 event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.features
 
