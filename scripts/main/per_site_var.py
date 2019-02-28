@@ -47,9 +47,9 @@ with open (sys.argv[1],'r') as fh:
         if ary[-1] == 'I':
             k = cov.keys()[-1]
             ins[k] = ins.get(k,0) + 1
-            cov[k] = cov.get(k,0) + 1
-            qual[k].append (ord(ary[-4])- 33)
-            Q[k].append(ary[-4])
+            #cov[k] = cov.get(k,0) + 1
+            #qual[k].append (ord(ary[-4])- 33)
+            #Q[k].append(ary[-4])
 
 header = '#Ref,pos,base,cov,q_mean,q_median,q_std,mis,ins,del'
 print header
