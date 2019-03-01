@@ -1,8 +1,0 @@
-
-Example files include:
-
-Reference sequences file, with correspondent dictionary file created using Picard's CreateSequenceDictionary functionality.
-Example SVM training and prediction file.  
-  *** since there are limits to both the size and number of files by github, we submitted fastq files to ncbi GEO and make them together with the fast5 files available once the mannuscrtipt got accepted. 
-  
-  
