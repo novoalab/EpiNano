@@ -136,12 +136,15 @@ required arguments:
                         
 
 For instance, with the example svm input files from example/svm_input folder.
-The command:
-python3 SVM.py -k linear -c 14 -f1 sample1.csv -f2 sample2.csv -c 3 
+
+python3 SVM.py -k linear -c 3 -f1 sample1.csv -f2 sample2.csv 
 will perform SVM analysis with one the quality scores of the centred bases, and only 'linear kernel'  will be used for SVM analysis.
-While the command:
-python3 SVM.py  -c 14 -f1 sample1.csv -f2 sample2.csv -c 3,7
+
+python3 SVM.py -f1 sample1.csv -f2 sample2.csv -c 3,7
 will use base quality and mismatch frequencies of the centred bases and all available kernels for SVM analysis.
+
+python3 SVM.py -f1 sample1.csv -f2 sample2.csv -c 3,7 -a
+additionally, prediciton accuracy will be estimated since sample2.csv contain known modification status.
 ```
 
 * To visulize results:
