@@ -57,7 +57,7 @@ names = list (m_u_var_df.columns[cols])
 # output file name
 out_prefix = ''
 if args['out_prefix']:
-    out_prefix = args['out_prefix']
+    out_prefix = args['out_prefix'] + '.'+'.'.join (names) + '.SVM'
 else:
     out_prefix = m_u_var.split('.')[0]+'.'+args['predict'].split('.')[0] +'.'+'.'.join (names) + '.SVM'
 
