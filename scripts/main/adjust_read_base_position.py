@@ -6,7 +6,7 @@ usage = ''' python ''' + sys.argv[0]+ ''' <read_length(mapped or all; trimmed or
 <leading  trimming length>  \
 <tail trimming length> '''
 
-if len (sys.argv) < 4:
+if len (sys.argv) < 5:
 	print usage
 	exit(0)
 
@@ -52,7 +52,7 @@ with open (sys.argv[2],'r') as fh:
 #ReadKmer','RefKmer','Ref','RefPos',Read','ReadPos','Q','M','I','D' ## kmer in one line
 
 exit()
-
+exit ()
 with open (sliding_win_single_rd,'r') as fh:
     lines = []
     for line in fh:

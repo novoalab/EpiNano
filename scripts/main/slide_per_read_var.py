@@ -6,6 +6,13 @@ import gzip
 import os
 
 ''''
+different from version1
+this version, aka, version2 combines deletions in reads
+so as to print out complete 5mers instead of gaps in 5mers
+
+one kmer print in 5 lines
+each line contains one position
+
 input file:
 (summed up from sam2tsv results using 
 #REF,REF_POS,REF_BASE,READ_NAME,READ_POSITION,READ_BASE,BASE_QUALITY,MISMATCH,INSERTION,DELETION
@@ -15,7 +22,6 @@ cc6m_2244_T7_ecorv,32,T,4ea19788-8597-42c4-a7c2-3de4da5a7390,39,T,3,0,0,0
 this will output one base one line format 
 and
 one kmer one line format
-
 
 '''
 
@@ -193,7 +199,7 @@ tmp_out.close()
 ## allocate del to adjacent position
 deletions = {}
 err_file = tmp_file +'.err'
-err_fh = open (err_file,'w')
+#err_fh = open (err_file,'w')
 with open (tmp_file,'r') as fh:
 	for l in fh:
 		if l.startswith('#'):
@@ -205,7 +211,7 @@ with open (tmp_file,'r') as fh:
 		try:
 			deletion = int (ary[-1])
 		except:
-			print >> err_fh,l.strip() 
+			print >> sys.stderr,l.strip() 
 			continue
 		if deletion > 0:
 			tmp = fh.next().strip().split(',')
@@ -216,7 +222,7 @@ with open (tmp_file,'r') as fh:
 			k1 = ','.join (ary[4:9])
 			deletions[k1] =  ",".join(ary[4:])
 			deletions[k2] =  ",".join(tmp[4:])
-err_fh.close()
+#err_fh.close()
 fh.close()
 os.remove (tmp_file)
 
@@ -240,7 +246,7 @@ os.remove (slided_file)
 ##############  sum up onebase oneline into onekmer one line format ######
 ##########################################################################
 
-sum_file = adjusted_slide_file + '.summed.oneKmer_oneLine'
+sum_file = adjusted_slide_file + '.oneKmer_oneLine'
 sum_out = open (sum_file,'w')
 
 '''
@@ -262,7 +268,7 @@ else:
 	f = open (var,'r')
 header = f.readline()
 new_header = ",".join (header.strip().split(',')[2:])
-print >>sum_out, "#Read_Window,ReadKmer,RefKmer,Ref,Read,Qualities,Mismatches,Insertions,Deletions"
+print >>sum_out, "#Read,Read_Window,ReadKmer,Ref,RefKmer,Ref_Window,Qualities,Mismatches,Insertions,Deletions"
 
 ary = f.readline().strip().split(',')
 k =  ','.join(ary[1:5]) + ','+ary[7]
@@ -270,6 +276,7 @@ mem_window[k]['q'].append(ary[-4])
 mem_window[k]['m'].append(ary[-3])
 mem_window[k]['i'].append(ary[-2])
 mem_window[k]['d'].append(ary[-1])
+mem_window[k]['refpos'].append(ary[5])
 
 for l in  f:
 	ary = l.strip().split(',')
@@ -279,16 +286,22 @@ for l in  f:
 		mem_window[k]['m'].append(ary[-3])
 		mem_window[k]['i'].append(ary[-2])
 		mem_window[k]['d'].append(ary[-1])
+		mem_window[k]['refpos'].append(ary[5])
 	else:
 		for kk in mem_window:
-			print >>sum_out, ','.join ([kk ,'|'.join (mem_window[kk]['q']),  '|'.join (mem_window[kk]['m']),  '|'.join (mem_window[kk]['i']),  '|'.join (mem_window[kk]['d'])])
+		    lst = kk.split(',')
+		    h = ",".join ([lst[4],lst[0],lst[1],lst[3],lst[2]])
+		    print >>sum_out,  ','.join ([h ,':'.join (mem_window[kk]['refpos']),  '|'.join (mem_window[kk]['q']),  '|'.join (mem_window[kk]['m']),  '|'.join (mem_window[kk]['i']),  '|'.join (mem_window[kk]['d'])])
+
 		del mem_window[kk]
 		mem_window[k]['q'].append(ary[-4])
 		mem_window[k]['m'].append(ary[-3])
 		mem_window[k]['i'].append(ary[-2])
 		mem_window[k]['d'].append(ary[-1])
+		mem_window[k]['refpos'].append(ary[5])
 for kk in mem_window.keys():
-	print >>sum_out, ','.join ([kk ,'|'.join (mem_window[kk]['q']),  '|'.join (mem_window[kk]['m']),  '|'.join (mem_window[kk]['i']),  '|'.join (mem_window[kk]['d'])])		
+    lst = kk.split(',')
+    h = ",".join ([lst[4],lst[0],lst[1],lst[3],lst[2]])
+    print >>sum_out,  ','.join ([h ,':'.join (mem_window[kk]['refpos']),  '|'.join (mem_window[kk]['q']),  '|'.join (mem_window[kk]['m']),  '|'.join (mem_window[kk]['i']),  '|'.join (mem_window[kk]['d'])])
 f.close()
 sum_out.close()
-
