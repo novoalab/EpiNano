@@ -1,4 +1,7 @@
 # Changelog
+## Changed - 2019-03-01
+SVM.py is frendlier than the previous version and it has more options.
+
 
 ## Added - 2019-02-27
 
