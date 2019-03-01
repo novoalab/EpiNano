@@ -103,9 +103,8 @@ python2 per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.curre
 ```
 This step includes SVM training, prediction and performance assessment using single and multiple features.
 $ python3 SVM.py -h
-
-
-usage: SVM.py [-h] [-k KERNEL] -f1 TRAIN -f2 TEST -c COLUMNS
+usage: SVM.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] -f1 TRAIN -f2 PREDICT -cl
+              COLUMNS -mc MODIFICATION_STATUS_COLUMN
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -113,15 +112,27 @@ optional arguments:
                         kernel used for training SVM, choose any one from
                         'linear', 'poly', 'rbf', 'sigmoid'; if no choice made,
                         all 4 kernels will be used
+  -o OUT_PREFIX, --out_prefix OUT_PREFIX
+                        ouput file prefix
+  -a, --accuracy_estimation
+                        -a perform accuracy estimation with known modified
+                        status from --predict file
 
 required arguments:
   -f1 TRAIN, --train TRAIN
                         file name of feature table used for training
-  -f2 TEST, --test TEST
-                        file name of feature table used for testing
-  -c COLUMNS, --columns COLUMNS
+  -f2 PREDICT, --predict PREDICT
+                        file name of feature table used for making predictions
+                        or testing accuracy. when this file is the same the
+                        one used for training, half of the data will be chosen
+                        for training.
+  -cl COLUMNS, --columns COLUMNS
                         comma seperated column number(s) that contain features
                         used for training and prediciton
+  -mc MODIFICATION_STATUS_COLUMN, --modification_status_column MODIFICATION_STATUS_COLUMN
+                        column number from (input file1, i.e, traing file)
+                        that contains modification status information
+
                         
 
 For instance, with the example svm input files from example/svm_input folder.
