@@ -1,4 +1,8 @@
 import sys
+import re
+
+# USAGE
+
 try:
 	import h5py
 except:
@@ -13,14 +17,11 @@ def get_readid (h5):
     rid = h5['Raw/Reads/'+str(k)].attrs['read_id']
     return rid
 
-
 def get_base_call_path (h5):
     base_call = ''
-    for i in h5['Analyses/'].keys():
-        if i.startswith('Basecall_'):
-            base_call = i
-        return base_call
-
+    for i in list (h5['Analyses/'].keys()):
+        if re.match (r'Basecall*',i):
+            return i
 
 def main ():
     inp = sys.argv[1]
@@ -39,7 +40,6 @@ def main ():
                 print read_id+'\t'+i
     except:
         print >> sys.stderr, inp, 'extraction failed'
-
 if __name__  == '__main__':
     main()
 
