@@ -69,11 +69,11 @@ indices = df_tmp.index
 Y = df_tmp.iloc[:,mod_col]
 
 ## prepare for prediction
-predict=pd.DataFrame()
-predict_tmp=pd.DataFrame()
-predict = pd.read_csv (args['predict'])
-predict_tmp = predict.dropna(subset=names)
-predict_tmp = predict.reset_index(drop=True)
+#predict=pd.DataFrame()
+#predict_tmp=pd.DataFrame()
+predict_df = pd.read_csv (args['predict'])
+predict_tmp = predict_df.dropna(subset=names)
+predict_tmp = predict_tmp.reset_index(drop=True)
 old_header = ",".join (predict_tmp.columns.values)
 
 y_test = pd.DataFrame()
