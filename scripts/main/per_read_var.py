@@ -67,7 +67,8 @@ print ",".join (["#REF",'REF_POS','REF_BASE','READ_NAME','READ_POSITION','READ_B
 for k in rdnames:
     #print ref_pos[k], k, qualities[k],
     new_k = ','.join (map (str, list (k)))
-    q = str (qualities[k])
+    if k not in dels:
+        q = str (qualities[k])
     if k in mis:
         m =  '1'
     else:
