@@ -5,7 +5,6 @@ samtools https://github.com/samtools/samtools
 minimap2 https://github.com/lh3/minimap2 
 sam2tsv  http://lindenb.github.io/jvarkit/Sam2Tsv.html
 nanofilt  https://github.com/wdecoster/nanofilt
-albacore_2.1.7 ont_albacore-2.1.7-cp36-cp36m-manylinux1_x86_64.whl 
 
 
 
