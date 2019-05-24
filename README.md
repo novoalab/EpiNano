@@ -57,8 +57,8 @@ minimap2 -ax map-ont ref.fasta unm.h5t3.fastq | samtools view -bhS - | samtools 
 
 #4 calling variants for each single read-to-reference alignment
 
-java -jar sam2tsv.jar -r  ref.fasta mod.bam > mod.bam.tsv
-java -jar sam2tsv.jar -r  ref.fasta unm.bam > unm.bam.tsv
+samtools view -h mod.bam| java -jar sam2tsv.jar -r  ref.fasta  > mod.bam.tsv
+samtools view -h unm.bam | java -jar sam2tsv.jar -r  ref.fasta  > unm.bam.tsv
 
 #5 convert results from step 4 and generate per_read variants information; the input file can be splitted based on read into smaller files to speed this step up.
 
