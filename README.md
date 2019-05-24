@@ -170,11 +170,9 @@ for i in small*.tsv;do per_site_var.freq.py $i > ${i/tsv}.freq
 # combine the frequency files from the above step and compute variants percentages
 cat samll*.freq | python2.7 combine_pre_site_var_freq.py > Per_site.var.csv 
 
--- similar operations can also be applied to generate the per read feature table. 
+*** similar operations can also be applied to generate the per read feature table. 
 *** all the commands with for loop, can be parallized, therefore greatly increase the efficiency.
 ```
-
-
 
 * To visulize results:
 ```
