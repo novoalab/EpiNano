@@ -40,7 +40,7 @@ The following softwares and modules were used by EpiNano
 ## Running the software
 * To extract features from basecalled FASTQ files: 
 ```
-#1 trim the first and last few bad quality bases from raw fastq with NanoFilt
+#1 trim the first and last few bad quality bases from raw fastq with NanoFilt (feel free to replace nanofilt with custome script)
 
 cat MOD.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile mod.nanofilt.log > mod.h5t3.fastq
 cat UNM.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile unm.nanofilt.log > unm.h5t3.fastq
@@ -77,7 +77,6 @@ python2 slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.slidin
 
 ```
 
-
 * To extract features from FAST5 files: 
 ``` 
 #1 extract event table from fast5 files; event table has 14 columns: 
@@ -103,8 +102,10 @@ python2 per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.curre
 ```
 This step includes SVM training, prediction and performance assessment using single and multiple features.
 $ python3 SVM.py -h
-usage: SVM.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] -f1 TRAIN -f2 PREDICT -cl
-              COLUMNS -mc MODIFICATION_STATUS_COLUMN
+
+Commad:  SVM.py -h
+usage: SVM.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL] [-t TRAIN] -p
+              PREDICT -cl COLUMNS -mc MODIFICATION_STATUS_COLUMN
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -117,11 +118,16 @@ optional arguments:
   -a, --accuracy_estimation
                         -a perform accuracy estimation with known modified
                         status from --predict file
+  -M MODEL, --model MODEL
+                        pre-trained model that can ben used for prediction; if
+                        this is not available SVM model will be trained and
+                        dumped; there can be multiple models, which should be
+                        in the same order as kernels applied
+  -t TRAIN, --train TRAIN
+                        file name of feature table used for training
 
 required arguments:
-  -f1 TRAIN, --train TRAIN
-                        file name of feature table used for training
-  -f2 PREDICT, --predict PREDICT
+  -p PREDICT, --predict PREDICT
                         file name of feature table used for making predictions
                         or testing accuracy. when this file is the same the
                         one used for training, half of the data will be chosen
@@ -133,19 +139,25 @@ required arguments:
                         column number from (input file1, i.e, traing file)
                         that contains modification status information
 
-                        
+```                        
 
 For instance, with the example svm input files from example/svm_input folder.
+	
+	# the command below will train modles using all quality scores are all positions from sample1 and make prediction on sample2 
+	python3 SVM.py -a -t sample1.csv -p sample2.csv -cl 1-5 -mc 11 -o test 
 
-python3 SVM.py -k linear -cl 3 -f1 sample1.csv -f2 sample2.csv -mc 11
-will perform SVM analysis with one the quality scores of the centred bases, and only 'linear kernel'  will be used for SVM analysis.
+	# while this command will do the same thing except choosing a 'linear' kernel for SVM training 
+	python3 SVM.py -a -k linear -cl 1-5 -t sample1.csv -p sample2.csv -mc 11
 
-python3 SVM.py -f1 sample1.csv -f2 sample2.csv -cl 3,7 -mc 11
-will use base quality and mismatch frequencies of the centred bases and all available kernels for SVM analysis.
+	# this 3rd command uses base quality and mismatch frequencies of the centred bases for SVM training 
+	python3 SVM.py -t sample1.csv -p sample2.csv -cl 3,7 -mc 11
 
-python3 SVM.py -f1 sample1.csv -f2 sample2.csv -cl 3,7 -mc 11 -a
-additionally, prediciton accuracy will be estimated since sample2.csv contain known modification status.
-```
+	# this command below uses previously trained model to make prediction 
+	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction 
+	
+	
+
+
 
 * To visulize results:
 ```

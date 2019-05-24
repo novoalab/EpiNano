@@ -6,24 +6,22 @@ import gzip
 import os
 
 ''''
-different from version1
-this version, aka, version2 combines deletions in reads
-so as to print out complete 5mers instead of gaps in 5mers
-
-one kmer print in 5 lines
-each line contains one position
-
 input file:
 (summed up from sam2tsv results using 
 #REF,REF_POS,REF_BASE,READ_NAME,READ_POSITION,READ_BASE,BASE_QUALITY,MISMATCH,INSERTION,DELETION
 cc6m_2244_T7_ecorv,31,A,4ea19788-8597-42c4-a7c2-3de4da5a7390,38,A,16,0,0,0
 cc6m_2244_T7_ecorv,32,T,4ea19788-8597-42c4-a7c2-3de4da5a7390,39,T,3,0,0,0
 
-this will output one base one line format 
+this will output 
+one base one line format 
 and
 one kmer one line format
-
 '''
+
+usage = "python " + sys.argv[0] + " per_read_var" 
+if len (sys.argv) <2:
+    print "USGAE: "+usage
+    exit(0)
 
 def window (seq,size=5):
     it = iter(seq)
@@ -88,22 +86,16 @@ for line in fh:
     rd = tmp[3]
     ref = tmp[0]
     comb = rd+' '+ref
-    
     if comb in rd_rf_mem_di:
-	if int (tmp[9]) == 0 :
-	    rd_rf_mem_di.append (comb) 
-            rd_bases.append (tmp[5])
-            rf_bases.append (tmp[2])
-            rd_pos.append (tmp[4])
-            rf_pos.append (tmp[1])
-            qual.append(tmp[6])
-            mis.append(tmp[7])
-            ins.append(tmp[8])
-            delt.append(tmp[9])
-        elif int(tmp[9]) > 0:
-            delt[-1] = str(int(delt[-1]) + 1)
-            rf_bases[-1] += '+' + tmp[2]
-            rf_pos[-1] += ':' + tmp[1]    	
+	rd_rf_mem_di.append (comb) 
+        rd_bases.append (tmp[5])
+        rf_bases.append (tmp[2])
+        rd_pos.append (tmp[4])
+        rf_pos.append (tmp[1])
+        qual.append(tmp[6])
+        mis.append(tmp[7])
+        ins.append(tmp[8])
+        delt.append(tmp[9])
     else:
         for i in window(range(len(rd_rf_mem_di)), 5):
 	    last = None
@@ -151,7 +143,6 @@ for line in fh:
         delt.append(tmp[9])
 
 for i in window(range(len(rd_rf_mem_di)),5):
-#    sys.stderr.write(str(len(rd_rf_mem_di)) + ' ')
     last = None
     rd_win_pos = ''
     if i[-1] is None:
@@ -176,8 +167,6 @@ for i in window(range(len(rd_rf_mem_di)),5):
 		int_ele += 1
 
 slided_fh.close()
-### adjust deletion counts
-#### choose only centre lines
 '''
 -2,80:81:82:83:84,GTTTT,GTTTT+C+G,cc6m_2244_T7_ecorv,114,G,94e2685c-c9e3-42b5-9a36-2c9ed081c1bc,80,G,6,0,0,0
 -1,80:81:82:83:84,GTTTT,GTTTT+C+G,cc6m_2244_T7_ecorv,115,T,94e2685c-c9e3-42b5-9a36-2c9ed081c1bc,81,T,16,0,0,0
@@ -185,68 +174,11 @@ slided_fh.close()
 +1,80:81:82:83:84,GTTTT,GTTTT+C+G,cc6m_2244_T7_ecorv,117,T,94e2685c-c9e3-42b5-9a36-2c9ed081c1bc,83,T,23,0,0,0
 +2,80:81:82:83:84,GTTTT,GTTTT+C+G,cc6m_2244_T7_ecorv,118:119:120,T+C+G,94e2685c-c9e3-42b5-9a36-2c9ed081c1bc,84,T,17,0,0,2
 '''
-tmp_file = slided_file + '.tmp'
-tmp_out = open(tmp_file,'w')
-
-with open (slided_file,'r') as fh:
-	for l in fh:
-		if l.startswith('#'):
-			continue
-		ary =  l.strip().split (',')
-		if ary[0].startswith ('0'):
-			print >>tmp_out,l.strip()
-tmp_out.close()
-## allocate del to adjacent position
-deletions = {}
-err_file = tmp_file +'.err'
-#err_fh = open (err_file,'w')
-with open (tmp_file,'r') as fh:
-	for l in fh:
-		if l.startswith('#'):
-			continue
-		ary = l.strip().split (',')
-		if len (ary) < 14:
-			continue
-		deletion = '' 
-		try:
-			deletion = int (ary[-1])
-		except:
-			print >> sys.stderr,l.strip() 
-			continue
-		if deletion > 0:
-			tmp = fh.next().strip().split(',')
-			new_del = int (round (deletion/2.0))
-			tmp[-1] = str(new_del)
-			ary[-1] = str(new_del)
-			k2 = ','.join (tmp[4:9])
-			k1 = ','.join (ary[4:9])
-			deletions[k1] =  ",".join(ary[4:])
-			deletions[k2] =  ",".join(tmp[4:])
-#err_fh.close()
-fh.close()
-os.remove (tmp_file)
-
-adjusted_slide_file = slided_file + '.del.adjusted'
-out_fh = open (adjusted_slide_file,'w')
-with open (slided_file,'r') as fh:
-	for l in fh:
-		if l.startswith ('#'):
-			print >>out_fh, l.strip(); continue
-		ary = l.strip().split(',')
-		k = ','.join (ary[4:9])
-		if k in deletions:	
-#			sys.stderr.write(k+'\n')
-			print >>out_fh, ",".join (ary[0:4]) +','+ deletions[k]
-		else:
-			print >>out_fh, l.strip()
-out_fh.close()
-os.remove (slided_file)
-
 ##########################################################################
 ##############  sum up onebase oneline into onekmer one line format ######
 ##########################################################################
 
-sum_file = adjusted_slide_file + '.oneKmer_oneLine'
+sum_file = prefix + '.summed.oneKmer_oneLine'
 sum_out = open (sum_file,'w')
 
 '''
@@ -261,7 +193,7 @@ input
 from collections import defaultdict
 mem_window = defaultdict (defaultdict(list).copy)
 
-var = adjusted_slide_file
+var = slided_file 
 if var.endswith ('.gz'):
 	f = gzip.open (var,'r')
 else:

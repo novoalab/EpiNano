@@ -2,6 +2,12 @@ import sys
 import re
 from collections import OrderedDict
 from collections import defaultdict 
+import gzip
+
+if len (sys.argv) < 3:
+    print "USAGE:\n  python " + sys.argv[0] + ' per_site_var ' + ' win_size '
+    exit(0)
+    
 
 mem = {}
 contents = OrderedDict()
@@ -9,16 +15,24 @@ contents = OrderedDict()
 win_size = int (sys.argv[2])
 dist = int (win_size) // 2 + 1
 
-with open (sys.argv[1],'r') as fh:
+per_site_var = sys.argv[1]
+
+if per_site_var.endswith ('.gz'):
+    fh = gzip.open (per_site_var,'r')
+else:
+    fh = open (per_site_var,'r')
+
+
+#with open (sys.argv[1],'r') as fh:
     #Ref,pos,base,cov,q_mean,q_median,q_std,mis,ins,del
-    for line in fh:
-        if line.startswith ('#'):
-            continue
-        if re.match ('\s+',line):
-            continue
-        ary = line.strip().split(',')
-        ref, pos = ary[0], ary[1]
-        contents[ref+':'+pos] = line.strip()
+for line in fh:
+    if line.startswith ('#'):
+        continue
+    if re.match ('\s+',line):
+        continue
+    ary = line.strip().split(',')
+    ref, pos = ary[0], ary[1]
+    contents[ref+':'+pos] = line.strip()
 
 out1 = sys.argv[1] +'.slided.onekmer.multiplelines.' + str(win_size) + 'mer.csv'
 outh1= open (out1,'w')
