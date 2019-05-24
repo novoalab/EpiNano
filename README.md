@@ -156,6 +156,23 @@ For instance, with the example svm input files from example/svm_input folder.
 	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction 
 	
 	
+If you have large datasets, I recommend an alternative approach to speed up the step of generating feature table.
+Assuming you have a big fastq file 'Big.fastq' with a million reads. You can follow the commands below:
+```
+# split the big file into small ones with 10k reads in each 
+split -l 400000 Big.fastq small  
+# map small fastq files to reference 
+for i in small*;do minimap2 -t 1 -ax splice -k14 -uf reference.fasta  $i | samtools view -F4 -hSb - > ${i}.bam
+# convert bam to tsv files
+for i in small*.bam;do samtools view -h $i | awk '{if ( \$10 == \"*\") next;else print \$0;}' | java -jar sam2tsv.jar -r reference.fasta > ${i}.tsv ;done   
+# convert tsv to variants frequency files
+for i in small*.tsv;do per_site_var.freq.py $i > ${i/tsv}.freq
+# combine the frequency files from the above step and compute variants percentages
+cat samll*.freq | python2.7 combine_pre_site_var_freq.py > Per_site.var.csv 
+
+-- similar operations can also be applied to generate the per read feature table. 
+*** all the commands with for loop, can be parallized, therefore greatly increase the efficiency.
+```
 
 
 
