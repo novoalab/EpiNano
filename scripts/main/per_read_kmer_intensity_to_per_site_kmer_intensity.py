@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 import sys
 from collections import defaultdict
 from collections import OrderedDict
@@ -29,10 +30,13 @@ def fopen (f):
     return fh
 
 fh = fopen (sys.argv[2])   # read in per site variants table and record reference location of kmers
-header = fh.readline()
-header = ",".join (header.split(',')[:-1])
+#header = '#Kmer,Window,Ref,Coverage,q1,q2,q3,q4,q5,mis1,mis2,mis3,mis4,mis5,ins1,ins2,ins3,ins4,ins5,del1,del2,del3,del4,del5'
+header=''  #header of the slided per site table 
 
 for line in fh:
+    if line.startswith ('#'):
+        header = line.strip() 
+	continue 
     ary = line.strip().split(',')
     k = ary[2]+':'+ary[1]
     mem[k] = line.strip()

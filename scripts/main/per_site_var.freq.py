@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 import sys
 from collections import defaultdict
 from collections import OrderedDict
@@ -56,7 +57,6 @@ with open (sys.argv[1],'r') as fh:
 
 header = '#Ref,pos,base,cov,mis,ins,del,q_sum'
 
-
 for k in cov.keys():
     depth = float (cov[k])
     Mis = mis[k]
@@ -68,34 +68,5 @@ for k in cov.keys():
     q_lst = [0]
     if k in qual:
         q_lst = qual[k]	
-    inf = map (str, [k[0], k[1], base[k], depth,  Mis, num_ins, Del, ':'.join (map (str, q_lst))])
+    inf = map (str, [k[0], k[1], base[k], depth, Mis, num_ins, Del, ':'.join (map (str, q_lst))])
     print ",".join ( inf) 
-    '''
-    try:
-        Mis = "%.3f" % (mis[k]/depth)
-    except:
-        Mis = 0
-    try:
-        Ins = "%.3f" % (ins[k]/depth)
-    except:
-        Ins = 0
-    try:
-        Del = "%.3f" % (dele[k]/depth)
-    except:
-        Del = 0
-    try:
-        Mn_q = "%.3f" % np.mean(qual[k])
-    except:
-        print '#mean', k
-    try:
-        Md_q = "%.3f" % np.median(qual[k])
-    except:
-        print '#median', k
-    try:
-        sd_q = "%.3f" % np.std(qual[k])
-    except:
-        print '#sd', k
-    #num =(mis[k],ins[k],dele[k])
-    #print k,cov[k],num
-    '''
-    #print ','.join ( map (str, [k[0],k[1],base[k],cov[k],Mn_q,Md_q,sd_q,Mis,Ins,Del])) # 'scores',",".join (map (str,qual[k])), '%'.join(Q[k])

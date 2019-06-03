@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 import  fileinput as fin
 from collections import defaultdict
 from collections import OrderedDict
