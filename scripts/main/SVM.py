@@ -22,12 +22,12 @@ ap.add_argument("-o",'--out_prefix', help='ouput file prefix')
 ap.add_argument('-a','--accuracy_estimation', action='store_true', help='-a  perform accuracy estimation with known modified status from --predict file')
 ap.add_argument('-M','--model' , help="pre-trained model that can ben used for prediction; if this is not available SVM model will be trained and dumped; there can be multiple models, which should be in the same order as kernels applied")
 ap.add_argument("-t","--train",  help="file name of feature table used for training")
+ap.add_argument('-mc','--modification_status_column',help = "column number from (input file1, i.e, traing file) that contains modification status information")
 
 requiredGrp = ap.add_argument_group('required arguments')
 #requiredGrp.add_argument("-t","--train", required=True, help="file name of feature table used for training")
 requiredGrp.add_argument("-p","--predict", required=True, help="file name of feature table used for making predictions or testing accuracy.\nwhen this file is the same the one used for training, half of the data will be chosen for training.")
 requiredGrp.add_argument('-cl','--columns',required=True,help = "comma seperated column number(s) that contain features used for training and prediciton")
-requiredGrp.add_argument('-mc','--modification_status_column',required=True,help = "column number from (input file1, i.e, traing file) that contains modification status information")
 args = vars (ap.parse_args())
 
 def evaluate_on_test_data (test, predicitons):
@@ -69,7 +69,7 @@ for c in cols_in.split(','):
 cols.sort()
 cols = list (set(cols))
 cols = [x-1 for x in cols]
-mod_col = int (args['modification_status_column']) - 1 
+mod_col = int (args['modification_status_column']) - 1 if args['modification_status_column'] else None
 
 # training set
 m_u_var_df = pd.DataFrame()
@@ -99,7 +99,7 @@ if 'predict' in args:
 
 ### print out column numnbers and names
 # output file name
-out_prefix = ''
+m_u_var="SVM_out"
 if args['out_prefix']:
     out_prefix = args['out_prefix'] + '.'+'.'.join (names) + '.SVM'
 else:
@@ -109,7 +109,7 @@ print ("Colunms-used: ",cols_in, "output: ", out_prefix)
 ##########
 if args['model']:
     X_test = predict_tmp.iloc[:,cols] 
-    Y_test = predict_tmp.iloc[mod_col] 
+    #Y_test = predict_tmp.iloc[mod_col] 
     indices_test = X_test.index.tolist()
 else:
     if args['predict'] == args['train']:
