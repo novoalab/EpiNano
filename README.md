@@ -62,8 +62,8 @@ samtools view -h unm.bam | java -jar sam2tsv.jar -r  ref.fasta  > unm.bam.tsv
 
 #5 convert results from step 4 and generate per_read variants information; the input file can be splitted based on read into smaller files to speed this step up.
 
-python2 per_read_var.stats.py mod.bam.tsv > mod.per_read.var.csv
-python2 per_read_var.stats.py unm.bam.tsv > unm.per_read.var.csv
+python2 per_read_var.py mod.bam.tsv > mod.per_read.var.csv
+python2 per_read_var.py unm.bam.tsv > unm.per_read.var.csv
 
 #6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants); the input file can be splitted based on ref into smaller ones to speed this step up. 
 
