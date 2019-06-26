@@ -52,8 +52,8 @@ awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' unm.h5t3.fastq 
 
 #3 mapping to reference using minimap2
 
-minimap2 -ax map-ont ref.fasta mod.h5t3.fastq | samtools view -bhS - | samtools sort -@ 6 - mod  && samtools index mod.bam
-minimap2 -ax map-ont ref.fasta unm.h5t3.fastq | samtools view -bhS - | samtools sort -@ 6 - unm  && samtools index unm.bam
+minimap2 -ax map-ont ref.fasta mod.U2T.fastq | samtools view -bhS - | samtools sort -@ 6 - mod  && samtools index mod.bam
+minimap2 -ax map-ont ref.fasta unm.U2T.fastq | samtools view -bhS - | samtools sort -@ 6 - unm  && samtools index unm.bam
 
 #4 calling variants for each single read-to-reference alignment
 
