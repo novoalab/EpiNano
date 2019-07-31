@@ -164,7 +164,7 @@ split -l 400000 Big.fastq small
 # map small fastq files to reference 
 for i in small*;do minimap2 -t 1 -ax splice -k14 -uf reference.fasta  $i | samtools view -F4 -hSb - > ${i}.bam
 # convert bam to tsv files
-for i in small*.bam;do samtools view -h $i | awk '{if ( \$10 == \"*\") next;else print \$0;}' | java -jar sam2tsv.jar -r reference.fasta > ${i}.tsv ;done   
+for i in small*.bam;do echo "samtools view -h $i | awk '{if ( \$10 == \"*\") next;else print \$0;}' | java -jar sam2tsv.jar -r reference.fasta > ${i}.tsv" ;done   
 # convert tsv to variants frequency files
 for i in small*.tsv;do per_site_var.freq.py $i > ${i/tsv}.freq
 # combine the frequency files from the above step and compute variants percentages
