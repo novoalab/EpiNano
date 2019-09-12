@@ -188,8 +188,7 @@ R ggplot
 ## Citing this work:
 If you find this work useful, please cite:
 
-Huanle Liu, Oguzhan Begik, Morghan Lucas, Christopher E. Mason, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences. bioRxiv 2019
-doi: https://doi.org/10.1101/525741
+Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences. Nature Communications 2019, 10:4079. [Link to paper]: https://www.nature.com/articles/s41467-019-11713-9
 
 ### License 
 See LICENSE.md for details
