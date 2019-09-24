@@ -7,18 +7,18 @@ import os
 
 ''''
 input file:
-(summed up from sam2tsv results using 
+(summed up from sam2tsv results using
 #REF,REF_POS,REF_BASE,READ_NAME,READ_POSITION,READ_BASE,BASE_QUALITY,MISMATCH,INSERTION,DELETION
 cc6m_2244_T7_ecorv,31,A,4ea19788-8597-42c4-a7c2-3de4da5a7390,38,A,16,0,0,0
 cc6m_2244_T7_ecorv,32,T,4ea19788-8597-42c4-a7c2-3de4da5a7390,39,T,3,0,0,0
 
-this will output 
-one base one line format 
+this will output
+one base one line format
 and
 one kmer one line format
 '''
 
-usage = "python " + sys.argv[0] + " per_read_var" 
+usage = "python " + sys.argv[0] + " per_read_var"
 if len (sys.argv) <2:
     print "USGAE: "+usage
     exit(0)
@@ -55,7 +55,7 @@ else:
 h = fh.readline()
 row_counter = 1
 
-slided_file = prefix+'.slided.onebase.oneline'
+slided_file = prefix+'.slided.oneBase.oneLine'
 slided_fh = open (slided_file,'w')
 slided_header = '#Relative_Pos,window,ReadKmer,RefKmer,Ref,RefPos,RefBase,Read,ReadPos,ReadBase,Q,M,I,D'
 print >>slided_fh, slided_header
@@ -87,7 +87,7 @@ for line in fh:
     ref = tmp[0]
     comb = rd+' '+ref
     if comb in rd_rf_mem_di:
-	rd_rf_mem_di.append (comb) 
+	rd_rf_mem_di.append (comb)
         rd_bases.append (tmp[5])
         rf_bases.append (tmp[2])
         rd_pos.append (tmp[4])
@@ -99,9 +99,9 @@ for line in fh:
     else:
         for i in window(range(len(rd_rf_mem_di)), 5):
 	    last = None
-	    rd_win_pos = '' 		    
+	    rd_win_pos = ''
 	    if i[-1] is None:  # when a read have less than window size number of positions mapped to a reference
-		last = i[0] + len (i) + 1  
+		last = i[0] + len (i) + 1
 		rd_win_pos = ':'.join(rd_pos[i[0]:last])
 	    else:
 		last = i[-1] + 1
@@ -111,7 +111,7 @@ for line in fh:
             RD, REF =  rd_rf_mem_di[-1].split()
             rd_kmer = ''.join (rd_bases[i[0]:last])
             rf_kmer = ''.join (rf_bases[i[0]:last])
-	    int_ele = 0	
+	    int_ele = 0
             for k in (i):
 		if isinstance (k,int):
 			#sys.stderr.write (str (len (rd_rf_mem_di)) + ' rf_rd: ' + rd_rf_mem_di[0] + ' ' + rd_rf_mem_di[-1] + ' '+ ':'.join (map (str, rd_pos)) + ' ' + ':'.join (map (str, i))+'\n' )
@@ -193,14 +193,14 @@ input
 from collections import defaultdict
 mem_window = defaultdict (defaultdict(list).copy)
 
-var = slided_file 
+var = slided_file
 if var.endswith ('.gz'):
 	f = gzip.open (var,'r')
 else:
 	f = open (var,'r')
 header = f.readline()
 new_header = ",".join (header.strip().split(',')[2:])
-print >>sum_out, "#Read,Read_Window,ReadKmer,Ref,RefKmer,Ref_Window,Qualities,Mismatches,Insertions,Deletions"
+print >>sum_out, "#Read,Read_Window,ReadKmer,Ref,RefKmer,Ref_Window,q1,q2,q3,q4,q5,mis1,mis2,mis3,mis4,mis5,ins1,ins2,ins3,ins4,ins5,del1,del2,del3,del4,del5"
 
 ary = f.readline().strip().split(',')
 k =  ','.join(ary[1:5]) + ','+ary[7]
@@ -223,7 +223,7 @@ for l in  f:
 		for kk in mem_window:
 		    lst = kk.split(',')
 		    h = ",".join ([lst[4],lst[0],lst[1],lst[3],lst[2]])
-		    print >>sum_out,  ','.join ([h ,':'.join (mem_window[kk]['refpos']),  '|'.join (mem_window[kk]['q']),  '|'.join (mem_window[kk]['m']),  '|'.join (mem_window[kk]['i']),  '|'.join (mem_window[kk]['d'])])
+		    print >>sum_out,  ','.join ([h ,':'.join (mem_window[kk]['refpos']),  ','.join (mem_window[kk]['q']),  ','.join (mem_window[kk]['m']),  ','.join (mem_window[kk]['i']),  ','.join (mem_window[kk]['d'])])
 
 		del mem_window[kk]
 		mem_window[k]['q'].append(ary[-4])
@@ -234,6 +234,6 @@ for l in  f:
 for kk in mem_window.keys():
     lst = kk.split(',')
     h = ",".join ([lst[4],lst[0],lst[1],lst[3],lst[2]])
-    print >>sum_out,  ','.join ([h ,':'.join (mem_window[kk]['refpos']),  '|'.join (mem_window[kk]['q']),  '|'.join (mem_window[kk]['m']),  '|'.join (mem_window[kk]['i']),  '|'.join (mem_window[kk]['d'])])
+    print >>sum_out,  ','.join ([h ,':'.join (mem_window[kk]['refpos']),  ','.join (mem_window[kk]['q']),  ','.join (mem_window[kk]['m']),  ','.join (mem_window[kk]['i']),  ','.join (mem_window[kk]['d'])])
 f.close()
 sum_out.close()

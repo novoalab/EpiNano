@@ -57,11 +57,11 @@ if (True):
 	rd = ary[0]
 	rd_pos = '' #ary[3]
 	if ary[-1] != 'D':
-	    rd_pos = str (int (ary[3]) + 1)#turn read_pos into 1-based 
+	    rd_pos = str (int (ary[3]) + 1)#turn read_pos into 1-based
 	    rd_base = ary[4]
 	    k = ','.join ([ref,ref_pos,rd,rd_pos]) #include reference  to account for multi-mappings
 	    qualities[k] = ord(ary[5]) - 33
-	    dels[k] = dels.get(k,0) + 0 
+	    dels[k] = dels.get(k,0) + 0
             rdnames.append(k)
             if ary[-1].upper() == 'M' and ary[4] == ary[7]: # or re.match ('I', ary[-1].upper()):
 	        mis[k] = '0'
@@ -73,7 +73,7 @@ if (True):
                 ins[k] = '1'
 	        mis[k] = '0'
         elif ary[-1].upper() == 'D':
-            dels[k]= dels.get(k,0) + 1 
+            dels[k]= dels.get(k,0) + 1
 	    mis[k] = '0'
 	    ins[k] = '0'
         else:
@@ -89,7 +89,6 @@ else:
     fh = open (sam2tsv)
 
 if (True):
-#with open (sys.argv[1],'r') as fh:
     for l in fh:
 	if l.startswith ('#'):
 	    continue
@@ -126,6 +125,8 @@ last_del = defaultdict(float)
 line_num = 0
 with open (del_tmp,'r') as FH:
     for l in FH:
+        if l.startswith ('#'):
+            continue
         ary = l.strip().split(',')
 	half = float(ary[-1]) / 2
 	ary[-1] = last_del.get (line_num,0)  + half
@@ -133,4 +134,4 @@ with open (del_tmp,'r') as FH:
 	last_del[line_num] = half
 	print  >>adj_fh, ','.join(map (str, ary))
 adj_fh.close()
-os.remove (del_tmp)
+#os.remove (del_tmp)
