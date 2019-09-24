@@ -15,6 +15,12 @@ Features extracted include:
 
 The software has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. Its use to detect other RNA modifications has not yet been tested. 
 
+### Considerations when using this software
+
+- The algorithm predicts m6A sites. It does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level. 
+- The performance of the algorithm is dependent on the stoichiometry of the site (i.e. sites with very low stoichiometry will be often missed by the algorithm)
+- EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown)
+
 ## What's included
 - Scripts to extract features from FAST5 files
 - Scripts to process mapped BAM files into kmer pileups (similar to samtools mpileup format but for 5mer sequences)
@@ -183,7 +189,13 @@ R ggplot
 ## Citing this work:
 If you find this work useful, please cite:
 
+<<<<<<< HEAD
 Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences. Nature Communications 2019, 10:4079.
+=======
+Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. *Accurate detection of m6A RNA modifications in native RNA sequences*. **Nature Communications** 2019, 10:4079. 
+
+Link to paper: https://www.nature.com/articles/s41467-019-11713-9
+>>>>>>> origin
 
 Link to paper: https://www.nature.com/articles/s41467-019-11713-9
 ### License 
