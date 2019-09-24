@@ -56,6 +56,7 @@ minimap2 -ax map-ont ref.fasta mod.U2T.fastq | samtools view -bhS - | samtools s
 minimap2 -ax map-ont ref.fasta unm.U2T.fastq | samtools view -bhS - | samtools sort -@ 6 - unm  && samtools index unm.bam
 
 #4 calling variants for each single read-to-reference alignment
+## reads mapped to reverse strand of reference seqeucne will be flipped
 
 samtools view -h mod.bam| java -jar sam2tsv.jar -r  ref.fasta  > mod.bam.tsv
 samtools view -h unm.bam | java -jar sam2tsv.jar -r  ref.fasta  > unm.bam.tsv
@@ -182,9 +183,9 @@ R ggplot
 ## Citing this work:
 If you find this work useful, please cite:
 
-Huanle Liu, Oguzhan Begik, Morghan Lucas, Christopher E. Mason, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences. bioRxiv 2019
-doi: https://doi.org/10.1101/525741
+Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences. Nature Communications 2019, 10:4079.
 
+Link to paper: https://www.nature.com/articles/s41467-019-11713-9
 ### License 
 See LICENSE.md for details
 
