@@ -2,10 +2,10 @@
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ### About EpiNano
-EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications. 
+EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.
 
-EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification or not. 
-Features extracted include: 
+EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification or not.
+Features extracted include:
 - k-mer current intensity
 - read quality
 - per-base quality
@@ -13,11 +13,11 @@ Features extracted include:
 - per-base deletion frequency
 - per-base insertion frequency
 
-The software has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. Its use to detect other RNA modifications has not yet been tested. 
+The software has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. Its use to detect other RNA modifications has not yet been tested.
 
 ### Considerations when using this software
 
-- The algorithm predicts m6A sites. It does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level. 
+- The algorithm predicts m6A sites. It does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level.
 - The performance of the algorithm is dependent on the stoichiometry of the site (i.e. sites with very low stoichiometry will be often missed by the algorithm)
 - EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown)
 
@@ -42,9 +42,9 @@ The following softwares and modules were used by EpiNano
 | numpy  | 1.15.4     |
 | pandas  | 0.23.4        |
 | sklearn  | 0.20.2     |
- 
+
 ## Running the software
-* To extract features from basecalled FASTQ files: 
+* To extract features from basecalled FASTQ files:
 ```
 #1 trim the first and last few bad quality bases from raw fastq with NanoFilt (feel free to replace nanofilt with custome script)
 
@@ -72,7 +72,7 @@ samtools view -h unm.bam | java -jar sam2tsv.jar -r  ref.fasta  > unm.bam.tsv
 python2 per_read_var.py mod.bam.tsv > mod.per_read.var.csv
 python2 per_read_var.py unm.bam.tsv > unm.per_read.var.csv
 
-#6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants); the input file can be splitted based on ref into smaller ones to speed this step up. 
+#6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants); the input file can be splitted based on ref into smaller ones to speed this step up.
 
 python2 per_site_var.py mod.bam.tsv > mod.per_site.var.csv
 python2 per_site_var.py unm.bam.tsv > unm.per_site.var.csv
@@ -84,16 +84,16 @@ python2 slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.slidin
 
 ```
 
-* To extract features from FAST5 files: 
-``` 
-#1 extract event table from fast5 files; event table has 14 columns: 
+* To extract features from FAST5 files:
+```
+#1 extract event table from fast5 files; event table has 14 columns:
 mean    stdv    start   length  model_state     move    weights p_model_state   mp_state        p_mp_state  p_A     p_C     p_G     p_T.
 the meaning of these columns are explained at: https://community.nanoporetech.com/technical_documents/data-analysis/v/datd_5000_v1_revj_22aug2016/basecalled-fast5-files  
 
 
 python2 fast5ToEventTbl.py input.fast5 > output.event.tbl
 
-#2 extract features needed (esp. current intensity) for downstream analyses. 
+#2 extract features needed (esp. current intensity) for downstream analyses.
 The output contains the kmers and their centre base position (1-absed) in reads.
 
 python2 event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.features
@@ -149,56 +149,50 @@ required arguments:
 ```                        
 
 For instance, with the example svm input files from example/svm_input folder.
-	
-	# the command below will train modles using all quality scores are all positions from sample1 and make prediction on sample2 
-	python3 SVM.py -a -t sample1.csv -p sample2.csv -cl 1-5 -mc 11 -o test 
 
-	# while this command will do the same thing except choosing a 'linear' kernel for SVM training 
+	# the command below will train modles using all quality scores are all positions from sample1 and make prediction on sample2
+	python3 SVM.py -a -t sample1.csv -p sample2.csv -cl 1-5 -mc 11 -o test
+
+	# while this command will do the same thing except choosing a 'linear' kernel for SVM training
 	python3 SVM.py -a -k linear -cl 1-5 -t sample1.csv -p sample2.csv -mc 11
 
-	# this 3rd command uses base quality and mismatch frequencies of the centred bases for SVM training 
+	# this 3rd command uses base quality and mismatch frequencies of the centred bases for SVM training
 	python3 SVM.py -t sample1.csv -p sample2.csv -cl 3,7 -mc 11
 
-	# this command below uses previously trained model to make prediction 
-	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction 
-	
-	
+	# this command below uses previously trained model to make prediction
+	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction
+
+
 If you have large datasets, I recommend an alternative approach to speed up the step of generating feature table.
 Assuming you have a big fastq file 'Big.fastq' with a million reads. You can follow the commands below:
 ```
-# split the big file into small ones with 10k reads in each 
+# split the big file into small ones with 10k reads in each
 split -l 400000 Big.fastq small  
-# map small fastq files to reference 
+# map small fastq files to reference
 for i in small*;do minimap2 -t 1 -ax splice -k14 -uf reference.fasta  $i | samtools view -F4 -hSb - > ${i}.bam
 # convert bam to tsv files
 for i in small*.bam;do echo "samtools view -h $i | awk '{if ( \$10 == \"*\") next;else print \$0;}' | java -jar sam2tsv.jar -r reference.fasta > ${i}.tsv" ;done   
 # convert tsv to variants frequency files
 for i in small*.tsv;do per_site_var.freq.py $i > ${i/tsv}.freq
 # combine the frequency files from the above step and compute variants percentages
-cat samll*.freq | python2.7 combine_pre_site_var_freq.py > Per_site.var.csv 
+cat samll*.freq | python2.7 combine_pre_site_var_freq.py > Per_site.var.csv
 
-*** similar operations can also be applied to generate the per read feature table. 
+*** similar operations can also be applied to generate the per read feature table.
 *** all the commands with for loop, can be parallized, therefore greatly increase the efficiency.
 ```
 
 * To visulize results:
 ```
-Python matplotlib.pyplot, seaborn 
+Python matplotlib.pyplot, seaborn
 R ggplot
 ```
 ## Citing this work:
 If you find this work useful, please cite:
 
-<<<<<<< HEAD
 Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences. Nature Communications 2019, 10:4079.
-=======
-Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. *Accurate detection of m6A RNA modifications in native RNA sequences*. **Nature Communications** 2019, 10:4079. 
 
 Link to paper: https://www.nature.com/articles/s41467-019-11713-9
->>>>>>> origin
-
-Link to paper: https://www.nature.com/articles/s41467-019-11713-9
-### License 
+### License
 See LICENSE.md for details
 
 ### Contact
