@@ -179,7 +179,7 @@ cat samll*.freq | python2.7 combine_pre_site_var_freq.py > Per_site.var.csv
 
 *** similar operations can also be applied to generate the per read feature table.
 *** all the commands with for loop, can be parallized, therefore greatly increase the efficiency.
-*** You can also apply the splitting-into-small-file trick to the big bam2tsv file. 
+*** You can also apply the splitting-file-into-small-ones trick to the big bam2tsv file rather than to fastq files at the begining of the working flow. 
 ```
 
 * To visulize results:
