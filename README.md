@@ -102,7 +102,7 @@ python2 event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.feat
 
 python2 fastq_len.py h5t3.fastq > h5t3.fastq.len
 python2 adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features number_of_chopped_leading_bases number_of_chopped_end_bases > output.event.tbl.features.readposition.adj.csv
-python2 assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv  > per_read.var.current.csv
+python2 assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv per_rd_var.del.adjust.csv.summed.oneKmer_oneLine  > per_read.var.current.csv
 python2 per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv per_site.varsliding.win.csv > per_site.var.current.csv
 ```
 * To train SVM and perform predictions:
@@ -179,7 +179,7 @@ cat samll*.freq | python2.7 combine_pre_site_var_freq.py > Per_site.var.csv
 
 *** similar operations can also be applied to generate the per read feature table.
 *** all the commands with for loop, can be parallized, therefore greatly increase the efficiency.
-*** You can also apply the splitting-file-into-small-ones trick to the big bam2tsv file rather than to fastq files at the begining of the working flow. 
+*** You can also apply the splitting-file-into-small-ones trick to the big bam2tsvi (but on read basis) file rather than to fastq files at the begining of the working flow.
 ```
 
 * To visulize results:
