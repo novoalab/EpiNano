@@ -197,5 +197,5 @@ Link to paper: https://www.nature.com/articles/s41467-019-11713-9
 See LICENSE.md for details
 
 ### Contact
-Please email us at huanle.liu@crg.eu or eva.novoa@crg.eu if you have any doubts/concerns/suggestions.
+Please open an Issue if you have any doubts/concerns/suggestions.
 Thanks!
