@@ -44,7 +44,8 @@ The following softwares and modules were used by EpiNano
 | sklearn  | 0.20.2     |
 
 ## Running the software
-* To prepare for feature table, on which predictions will be made
+* Prepare for feature table, on which predictions will be made
+
 Follow this [Wiki](https://github.com/enovoa/EpiNano/wiki)
 
 * To train SVM and perform predictions:
