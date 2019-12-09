@@ -1,5 +1,10 @@
 # Changelog
 
+## Changed - 2019-12-09
+This is a slim version. All scripts have been updated to python3.
+It generated feature table contains all but the current intensity feature for EpiNano.
+The feature table can be used for prediction with supplied previously trained models. 
+
 ## Changed - 2019-05-15
 
 Changes made to SVM.py making it faster and able to generate and save trained models.
