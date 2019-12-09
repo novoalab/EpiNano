@@ -44,67 +44,9 @@ The following softwares and modules were used by EpiNano
 | sklearn  | 0.20.2     |
 
 ## Running the software
-* To extract features from basecalled FASTQ files:
-```
-#1 trim the first and last few bad quality bases from raw fastq with NanoFilt (feel free to replace nanofilt with custome script)
+* To prepare for feature table, on which predictions will be made
+Follow this [Wiki](https://github.com/enovoa/EpiNano/wiki)
 
-cat MOD.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile mod.nanofilt.log > mod.h5t3.fastq
-cat UNM.fastq|./NanoFilt -q 0 --headcrop 5 --tailcrop 3 --readtype 1D --logfile unm.nanofilt.log > unm.h5t3.fastq
-
-#2 'U' to 'T' conversion
-
-awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' mod.h5t3.fastq > mod.U2T.fastq
-awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' unm.h5t3.fastq > unm.U2T.fastq
-
-#3 mapping to reference using minimap2
-
-minimap2 -ax map-ont ref.fasta mod.U2T.fastq | samtools view -bhS - | samtools sort -@ 6 - mod  && samtools index mod.bam
-minimap2 -ax map-ont ref.fasta unm.U2T.fastq | samtools view -bhS - | samtools sort -@ 6 - unm  && samtools index unm.bam
-
-#4 calling variants for each single read-to-reference alignment
-## reads mapped to reverse strand of reference seqeucne will be flipped
-
-samtools view -h mod.bam| java -jar sam2tsv.jar -r  ref.fasta  > mod.bam.tsv
-samtools view -h unm.bam | java -jar sam2tsv.jar -r  ref.fasta  > unm.bam.tsv
-
-#5 convert results from step 4 and generate per_read variants information; the input file can be splitted based on read into smaller files to speed this step up.
-
-python2 per_read_var.py mod.bam.tsv > mod.per_read.var.csv
-python2 per_read_var.py unm.bam.tsv > unm.per_read.var.csv
-
-#6 sumarize results from step 4 and generate variants information according the reference sequences (i.e., per_site variants); the input file can be splitted based on ref into smaller ones to speed this step up.
-
-python2 per_site_var.py mod.bam.tsv > mod.per_site.var.csv
-python2 per_site_var.py unm.bam.tsv > unm.per_site.var.csv
-
-#7 slide per_site variants with window size of 5, so that fast5 event table information can be combined
-
-python2 slide_per_site_var.py mod.ref.per_site.var.csv > mod.per_site.var.sliding.win.csv
-python2 slide_per_site_var.py unm.ref.per_site.var.csv > unm.per_site.var.sliding.win.csv
-
-```
-
-* To extract features from FAST5 files:
-```
-#1 extract event table from fast5 files; event table has 14 columns:
-mean    stdv    start   length  model_state     move    weights p_model_state   mp_state        p_mp_state  p_A     p_C     p_G     p_T.
-the meaning of these columns are explained at: https://community.nanoporetech.com/technical_documents/data-analysis/v/datd_5000_v1_revj_22aug2016/basecalled-fast5-files  
-
-
-python2 fast5ToEventTbl.py input.fast5 > output.event.tbl
-
-#2 extract features needed (esp. current intensity) for downstream analyses.
-The output contains the kmers and their centre base position (1-absed) in reads.
-
-python2 event_tbl_feature_extraction.py output.event.tbl > output.event.tbl.features
-
-#3 combine extracted features with per_read and per_site variants information
-
-python2 fastq_len.py h5t3.fastq > h5t3.fastq.len
-python2 adjust_read_base_positions.py  h5t3.fastq.len output.event.tbl.features number_of_chopped_leading_bases number_of_chopped_end_bases > output.event.tbl.features.readposition.adj.csv
-python2 assign_current_to_per_read_kmer.py output.event.tbl.features.readposition.adj.csv per_rd_var.del.adjust.csv.summed.oneKmer_oneLine  > per_read.var.current.csv
-python2 per_read_kmer_intensity_to_per_site_kmer_intensity.py per_read.var.current.csv per_site.varsliding.win.csv > per_site.var.current.csv
-```
 * To train SVM and perform predictions:
 ```
 This step includes SVM training, prediction and performance assessment using single and multiple features.
@@ -163,30 +105,6 @@ For instance, with the example svm input files from example/svm_input folder.
 	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction
 
 
-If you have large datasets, I recommend an alternative approach to speed up the step of generating feature table.
-Assuming you have a big fastq file 'Big.fastq' with a million reads. You can follow the commands below:
-```
-# split the big file into small ones with 10k reads in each
-split -l 400000 Big.fastq small  
-# map small fastq files to reference
-for i in small*;do minimap2 -t 1 -ax splice -k14 -uf reference.fasta  $i | samtools view -F4 -hSb - > ${i}.bam
-# convert bam to tsv files
-for i in small*.bam;do echo "samtools view -h $i | awk '{if ( \$10 == \"*\") next;else print \$0;}' | java -jar sam2tsv.jar -r reference.fasta > ${i}.tsv" ;done   
-# convert tsv to variants frequency files
-for i in small*.tsv;do per_site_var.freq.py $i > ${i/tsv}.freq
-# combine the frequency files from the above step and compute variants percentages
-cat samll*.freq | python2.7 combine_pre_site_var_freq.py > Per_site.var.csv
-
-*** similar operations can also be applied to generate the per read feature table.
-*** all the commands with for loop, can be parallized, therefore greatly increase the efficiency.
-*** You can also apply the splitting-file-into-small-ones trick to the big bam2tsvi (but on read basis) file rather than to fastq files at the begining of the working flow.
-```
-
-* To visulize results:
-```
-Python matplotlib.pyplot, seaborn
-R ggplot
-```
 ## Citing this work:
 If you find this work useful, please cite:
 
