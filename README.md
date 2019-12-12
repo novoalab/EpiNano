@@ -2,11 +2,11 @@
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## Update
-A slim version, written in python3, to prepare feature table for EpiNano training and making predictions is released. A [Wiki](https://github.com/enovoa/EpiNano/wiki) shows how it works.
+A slim version, written in python3, to prepare feature table for EpiNano to do training and make predictions is released. The [Wiki](https://github.com/enovoa/EpiNano/wiki) shows how it works.
 The previous releases, developed using python2 are still [available](https://github.com/enovoa/EpiNano/releases).
 
 
-### About EpiNano
+## About EpiNano
 EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.
 
 EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification o r not.
