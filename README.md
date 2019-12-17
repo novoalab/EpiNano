@@ -2,7 +2,7 @@
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## Update
-A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage. 
+A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
 
 The code of the previous release (version 1.0), used in our recent paper (Liu, Begik et al., Nature Comm 2019: https://www.nature.com/articles/s41467-019-11713-9), is also still available [here](https://github.com/enovoa/EpiNano/releases).
 
@@ -45,7 +45,6 @@ The following softwares and modules were used by EpiNano
 | minimap2  | 2.14-r886  |
 | samtools  | 0.1.19  |
 | sam2tsv  | a779a30d6af485d9cd669aa3752465132cf21eec   |
-| python  | 2.7.5  |
 | python  | 3.6.7   |
 | java openjdk   | 1.8.0    |
 | h5py  | 2.8.0    |
@@ -103,8 +102,9 @@ required arguments:
 
 ### Example
 
-With the example svm input files from example/svm_input folder: 
+With the example svm input files from example/svm_input folder:
 
+* training with the example feature tables
 	# the command below will train models using all quality scores are all positions from sample1 and make prediction on sample2
 	python3 SVM.py -a -t sample1.csv -p sample2.csv -cl 1-5 -mc 11 -o test
 
@@ -113,8 +113,8 @@ With the example svm input files from example/svm_input folder:
 
 	# this 3rd command uses base quality and mismatch frequencies of the centred bases for SVM training
 	python3 SVM.py -t sample1.csv -p sample2.csv -cl 3,7 -mc 11
-
-	# this command below uses previously trained model to make prediction
+* predict modifications   
+	#this command below uses previously trained model to make prediction
 	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction
 
 
@@ -130,5 +130,5 @@ See LICENSE.md for details
 
 ### Contact
 Please read the [Wiki](https://github.com/enovoa/EpiNano/wiki) before opening an issue. Also, please go over other [issues](https://github.com/enovoa/EpiNano/issues) that may have been previously resolved (check out "closed" issues).
-If you still have doubts/concerns/suggestions, please open a new Issue. 
+If you still have doubts/concerns/suggestions, please open a new Issue.
 Thanks!
