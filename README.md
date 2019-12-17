@@ -2,8 +2,9 @@
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## Update
-A new and slim version, written in python3, to prepare feature table for EpiNano to do training and make predictions is released. The [Wiki](https://github.com/enovoa/EpiNano/wiki) shows how it works.
-The previous releases, developed using python2 are still [available](https://github.com/enovoa/EpiNano/releases).
+A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage. 
+
+The code of the previous release (version 1.0), which was used in our recent [paper] (https://www.nature.com/articles/s41467-019-11713-9), is also still [available](https://github.com/enovoa/EpiNano/releases).
 
 
 ## About EpiNano
