@@ -4,12 +4,12 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 ## Update
 A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage. 
 
-The code of the previous release (version 1.0), used in our recent paper (Liu, Begik et al., Nature Comm 2019: https://www.nature.com/articles/s41467-019-11713-9), is also still [available](https://github.com/enovoa/EpiNano/releases).
+The code of the previous release (version 1.0), used in our recent paper (Liu, Begik et al., Nature Comm 2019: https://www.nature.com/articles/s41467-019-11713-9), is also still available [here](https://github.com/enovoa/EpiNano/releases).
 
 ### Main differences of the new release:
 - Faster!
 - Uses python3 instead of python2
-- Does not extract current intensity in the feature table, as this feature was not selected to train the final models
+- Does not extract current intensity in the feature table, as this feature was not used to train the final models
 
 ## About EpiNano
 EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.
@@ -54,9 +54,9 @@ The following softwares and modules were used by EpiNano
 | sklearn  | 0.20.2     |
 
 ## Running the software
-* Prepare for feature table, on which predictions will be made
+* Build feature table (on which predictions will be made)
 
-    Follow [Wiki](https://github.com/enovoa/EpiNano/wiki)
+    For step-by-step instructions to build a feature table, please take a look at the [Wiki](https://github.com/enovoa/EpiNano/wiki)
 
 * To train SVM and perform predictions:
 ```
@@ -101,9 +101,11 @@ required arguments:
 
 ```                        
 
-For instance, with the example svm input files from example/svm_input folder.
+### Example
 
-	# the command below will train modles using all quality scores are all positions from sample1 and make prediction on sample2
+With the example svm input files from example/svm_input folder: 
+
+	# the command below will train models using all quality scores are all positions from sample1 and make prediction on sample2
 	python3 SVM.py -a -t sample1.csv -p sample2.csv -cl 1-5 -mc 11 -o test
 
 	# while this command will do the same thing except choosing a 'linear' kernel for SVM training
