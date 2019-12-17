@@ -115,12 +115,12 @@ For instance, with the example svm input files from example/svm_input folder.
 ## Citing this work:
 If you find this work useful, please cite:
 
-Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences. Nature Communications 2019, 10:4079.
+Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. [Accurate detection of m6A RNA modifications in native RNA sequences] (https://www.nature.com/articles/s41467-019-11713-9). Nature Communications 2019, 10:4079.
 
-Link to paper: https://www.nature.com/articles/s41467-019-11713-9
 ### License
 See LICENSE.md for details
 
 ### Contact
-Please open an Issue if you have any doubts/concerns/suggestions.
+Please read the [Wiki](https://github.com/enovoa/EpiNano/wiki) before opening an issue. Also, please go over other [issues](https://github.com/enovoa/EpiNano/issues) that may have been previously resolved (check out "closed" issues).
+If you still have doubts/concerns/suggestions, please open a new Issue. 
 Thanks!
