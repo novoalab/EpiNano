@@ -105,6 +105,7 @@ required arguments:
 With the example svm input files from example/svm_input folder:
 
 * training with the example feature tables
+```
 	# the command below will train models using all quality scores are all positions from sample1 and make prediction on sample2
 	python3 SVM.py -a -t sample1.csv -p sample2.csv -cl 1-5 -mc 11 -o test
 
@@ -113,10 +114,12 @@ With the example svm input files from example/svm_input folder:
 
 	# this 3rd command uses base quality and mismatch frequencies of the centred bases for SVM training
 	python3 SVM.py -t sample1.csv -p sample2.csv -cl 3,7 -mc 11
+```
 * predict modifications   
+```
 	#this command below uses previously trained model to make prediction
 	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction
-
+```
 
 ## Citing this work:
 If you find this work useful, please cite:
