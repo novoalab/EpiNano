@@ -4,8 +4,12 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 ## Update
 A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage. 
 
-The code of the previous release (version 1.0), which was used in our recent [paper] (https://www.nature.com/articles/s41467-019-11713-9), is also still [available](https://github.com/enovoa/EpiNano/releases).
+The code of the previous release (version 1.0), used in our recent paper (Liu, Begik et al., Nature Comm 2019: https://www.nature.com/articles/s41467-019-11713-9), is also still [available](https://github.com/enovoa/EpiNano/releases).
 
+### Main differences of the new release:
+- Faster!
+- Uses python3 instead of python2
+- Does not extract current intensity in the feature table, as this feature was not selected to train the final models
 
 ## About EpiNano
 EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.
@@ -115,7 +119,9 @@ For instance, with the example svm input files from example/svm_input folder.
 ## Citing this work:
 If you find this work useful, please cite:
 
-Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. [Accurate detection of m6A RNA modifications in native RNA sequences] (https://www.nature.com/articles/s41467-019-11713-9). Nature Communications 2019, 10:4079.
+Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences . Nature Communications 2019, 10:4079.
+
+Link to paper: https://www.nature.com/articles/s41467-019-11713-9
 
 ### License
 See LICENSE.md for details
