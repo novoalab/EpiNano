@@ -31,6 +31,7 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 - The algorithm predicts m6A sites. It does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level.
 - The performance of the algorithm is dependent on the stoichiometry of the site (i.e. sites with very low stoichiometry will be often missed by the algorithm)
 - EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown)
+- Current trained SVM models will only be accurate if the data has been base-called with Albacore 2.1.7. We are working on training new models for data base-called using Guppy, as well as working on improving the current models by including additional features. If you are using Guppy base-called fast5/fastq, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate. 
 
 ## What's included
 - Scripts to extract features from FAST5 files
