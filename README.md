@@ -1,4 +1,4 @@
-# EpiNano <img src="image/Epinano_logo_v1.jpg" width='300' height='50'>
+# <img src="image/Epinano_logo_v1.jpg" width='300' height='100'>
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## Update
