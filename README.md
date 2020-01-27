@@ -1,4 +1,5 @@
 # EpiNano
+<img src="image/Epinano_logo_v1.jpg" width='100' height='20'>
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## Update
@@ -62,9 +63,9 @@ The following softwares and modules were used by EpiNano
 This step includes SVM training, prediction and performance assessment using single and multiple features.
 $ python3 SVM.py -h
 
-Commad:  SVM.py -h
-usage: SVM.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL] [-t TRAIN] -p
-              PREDICT -cl COLUMNS -mc MODIFICATION_STATUS_COLUMN
+Commad:  scripts/SVM.py -h
+usage: SVM.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL] [-t TRAIN]
+              [-mc MODIFICATION_STATUS_COLUMN] -p PREDICT -cl COLUMNS
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -84,6 +85,9 @@ optional arguments:
                         in the same order as kernels applied
   -t TRAIN, --train TRAIN
                         file name of feature table used for training
+  -mc MODIFICATION_STATUS_COLUMN, --modification_status_column MODIFICATION_STATUS_COLUMN
+                        column number from (input file1, i.e, traing file)
+                        that contains modification status information
 
 required arguments:
   -p PREDICT, --predict PREDICT
@@ -94,9 +98,6 @@ required arguments:
   -cl COLUMNS, --columns COLUMNS
                         comma seperated column number(s) that contain features
                         used for training and prediciton
-  -mc MODIFICATION_STATUS_COLUMN, --modification_status_column MODIFICATION_STATUS_COLUMN
-                        column number from (input file1, i.e, traing file)
-                        that contains modification status information
 
 ```                        
 
@@ -117,7 +118,7 @@ With the example svm input files from example/svm_input folder:
 ```
 * predict modifications   
 ```
-	#this command below uses previously trained model to make prediction
+	#use previously trained model and epinano-scripts-generated site-wise feature table to make predictions
 	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction
 ```
 
