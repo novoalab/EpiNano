@@ -54,6 +54,9 @@ The following softwares and modules were used by EpiNano
 | pandas  | 0.23.4        |
 | sklearn  | 0.20.2     |
 
+## Download the scripts
+git clone git@github.com:enovoa/EpiNano.git 
+
 ## Running the software
 * Build feature table (on which predictions will be made)
 
