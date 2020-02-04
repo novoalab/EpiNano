@@ -5,6 +5,9 @@ from multiprocessing import Pool
 import argparse
 from os import walk
 
+__version__ = '2020-01-27-no-per-rd'
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument ("-f", "--file", required=True, help = 'input tsv file produced by sam2tsv.jar')
 parser.add_argument ("-t", "--threads",type=int, help =
@@ -12,6 +15,7 @@ parser.add_argument ("-t", "--threads",type=int, help =
 parser.add_argument ('-r', '--reads', type=int, help=
 'number of reads processed in batch; recommend (1500,4000]; default is 1500')
 parser.add_argument ('-k', '--keep_tmp_data', action='store_true')
+parser.add_argument ('-p', '--per_read_stats', action='store_true', help="compute per-reads statistics")
 parser.add_argument ('-v', '--verbose', action='store_true')
 
 args = parser.parse_args()
@@ -114,15 +118,15 @@ def tsv_to_read_var (tsv):
     subprocess.call (cmd, shell=True)
 
 p = Pool (args.threads)
-p.imap_unordered (tsv_to_read_var, small_tsv_files)
-p.close()
-p.join()
+if args.per_read_stats:
+    p.imap_unordered (tsv_to_read_var, small_tsv_files)
+    p.close()
+    p.join()
 ## cat per reads metrics
-cat_per_read_var_cmd = "cat {}/small_*per_rd_var.csv | awk \'NR==1 || !/^#/ \'> {}.per_rd_var.csv ".format (tmp_dir, args.file)
-subprocess.call (cat_per_read_var_cmd,shell=True)
-cat_per_read_slided_cmd = "cat {}/small_*per_rd_var.5mer.csv | awk \'NR==1 || !/^#/ \'> {}.per_rd_var.5mer.csv ".format (tmp_dir, args.file)
-subprocess.call (cat_per_read_slided_cmd,shell=True)
-
+    cat_per_read_var_cmd = "cat {}/small_*per_rd_var.csv | awk \'NR==1 || !/^#/ \'> {}.per_rd_var.csv ".format (tmp_dir, args.file)
+    subprocess.call (cat_per_read_var_cmd,shell=True)
+    cat_per_read_slided_cmd = "cat {}/small_*per_rd_var.5mer.csv | awk \'NR==1 || !/^#/ \'> {}.per_rd_var.5mer.csv ".format (tmp_dir, args.file)
+    subprocess.call (cat_per_read_slided_cmd,shell=True)
 ## delete folder
 if not args.keep_tmp_data:
     shutil.rmtree (tmp_dir)

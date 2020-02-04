@@ -23,11 +23,16 @@ qual = defaultdict(list) # qulity scores
 mis = defaultdict(int) # mismatches
 ins = defaultdict(int) # insertions
 dele = defaultdict(int) # deletions
-cov = OrderedDict ()  # coverage
+cov = OrderedDict ()  # coverage, aka number of reads aligned, regardless of incidents of del or ins
 ins_q = defaultdict(lambda: defaultdict (list)) # store quality scores of inserted read bases
 pos = defaultdict(list) # reference positions
 base = {} # ref base
 Q = defaultdict(list)
+
+if len (sys.argv) !=2:
+    sys.stderr.write("\n Usage: python per-site_var.py sample.tsv > sample.per_site.var.csv\n\n")
+    exit ()
+
 with open (sys.argv[1],'r') as fh:
     for line in fh:
         if line.startswith ('#'):
@@ -48,7 +53,7 @@ with open (sys.argv[1],'r') as fh:
             dele[k] = dele.get(k,0) + 1
         if ary[-1] == 'I':
             k = list (cov.keys())[-1]
-            next_k = (ary[2], str(int(k[-1]) + 1))
+            next_k = (ary[2], str(int(k[1]) + 1))
             if ary[0] not in ins_q[k]:
                 ins[k] = ins.get(k,0) + 0.5
                 ins[next_k] = ins.get(next_k,0) + 0.5
@@ -59,7 +64,7 @@ with open (sys.argv[1],'r') as fh:
         #qual[k].append (ord(ary[-4])- 33)
 
 header = '#Ref,pos,base,cov,q_mean,q_median,q_std,mis,ins,del'
-print header
+print(header)
 
 for k in cov.keys():
     depth = float (cov[k])
@@ -95,3 +100,5 @@ for k in cov.keys():
     #num =(mis[k],ins[k],dele[k])
     #print k,cov[k],num
     print (','.join ( map (str, [k[0],k[1],base[k],cov[k],Mn_q,Md_q,sd_q,Mis,Ins,Del]))) # 'scores',",".join (map (str,qual[k])), '%'.join(Q[k])
+    sys.stderr.write (','.join ( map (str, [k[0],k[1],base[k],cov[k],Mn_q,Md_q,sd_q,Mis,str(ins[k]),dele[k]])))
+    sys.stderr.write ("\n")
