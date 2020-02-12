@@ -28,5 +28,5 @@ for k in ks:
     q_lst = Qual[k]
     var_freq = Var[k][1:]/cov 
     var_freq = ",".join (var_freq.astype (str) )
-    print ("{},{},{},{},{},{}".format (k,cov,'%0.3f'%np.mean(q_lst),'%0.3f'%np.median(q_lst),'%0.3f'%np.std(q_lst), var_freq)) 
+    print ("{},{},{},{},{},{}".format (k,cov,'%0.5f'%np.mean(q_lst),'%0.5f'%np.median(q_lst),'%0.5f'%np.std(q_lst), var_freq)) 
 
