@@ -16,22 +16,17 @@ for l in fin.input():
     ary = l.strip().split(',')
     k = ','.join(ary[:3])
     ks[k] = True
-    c,m,i,d = map (float,ary[4:8])
+    c,M,m,i,d = map (float,ary[3:8])
     c_m_i_d = np.array ([c,m,i,d])
     q_lst = [ float (x) for x in ary[8].split(':')]
     Var[k] = Var.get(k,np.array([0])) + c_m_i_d 
     Qual[k] = Qual.get(k,[]) + q_lst 
-   # mem[k]['var'] = mem[k].get('var',np.array((0,))) + c_m_i_d
-   # mem[k]['q'] = mem[k].get ('q',[]) + q_lst
-   # sys.stderr.write ("{}\t{}\n".format(k,q_lst))
-
+   
 print ( '#Ref,pos,base,cov,q_mean,q_median,q_std,mis,ins,del')
 for k in ks:
     cov = Var[k][0]
     q_lst = Qual[k]
-    #print ("{}\t{}".format(k,str(cov)), end="\t")
-    #print ("{}\t{}".format (q_lst, np.mean(q_lst)))
     var_freq = Var[k][1:]/cov 
     var_freq = ",".join (var_freq.astype (str) )
-    print ("{},{},{},{},{},{}`".format (k,cov,'%0.3f'%np.mean(q_lst),'%0.3f'%np.median(q_lst),'%0.3f'%np.std(q_lst), var_freq)) 
-#    print (",".join ([k, str(cov), ",".join (map (str, ['%0.3f' % np.mean(q_lst),'%0.3f'%np.median(q_lst),'%0.3f'%np.std(q_lst)])), ",".join (map (str, ['%0.3f'% x for x in Var[k][1:]/cov] )] ))
+    print ("{},{},{},{},{},{}".format (k,cov,'%0.3f'%np.mean(q_lst),'%0.3f'%np.median(q_lst),'%0.3f'%np.std(q_lst), var_freq)) 
+
