@@ -2,6 +2,9 @@
 
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
+## PLEASE CHECK FOR LATEST VERSIONS of EpiNano HERE (this is just a fork up to EpiNano v 1.1.1): 
+[LATEST EpiNano RELEASES](https://github.com/enovoa/EpiNano/releases).
+
 ## Update
 A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
 
