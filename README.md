@@ -3,7 +3,7 @@
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## PLEASE CHECK FOR LATEST VERSIONS of EpiNano [HERE](https://github.com/enovoa/EpiNano/releases). 
-This repo is just a fork from https://github.com/enovoa/EpiNano, specifically to EpiNano v 1.1.1 (which is the version  used in MasterOfPores, date: April 2020)
+This repo is just a fork from https://github.com/enovoa/EpiNano, specifically to EpiNano v 1.1.1 (which is the version  used in [MasterOfPores](https://github.com/biocorecrg/master_of_pores), date: April 2020)
 
 ## Update
 A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
