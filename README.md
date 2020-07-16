@@ -2,18 +2,24 @@
 
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
-## Update
-A new and slim version, written in python3 has been  released (version 1.1). You can use this version to prepare the feature table for EpiNano to do training and make predictions. Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
+## Upgrades
 
-The code of the previous release (version 1.0), used in our recent paper (Liu, Begik et al., Nature Comm 2019: https://www.nature.com/articles/s41467-019-11713-9), is also still available [here](https://github.com/enovoa/EpiNano/releases).
+- **EpiNano 1.2** -- latest version, includes pretrained m6A models base-called with Guppy version 3.1.5
 
-### Main differences of the new release:
+- **EpiNano 1.1** -- a new and slim version, written in python3 has been  released. Includes pre-trained m6A models base-called with Albacore version 2.1.7, which is available [here](https://github.com/enovoa/EpiNano/releases). This version is the one currently implemented in [MasterOfPores](https://www.frontiersin.org/articles/10.3389/fgene.2020.00211), a workflow to analyze direct RNA sequencing data. 
+
+Major differences with EpiNano 1.0:
 - Faster!
 - Uses python3 instead of python2
 - Does not extract current intensity in the feature table, as this feature was not used to train the final models
 
+- **Epinano 1.0** -- original code used in [Liu, Begik et al., Nature Comm 2019](https://www.nature.com/articles/s41467-019-11713-9), which can be downloaded [here](https://github.com/enovoa/EpiNano/releases).
+
+Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
+
+
 ## About EpiNano
-EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.
+EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.  
 
 EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification o r not.
 Features extracted include:
@@ -31,7 +37,9 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 - The algorithm predicts m6A sites. It does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level.
 - The performance of the algorithm is dependent on the stoichiometry of the site (i.e. sites with very low stoichiometry will be often missed by the algorithm)
 - EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown)
-- Current trained SVM models will only be accurate if the data has been base-called with Albacore 2.1.7. We are working on training new models for data base-called using Guppy, as well as working on improving the current models by including additional features. If you are using Guppy base-called fast5/fastq, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate.
+- Current trained SVM models will only be accurate if the data has been base-called with the same. We are working on training new models for data base-called using Guppy, as well as working on improving the current models by including additional features. 
+- If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate.
+- You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9))
 
 ## What's included
 - Scripts to extract features from FAST5 files
@@ -57,7 +65,16 @@ The following softwares and modules were used by EpiNano
 ## Download the scripts
 git clone git@github.com:enovoa/EpiNano.git 
 
-## Running the software
+Of note, this will download the latest version: EpiNano version 1.2
+You can choose to download EpiNano 1.1 [HERE](https://github.com/enovoa/EpiNano/releases)
+You can choose to download EpiNano 1.0 [HERE](https://github.com/enovoa/EpiNano/releases)
+
+## Running the EpiNano 1.2
+
+TO BE UPDATED 
+
+## Running the EpiNano 1.1
+
 * Build feature table (on which predictions will be made)
 
     For step-by-step instructions to build a feature table, please take a look at the [Wiki](https://github.com/enovoa/EpiNano/wiki)
@@ -129,7 +146,7 @@ With the example svm input files from example/svm_input folder:
 ## Citing this work:
 If you find this work useful, please cite:
 
-Huanle Liu, Oguzhan Begik, Morghan Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences . Nature Communications 2019, 10:4079.
+Huanle Liu*, Oguzhan Begik*, MorghanC  Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences . Nature Communications 2019, 10:4079.
 
 Link to paper: https://www.nature.com/articles/s41467-019-11713-9
 
