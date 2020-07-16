@@ -18,8 +18,6 @@ NOTE: WE ARE CURRENTLY UPGRADING THE REPO FROM EPINANO 1.1 for 1.2 -- AT THE MOM
 
 - **EpiNano 1.0** -- original code used in [Liu, Begik et al., Nature Comm 2019](https://www.nature.com/articles/s41467-019-11713-9), which can be downloaded [here](https://github.com/enovoa/EpiNano/releases).
 
-Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
-
 
 ## About EpiNano
 EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.  
@@ -48,6 +46,10 @@ The software has been trained and tested upon a set of 'unmodified' and 'modifie
 - Scripts to extract features from FAST5 files
 - Scripts to process mapped BAM files into kmer pileups (similar to samtools mpileup format but for 5mer sequences)
 - Support Vector Machine training (SVM) & testing to predict m6A RNA modifications
+
+## Documentation
+
+Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
 
 ## Getting Started and pre-requisites
 The following softwares and modules were used by EpiNano
