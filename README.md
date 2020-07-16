@@ -16,7 +16,7 @@ NOTE: WE ARE CURRENTLY UPGRADING THE REPO FROM EPINANO 1.1 for 1.2 -- AT THE MOM
 
 -- The major differences with EpiNano 1.0 are (i) it is much faster (ii) Uses python3 instead of python2 (iii) Does not extract current intensity in the feature table, as this feature was not used to train the final models.
 
-- **EpiNano 1.0** -- original code used in [Liu, Begik et al., Nature Comm 2019](https://www.nature.com/articles/s41467-019-11713-9), which can be downloaded [here](https://github.com/enovoa/EpiNano/releases).
+- **EpiNano 1.0** -- original code used in [Liu, Begik et al., Nature Comm 2019](https://www.nature.com/articles/s41467-019-11713-9), which is available [here](https://github.com/enovoa/EpiNano/releases).
 
 
 ## About EpiNano
