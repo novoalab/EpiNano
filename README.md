@@ -11,7 +11,7 @@ NOTE: WE ARE CURRENTLY UPGRADING THE REPO FROM EPINANO 1.1 for 1.2 -- AT THE MOM
 
 - **EpiNano 1.1** - a new and slim version, written in python3 has been  released, which is available [here](https://github.com/enovoa/EpiNano/releases).
 
--- Includes pre-trained m6A models base-called with *Albacore* version 2.1.7. 
+** Includes pre-trained m6A models base-called with *Albacore* version 2.1.7. 
 
 -- This version is the one currently implemented in [MasterOfPores](https://www.frontiersin.org/articles/10.3389/fgene.2020.00211), a workflow to analyze direct RNA sequencing data. 
 
