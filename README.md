@@ -68,10 +68,13 @@ The following softwares and modules were used by EpiNano
 | sklearn  | 0.20.2     |
 
 ## Download the scripts
+```
 git clone git@github.com:enovoa/EpiNano.git 
-
+```
 Of note, this will download the latest version: EpiNano version 1.2
+
 You can choose to download EpiNano 1.1 [HERE](https://github.com/enovoa/EpiNano/releases)
+
 You can choose to download EpiNano 1.0 [HERE](https://github.com/enovoa/EpiNano/releases)
 
 ## Running the EpiNano 1.2
