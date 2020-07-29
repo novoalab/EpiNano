@@ -8,6 +8,12 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 * NOTE: WE ARE CURRENTLY UPGRADING THE REPO FROM EPINANO 1.1 for 1.2 -- AT THE MOMENT YOU WILL DOWNLOAD 1.1
 
+* This version of EpiNano allows to make predictions using two different strategies: *EpiNano-Error* and *EpiNano-SVM*. 
+
+* *EpiNano-Error* can only be run in pairwise mode (e.g. WT and KO or KD). It combines the different types of base-calling errors that appear in a given dataset (mismatches, deletions, insertions) as well as alterations in per-base-calling qualities. RNA modification predictions are based on the differences in error patterns observed in two matched samples. This strategy can be used with FASTQ data base-called with any given base-calling algorithm version
+
+* *EpiNano-SVM* can be run in standalone mode (i.e. no need of wild-type) using either pre-trained models for a given RNA modification. However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. To use pre-trained models, your data should be base-called with the SAME base-calling algorithm and version (e.g. Guppy 3.1.5).
+
 **EpiNano 1.1** - a new and slim version, written in python3 has been  released, which is available [here](https://github.com/enovoa/EpiNano/releases).
 
 *  Includes pre-trained m6A models base-called with *Albacore* version 2.1.7. 
@@ -34,7 +40,22 @@ Features extracted include:
 
 The software has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. Its use to detect other RNA modifications has not yet been tested.
 
-### Considerations when using this software
+## Considerations when using EpiNano 1.2
+
+EpiNano version 1.2 can predict RNA-modified sites in two different ways:
+
+1. **EpiNano-Error** 
+* Base-calling algorithm independent. 
+* Must be run in parwise mode. 
+* Applicable to any given RNA modification that causes an effect in the base-calling. 
+
+2. **EpiNano-SVM** 
+* Base-calling algorithm dependent. 
+* It can be used in individual runs (use EpiNano 1.0 or 1.1 for this), but running it in pairwise mode is highly recommended (EpiNano 1.2 only allows pairwise mode, due to the high false postiive rates seen when using in single runs). 
+* It is only applicable to datasets for which a pre-trained model is available
+* It can be used to train your own models
+
+### Considerations when using EpiNano 1.1 or EpiNano 1.0
 
 - The algorithm predicts m6A sites. It does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level.
 - The performance of the algorithm is dependent on the stoichiometry of the site (i.e. sites with very low stoichiometry will be often missed by the algorithm)
