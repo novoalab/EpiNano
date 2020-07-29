@@ -24,8 +24,20 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 * The major differences with EpiNano 1.0 are (i) it is much faster (ii) Uses python3 instead of python2 (iii) Does not extract current intensity in the feature table, as this feature was not used to train the final models.
 
+* Works both with Guppy and Albacore, but the SVM predictions will be only accurate if using Albacore 2.1.7 datasets.
+
+* If using Guppy base-called data,  EpiNano can still be used as a toolkit to extract per 5-mer base-calling 'errors' (mismatch, insertion, deletion, quality), which are a proxy of RNA modifications present in a given dataset. We recommend running EpiNano in paired mode, i.e. computing the features in two datasets (WT-KO) to then accurately predict the RNA modified sites (i.e. those showing largest differences in their base-calling 'error' features). 
+
 
 **EpiNano 1.0** - original code used in [Liu, Begik et al., Nature Comm 2019](https://www.nature.com/articles/s41467-019-11713-9), which is available [here](https://github.com/enovoa/EpiNano/releases).
+
+* Includes pre-trained m6A models base-called with *Albacore* version 2.1.7. 
+
+* It extracts both base-calling 'errors' (mismatch, insertion, seletion, per-base quality) as well as current intensity values
+
+* Current intensity information is extracted from the base-called Albacore FAST5 files.
+
+* Does not work with Guppy base-called datasets.
 
 
 ## About EpiNano
