@@ -16,7 +16,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 * This version now include modules for visualization of your RNA modification predictions
 
-<img src="image/EpiNano_modes.png" width='1000' height='1000'>
+<img src="image/EpiNano_modes.png" width='1000' height='500'>
 
 
 **EpiNano 1.1** - a new and slim version, written in python3 has been  released, which is available [here](https://github.com/enovoa/EpiNano/releases).
