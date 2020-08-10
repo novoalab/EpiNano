@@ -1,4 +1,4 @@
-<img src="image/Epinano_logo_v1.jpg" width='300' height='110'>
+<img src="image/Epinano_logo_v1.jpg" width='300' height='120'>
 
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads  
 
@@ -15,6 +15,9 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 * *EpiNano-SVM* can be run in standalone mode (i.e. no need of wild-type) using either pre-trained models for a given RNA modification. However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. To use pre-trained models, your data should be base-called with the SAME base-calling algorithm and version (e.g. Guppy 3.1.5).
 
 * This version now include modules for visualization of your RNA modification predictions
+
+<img src="image/EpiNano_modes.png" width='800' height='550'>
+
 
 **EpiNano 1.1** - a new and slim version, written in python3 has been  released, which is available [here](https://github.com/enovoa/EpiNano/releases).
 
