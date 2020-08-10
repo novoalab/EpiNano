@@ -10,13 +10,13 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 * This version of EpiNano allows to make predictions using two different strategies: *EpiNano-Error* and *EpiNano-SVM*. 
 
-* *EpiNano-Error* can only be run in pairwise mode (e.g. WT and KO or KD). It combines the different types of base-calling errors that appear in a given dataset (mismatches, deletions, insertions) as well as alterations in per-base-calling qualities. RNA modification predictions are based on the differences in error patterns observed in two matched samples. This strategy can be used with FASTQ data base-called with any given base-calling algorithm version
-
-* *EpiNano-SVM* can be run in standalone mode (i.e. no need of wild-type) using either pre-trained models for a given RNA modification. However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. To use pre-trained models, your data should be base-called with the SAME base-calling algorithm and version (e.g. Guppy 3.1.5).
-
-* This version now include modules for visualization of your RNA modification predictions
+* This version now includes modules for visualization of your RNA modification predictions
 
 <img src="image/EpiNano_modes.png" width='800' height='550'>
+
+*EpiNano-Error* can only be run in pairwise mode (e.g. WT and KO or KD). It combines the different types of base-calling errors that appear in a given dataset (mismatches, deletions, insertions) as well as alterations in per-base-calling qualities. RNA modification predictions are based on the differences in error patterns observed in two matched samples. This strategy can be used with FASTQ data base-called with any given base-calling algorithm version
+
+*EpiNano-SVM* can be run in standalone mode (i.e. no need of wild-type) using either pre-trained models for a given RNA modification. However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. To use pre-trained models, your data should be base-called with the SAME base-calling algorithm and version (e.g. Guppy 3.1.5).
 
 
 **EpiNano 1.1** - a new and slim version, written in python3 has been  released, which is available [here](https://github.com/enovoa/EpiNano/releases).
