@@ -22,11 +22,11 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 **EpiNano 1.1** - a new and slim version, written in python3 has been  released, which is available [here](https://github.com/enovoa/EpiNano/releases).
 
-*  Includes pre-trained m6A models base-called with *Albacore* version 2.1.7. 
-
 * This version is the one currently implemented in [MasterOfPores](https://www.frontiersin.org/articles/10.3389/fgene.2020.00211), a workflow to analyze direct RNA sequencing data. 
 
 * The major differences with EpiNano 1.0 are (i) it is much faster (ii) Uses python3 instead of python2 (iii) Does not extract current intensity in the feature table, as this feature was not used to train the final models.
+
+*  Includes pre-trained m6A models base-called with *Albacore* version 2.1.7. 
 
 * Works both with Guppy and Albacore, but the SVM predictions will be only accurate if using Albacore 2.1.7 datasets.
 
