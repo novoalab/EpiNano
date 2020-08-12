@@ -17,8 +17,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 *EpiNano-Error* can only be run in pairwise mode (e.g. WT and KO or KD). It combines the different types of base-calling errors that appear in a given dataset (mismatches, deletions, insertions) as well as alterations in per-base-calling qualities. RNA modification predictions are based on the differences in error patterns observed in two matched samples. This strategy can be used with FASTQ data base-called with any given base-calling algorithm version
 
-*EpiNano-SVM* can be run in standalone mode (i.e. no need of wild-type) using either pre-trained models for a given RNA modification. However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. To use pre-trained models, your data should be base-called with the SAME base-calling algorithm and version (e.g. Guppy 3.1.5).
-
+*EpiNano-SVM* can be run using either pre-trained models for a given RNA modification, or by building your own models. The first versions of Epinano (1.1. and 1.0) allowed the user to run the code in standalone mode (i.e. only 1 condition). However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. Therefore, EpiNano-SVM (version 1.2) now requires a matched control to be provided in the command line. 
 
 
 **EpiNano 1.1** - a new and slim version, written in python3 has been  released, which is available [here](https://github.com/enovoa/EpiNano/releases).
@@ -73,6 +72,7 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 * It can be used in individual runs (use EpiNano 1.0 or 1.1 for this), but running it in pairwise mode is highly recommended (EpiNano 1.2 only allows pairwise mode, due to the high false postiive rates seen when using in single runs). 
 * It is only applicable to datasets for which a pre-trained model is available
 * It can be used to train your own models
+* Please note that if you use pre-trained m6A models, your data should be base-called with the SAME base-calling algorithm and version (i.e. Guppy 3.1.5).
 
 ### Considerations when using EpiNano 1.1 or EpiNano 1.0
 
@@ -82,6 +82,8 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 - Current trained SVM models will only be accurate if the data has been base-called with the same. We are working on training new models for data base-called using Guppy, as well as working on improving the current models by including additional features. 
 - If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate.
 - You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9))
+- Please note that if you use pre-trained m6A models, your data should be base-called with the SAME base-calling algorithm and version (i.e. Albacore 2.1.7).
+
 
 
 ## Pre-requisites
