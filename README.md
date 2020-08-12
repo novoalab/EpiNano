@@ -83,16 +83,8 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 - If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate.
 - You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9))
 
-## What's included
-- Scripts to extract features from FAST5 files
-- Scripts to process mapped BAM files into kmer pileups (similar to samtools mpileup format but for 5mer sequences)
-- Support Vector Machine training (SVM) & testing to predict m6A RNA modifications
 
-## Documentation
-
-Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage.
-
-## Getting Started and pre-requisites
+## Pre-requisites
 The following softwares and modules were used by EpiNano
 
 | Software  | Version |
@@ -110,7 +102,7 @@ The following softwares and modules were used by EpiNano
 | nanopolish | 0.12.4 |
 
 
-## Download the scripts
+## Download the code
 ```
 git clone git@github.com:enovoa/EpiNano.git 
 ```
@@ -120,11 +112,16 @@ You can choose to download EpiNano 1.1 [HERE](https://github.com/enovoa/EpiNano/
 
 You can choose to download EpiNano 1.0 [HERE](https://github.com/enovoa/EpiNano/releases)
 
-## Running the EpiNano 1.2
+### What's included in the releases
+- Scripts to extract features from FAST5 files
+- Scripts to process mapped BAM files into kmer pileups (similar to samtools mpileup format but for 5mer sequences)
+- Support Vector Machine training (SVM) & testing to predict m6A RNA modifications
+
+## Running the code: EpiNano 1.2
 
 TO BE UPDATED 
 
-## Running the EpiNano 1.1
+## Running the code: EpiNano 1.1
 
 * Build feature table (on which predictions will be made)
 
@@ -193,6 +190,11 @@ With the example svm input files from example/svm_input folder:
 	#use previously trained model and epinano-scripts-generated site-wise feature table to make predictions
 	python3 SVM.py -a -M M6A.mis3.del3.q3.poly.dump -p test.csv -cl 7,12,22 -mc 28 -o pretrained.prediction
 ```
+
+
+## Further Documentation
+
+Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage on EpiNano 1.1
 
 ## Citing this work:
 If you find this work useful, please cite:
