@@ -58,32 +58,32 @@ Features extracted include:
 
 The software has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. Its use to detect other RNA modifications has not yet been tested.
 
-## Considerations when using EpiNano 1.2
+## General Considerations when using EpiNano
 
+* EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown). Coupling a "control" (KD/KO) is not required in earlier Epinano versions, but is highly recommended.
+* EpiNano does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level.
+* The performance of the algorithm is dependent on the stoichiometry of the site (i.e. sites with very low stoichiometry will be often missed by the algorithm)
+
+
+### Considerations when using EpiNano 1.2.
 EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 
 1. **EpiNano-Error** 
 * Base-calling algorithm independent. 
-* Must be run in parwise mode. 
-* Applicable to any given RNA modification that causes an effect in the base-calling. 
+* Applicable to any given RNA modification that causes an effect in the base-calling features. 
 
 2. **EpiNano-SVM** 
 * Base-calling algorithm dependent. 
-* It can be used in individual runs (use EpiNano 1.0 or 1.1 for this), but running it in pairwise mode is highly recommended (EpiNano 1.2 only allows pairwise mode, due to the high false postiive rates seen when using in single runs). 
-* It is only applicable to datasets for which a pre-trained model is available
+* Can use both base-calling error features as well as current intensity features
 * It can be used to train your own models
+* It can be applied to datasets for which a pre-trained model is available
 * Please note that if you use pre-trained m6A models, your data should be base-called with the SAME base-calling algorithm and version (i.e. Guppy 3.1.5).
 
 ### Considerations when using EpiNano 1.1 or EpiNano 1.0
 
-- The algorithm predicts m6A sites. It does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level.
-- The performance of the algorithm is dependent on the stoichiometry of the site (i.e. sites with very low stoichiometry will be often missed by the algorithm)
-- EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown)
-- Current trained SVM models will only be accurate if the data has been base-called with the same. We are working on training new models for data base-called using Guppy, as well as working on improving the current models by including additional features. 
-- If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate.
-- You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9))
-- Please note that if you use pre-trained m6A models, your data should be base-called with the SAME base-calling algorithm and version (i.e. Albacore 2.1.7).
-
+* Pre-trained models to predict m6A sites are included in the release. Please note that if you use pre-trained m6A models, your data should be base-called with the SAME base-calling algorithm and version (i.e. Albacore 2.1.7).
+*  If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate.
+* You can use EpiNano 1.1 or 1.0 as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9))
 
 
 ## Pre-requisites
