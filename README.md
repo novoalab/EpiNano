@@ -45,9 +45,12 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 
 ## About EpiNano
-EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. The current algorithm has been trained and tested on detecting m6A RNA modifications.  
+EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads. 
+
+EpiNano-SVM has been trained and tested on detecting m6A RNA modifications. EpiNano-Error is applicable to any given type of RNA modification that affects the base-called features.
 
 EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification o r not.
+
 Features extracted include:
 - k-mer current intensity
 - read quality
@@ -104,11 +107,13 @@ The following softwares and modules were used by EpiNano
 | nanopolish | 0.12.4 |
 
 
-## Download the code
+## Getting the code
+
+To download the latest version EpiNano version 1.2, you just need to clone the repo:
+
 ```
 git clone git@github.com:enovoa/EpiNano.git 
 ```
-Of note, this will download the latest version: EpiNano version 1.2
 
 You can choose to download EpiNano 1.1 [HERE](https://github.com/enovoa/EpiNano/releases)
 
