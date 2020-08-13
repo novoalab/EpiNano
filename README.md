@@ -118,7 +118,7 @@ You can choose to download EpiNano 1.0 [HERE](https://github.com/enovoa/EpiNano/
 ## Running the code: EpiNano 1.2
 
 ### STEP 1. Extract base-calling error features
-*Epinano_Variants.py*, outputs two feature tables: 
+**Epinano_Variants**, outputs two feature tables: 
 (i) sample.per.site.var.csv, which contains base-calling ‘error’ information for each reference position, and 
 (ii) sample.per_site.5mer.csv, which contains the same base-called features organized in 5-mer windows.
 
@@ -162,7 +162,7 @@ Note 2: the users should split the computations for each  reference sequences if
 
 ### STEP 2. Extraction of current intensity values (optional - only needed if using EpiNano-SVM)
 
-**Epinano_Current.py** uses [Nanopolish]((https://nanopolish.readthedocs.io/en/latest/quickstart_eventalign.htmlhttps://) to extract current signal level information and then collapses it on a single position basis. 
+**Epinano_Current** uses [Nanopolish](https://nanopolish.readthedocs.io/en/latest/quickstart_eventalign.htmlhttps://) to extract current signal level information and then collapses it on a single position basis. 
 
 
 Note 1: Please add the /path/to/nanopolish to environmental **$PATH** variable, otherwise the script will fail.
@@ -202,7 +202,7 @@ ii) **EpiNano-SVM** uses an SVM algorithm to train models and predict modificati
 
 #### a) Predicting RNA modifications using EpiNano-Error:
 
- *Epinano_DiffErr.R* uses  ordinary least square (OLS) to fit a linear regression model between paired unmodified and modified samples, and then detects outliers, i.e., observations with large residuals, which tend to be underlined by base modifications. 
+ **Epinano_DiffErr.R** uses  ordinary least square (OLS) to fit a linear regression model between paired unmodified and modified samples, and then detects outliers, i.e., observations with large residuals, which tend to be underlined by base modifications. 
 
 Note 1: different types of RNA base modification show distinct biases toward the spefic types of errors. Thus, offered *Epinano_sumErr.py* to combine mismatches, indels and even quality scores. Just like the independent types of errors, the combined error is internally performed when running *Epinano_ErrDiff.R*. 
 
@@ -237,7 +237,7 @@ Options:
 
 #### b) Predicting RNA modifications using EpiNano-SVM:
 
-EpiNano v 1.2 includes pre-trained models (found in *$EPINANO_HOME/models/*), which have been trained using synthetic molecules (curlcakes) with and without introduced m6A modiifcations. However, the user can train their own models using *EpiNano_Predict.py*, employing  the features generated with *EpiNano_Variants.py* and/or *EpiNano_Current.py* as shown in the previous steps.
+EpiNano v 1.2 includes pre-trained models (found in *$EPINANO_HOME/models/*), which have been trained using synthetic molecules (curlcakes) with and without introduced m6A modiifcations. However, the user can train their own models using **EpiNano_Predict**, employing  the features generated with *EpiNano_Variants.py* and/or *EpiNano_Current.py* as shown in the previous steps.
 
 ```
 python $EPINANO_HOME/Epinano_Predict.py -h
