@@ -28,7 +28,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 *  Includes pre-trained m6A models base-called with *Albacore* version 2.1.7. 
 
-* Works both with Guppy and Albacore, but the SVM predictions will be only accurate if using Albacore 2.1.7 datasets.
+* Works both with Guppy and Albacore, but the SVM predictions will be only accurate if your data has been base-called using Albacore 2.1.7.
 
 * If using Guppy base-called data,  EpiNano can still be used as a toolkit to extract per 5-mer base-calling 'errors' (mismatch, insertion, deletion, quality), which are a proxy of RNA modifications present in a given dataset. We recommend running EpiNano in paired mode, i.e. computing the features in two datasets (WT-KO) to then accurately predict the RNA modified sites (i.e. those showing largest differences in their base-calling 'error' features). 
 
@@ -63,7 +63,7 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 * Applicable to any given RNA modification that causes an effect in the base-calling features. 
 
 2. **EpiNano-SVM** 
-* Base-calling algorithm dependent. 
+* Base-calling algorithm dependent (data must be base-called with Guppy 3.1.5) 
 * Can use both base-calling error features as well as current intensity features
 * It can be used to train your own models as well as be applied to datasets for which a pre-trained model is available (m6A)
 * The available m6A SVM models has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. 
