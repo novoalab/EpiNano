@@ -2,6 +2,19 @@
 
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads  
 
+## Table of Contents
+- [Upgrades](#Upgrades)
+- [About EpiNano](#About EpiNano)
+	- [Modes of Running EpiNano](#Modes of Running EpiNano)
+	- [Considerations when using EpiNano](#Considerations when using EpiNano)
+	- [Pre-requisites](#Pre-requisites)
+- [Getting the code](#Getting the code)
+- [Running EpiNano 1.2](#Running EpiNano 1.2)
+- [Running EpiNano 1.1](#Running EpiNano 1.1)
+- [Citing this work](#Citing this work)
+- [License](#License)
+- [Contact](#Contact)
+
 ## Upgrades
 
 **EpiNano 1.2** - latest version, includes pretrained m6A models base-called with *Guppy* v 3.1.5
@@ -56,6 +69,9 @@ EpiNano will extract a set of 'features' from direct RNA sequencing reads, which
 - per-base deletion frequency
 - per-base insertion frequency
 
+### Modes of Running EpiNano
+
+
 EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 
 1. **EpiNano-Error** 
@@ -69,7 +85,7 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 * The available m6A SVM models has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. 
 
 
-## Considerations when using EpiNano
+### Considerations when using EpiNano
 
 * EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown). Coupling a "control" (KD/KO) is not required in earlier Epinano versions, but is highly recommended.
 * You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9)). In the latest version of EpiNano (1.2) we provide scripts to predict RNA modifications using both modes (EpiNano-Error and EpiNano-SVM). 
@@ -79,8 +95,7 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 *  If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate.
 
 
-
-## Pre-requisites
+### Pre-requisites
 The following softwares and modules were used by EpiNano
 
 | Software  | Version |
@@ -110,12 +125,8 @@ You can choose to download EpiNano 1.1 [HERE](https://github.com/enovoa/EpiNano/
 
 You can choose to download EpiNano 1.0 [HERE](https://github.com/enovoa/EpiNano/releases)
 
-### What's included in the releases
-- Scripts to extract features from FAST5 files
-- Scripts to process mapped BAM files into kmer pileups (similar to samtools mpileup format but for 5mer sequences)
-- Support Vector Machine training (SVM) & testing to predict m6A RNA modifications
 
-## Running the code: EpiNano 1.2
+## Running EpiNano 1.2
 
 ### STEP 1. Extract base-calling error features
 **Epinano_Variants**, outputs two feature tables: 
@@ -191,7 +202,6 @@ Example:
 ```
 sh $EPINANO_HOME/Epinano_Current.sh -b sample.reads.bam -r sample.reads.fastq -f reference.fasta  -t 6  -m t -d fast5_folder/ 
 ```
-
 
 ### STEP 3. Predict RNA modifications 
 EpiNano offers two alternative methods to predict RNA modifications: 
@@ -375,21 +385,21 @@ With the example svm input files from example/svm_input folder:
 ```
 
 
-## Further Documentation
+### Further Documentation on EpiNano 1.1
 
 Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage on EpiNano 1.1
 
-## Citing this work:
+## Citing this work
 If you find this work useful, please cite:
 
 Huanle Liu*, Oguzhan Begik*, MorghanC  Lucas, Jose Miguel Ramirez, Christopher E. Mason, David Wiener, Schraga Schwartz, John S. Mattick, Martin A. Smith and Eva Maria Novoa. Accurate detection of m6A RNA modifications in native RNA sequences . Nature Communications 2019, 10:4079.
 
 Link to paper: https://www.nature.com/articles/s41467-019-11713-9
 
-### License
+## License
 See LICENSE.md for details
 
-### Contact
+## Contact
 Please read the [Wiki](https://github.com/enovoa/EpiNano/wiki) before opening an issue. Also, please go over other [issues](https://github.com/enovoa/EpiNano/issues) that may have been previously resolved (check out "closed" issues).
 If you still have doubts/concerns/suggestions, please open a new Issue.
 Thanks!
