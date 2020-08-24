@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<snippets>
+<code label="Remove all sites with more than 5% of no-call (./.)"><![CDATA[
+var n=0.0;
+for(var i=0;i< variant.getNSamples();i++ )
+	{
+	if(variant.getGenotype(i).isNoCall()) n++;
+	}
+variant.getNSamples()>0 && n/ variant.getNSamples() < 0.05
+]]></code>
+
+<code label="One sample has a genotype different from the others"><![CDATA[
+function accept(ctx)
+    {
+    var x,y,g1,g2,count_same=0;
+    var sampleList=header.getSampleNamesInOrder();
+    /** loop over one sample */
+    for(x=0;x < sampleList.size();++x)
+        {
+        g1=ctx.getGenotype( sampleList.get(x) );
+        /** ignore non-called */
+        if(! g1.isCalled() ) continue;
+        count_same=0;
+        /** loop over the other samples */
+        for(y=0;y< sampleList.size() && count_same==0 ;++y)
+            {
+            if(x==y) continue;/* same sample ?*/
+            g2=ctx.getGenotype( sampleList.get(y) );
+            /** ignore non-called */
+            if(! g2.isCalled() ) continue;
+            /** is g1==g2 ? */
+            if( g1.sameGenotype( g2 ) )
+                {
+                count_same++;
+                }
+            }
+        /* found no other same genotype */
+        if(count_same==0) return true;
+        }
+    return false;
+    }
+accept(variant);
+]]></code>
+
+<code label="Selecting Variants based on annotations"><![CDATA[
+function accept(v) {
+var ann =   v.getAttributeAsList("ANN");
+for(var i=0;i< ann.size();++i)
+    {
+    var tokens = ann.get(i).split(/\|/);
+    if( tokens.length>2 && tokens[2] == "MODIFIER" ) return true;
+    }
+return false;
+}
+accept(variant);
+]]></code>
+
+<code is-function="true" label="Select Variant using VEP/ANN parser"><![CDATA[
+tools.hasSequenceOntologyLabel(variant,"missense_variant") ||
+ tools.hasSequenceOntologyLabel(variant,"synonymous_variant");
+]]></code>
+
+<code label="Het variants for Sample"><![CDATA[
+variant.getGenotype("SAMPLENAME").isHet()
+]]></code>
+
+
+<code is-function="true" label="Get Fraction of NoCall"><![CDATA[
+function fractionNoCall(ctx)
+	{
+	var numNoCall=0.0;
+	for(var i=0;i< ctx.getNSamples();++i)
+		{
+		if( ctx.getGenotype(i).isNoCall() ) numNoCall++;
+		}
+	return numNoCall/ctx.getNSamples();
+	}
+/* fractionNoCall(variant) < 0.1 */
+]]></code>
+
+<code is-function="true" label="Get Fraction of NoCall per Population"><![CDATA[
+function fractionNoCallPop(ctx,population)
+	{
+	var numSamples=0.0;
+	var numNoCall=0.0;
+	for(var i in population)
+		{
+		var genotype = ctx.getGenotype(population[i]);
+		if( genotype==null ) continue;
+		numSamples++;
+		if( genotype.isNoCall() ) numNoCall++;
+		}
+	return numNoCall/numSamples;
+	}
+/** 
+Example:
+
+fractionNoCallPop(variant,["CASE1","CASE2","CASE3"]) < 0.1 && fractionNoCallPop(variant,["CTRL1","CTRL2"]) < 0.2 
+
+*/
+]]></code>
+
+<code scope="bioalcidae" label="Count Variant/Chromosome"><![CDATA[
+var chrom2count={};
+var n=0;
+while(iter.hasNext()) {
+ var item= iter.next();
+ var contig = item.getContig();
+ if( ! ( contig in chrom2count ) ) {
+   chrom2count[contig]=1;
+  } else  {
+   chrom2count[contig]++;
+  }
+}
+
+for(var contig in  chrom2count)
+{
+out.println(contig+"\t"+chrom2count[contig]);
+}
+]]></code>
+
+<code scope="bioalcidae" label="Convert to BED">while(iter.hasNext()) {
+ var item= iter.next();
+ out.println(item.getContig()+"\t"+(item.getStart()-1)+"\t"+item.getEnd());
+}</code>
+
+<code scope="bioalcidae" label="Table: chrom/pos/ref/alt/an/ac/af"><![CDATA[
+/* print header */
+out.println("#CHROM\tPOS\tREF\tALT\tAN\tAC\tAF");
+
+/* loop over the variants */
+while(iter.hasNext()) {
+ var ctx= iter.next();
+ var alts = ctx.getAlternateAlleles();
+ var an =  ( ctx.hasAttribute("AN") ? ctx.getAttribute("AN") : "." );
+ var acs =  ctx.getAttributeAsList("AC");
+ var afs =  ctx.getAttributeAsList("AF");
+ 
+ /* loop over ALT alleles  */
+ for(var i=0;i< alts.size();++i)
+     {
+     out.print(ctx.getContig());
+     out.print("\t");
+     out.print(ctx.getStart());
+     out.print("\t");
+     out.print(ctx.getReference().getDisplayString());
+     out.print("\t");
+     out.print(alts.get(i).getDisplayString());
+     out.print("\t");
+     out.print( an );
+     out.print("\t");
+     out.print( i< acs.size()?acs.get(i):".");
+     out.print("\t");
+     out.print( i< afs.size()?afs.get(i):".");
+     out.println();
+     }
+}
+]]></code>
+
+<code scope="bioalcidae" label="Create a new VCF: insert distance with previous variant"><![CDATA[
+
+/** register java classes */
+var VariantContextWriterBuilder = Java.type("htsjdk.variant.variantcontext.writer.VariantContextWriterBuilder");
+var VariantContextBuilder = Java.type("htsjdk.variant.variantcontext.VariantContextBuilder");
+var VCFInfoHeaderLine = Java.type("htsjdk.variant.vcf.VCFInfoHeaderLine");
+var VCFHeaderLineType = Java.type("htsjdk.variant.vcf.VCFHeaderLineType");
+var VCFHeader = Java.type("htsjdk.variant.vcf.VCFHeader");
+
+/* factory methods to open a VCF writer */
+var vcwb = new VariantContextWriterBuilder();
+vcwb.setOptions(VariantContextWriterBuilder.NO_OPTIONS);
+vcwb.setOutputVCFStream(out);
+
+
+/** open a new vcf writer */
+var vcfwriter=  vcwb.build();
+/* make a copy of the source header */
+var destheader = new VCFHeader(header);
+var infoheaderdist = new VCFInfoHeaderLine("DISTANCE_PREV",1, VCFHeaderLineType.Integer,  "Distance with previous variant. Can be negative if the variants overlap.");
+destheader.addMetaDataLine(infoheaderdist);
+
+/* write the header */
+vcfwriter.writeHeader(destheader);
+
+/* previous variant */
+var prev=null;
+
+/** compute the distance with previous variant */
+function distance(ctx)
+	{
+	var d=null;
+	if(prev!=null && prev.getContig().equals(ctx.getContig()))
+		{
+		d= new java.lang.Integer(ctx.getStart()-prev.getEnd());
+		}
+	/* update previous variant */
+	prev=ctx;
+	return d;
+	}
+
+
+while(iter.hasNext())
+	{
+	var ctx = iter.next();
+	
+	var dist  = distance(ctx);
+	if( dist == null ) 
+		{
+		vcfwriter.add(ctx);
+		}
+	else
+		{
+		var vcb = new VariantContextBuilder(ctx);
+		vcb.attribute(infoheaderdist.getID(),dist);
+		vcfwriter.add(vcb.make());
+		}
+	}
+
+]]></code>
+
+</snippets>

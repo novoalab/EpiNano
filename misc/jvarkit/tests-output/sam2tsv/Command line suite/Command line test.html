@@ -1,0 +1,624 @@
+<html>
+<head>
+<title>TestNG:  Command line test</title>
+<link href="../testng.css" rel="stylesheet" type="text/css" />
+<link href="../my-testng.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.log { display: none;} 
+.stack-trace { display: none;} 
+</style>
+<script type="text/javascript">
+<!--
+function flip(e) {
+  current = e.style.display;
+  if (current == 'block') {
+    e.style.display = 'none';
+    return 0;
+  }
+  else {
+    e.style.display = 'block';
+    return 1;
+  }
+}
+
+function toggleBox(szDivId, elem, msg1, msg2)
+{
+  var res = -1;  if (document.getElementById) {
+    res = flip(document.getElementById(szDivId));
+  }
+  else if (document.all) {
+    // this is the way old msie versions work
+    res = flip(document.all[szDivId]);
+  }
+  if(elem) {
+    if(res == 0) elem.innerHTML = msg1; else elem.innerHTML = msg2;
+  }
+
+}
+
+function toggleAllBoxes() {
+  if (document.getElementsByTagName) {
+    d = document.getElementsByTagName('div');
+    for (i = 0; i < d.length; i++) {
+      if (d[i].className == 'log') {
+        flip(d[i]);
+      }
+    }
+  }
+}
+
+// -->
+</script>
+
+</head>
+<body>
+<h2 align='center'>Command line test</h2><table border='1' align="center">
+<tr>
+<td>Tests passed/Failed/Skipped:</td><td>93/0/0</td>
+</tr><tr>
+<td>Started on:</td><td>Wed Nov 13 11:23:38 CET 2019</td>
+</tr>
+<tr><td>Total time:</td><td>2 seconds (2577 ms)</td>
+</tr><tr>
+<td>Included groups:</td><td></td>
+</tr><tr>
+<td>Excluded groups:</td><td></td>
+</tr>
+</table><p/>
+<small><i>(Hover the method name to see the test class name)</i></small><p/>
+<table width='100%' border='1' class='invocation-passed'>
+<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest.test()'><b>test</b><br>Test class: com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest<br>Parameters: ./src/test/resources/rotavirus_rf.dict</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest@445b84c0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest.test()'><b>test</b><br>Test class: com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest<br>Parameters: ./src/test/resources/toy.dict</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest@445b84c0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest.test()'><b>test</b><br>Test class: com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest<br>Parameters: ./src/test/resources/human_b37.dict</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.samtools.ContigDictComparatorTest@445b84c0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.StringUtilsTest.test()'><b>test</b><br>Test class: com.github.lindenb.jvarkit.lang.StringUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.StringUtilsTest@63d4e2ba</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.bio.bed.BedLineCodecTest.test()'><b>test</b><br>Test class: com.github.lindenb.jvarkit.util.bio.bed.BedLineCodecTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.bio.bed.BedLineCodecTest@34340fab</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: AC/AN, 1, 1</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: AF, 1, 1</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: x_*, 1, 0</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: x_*;,,AC/AN;;AF,,,,, 3, 2</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: , 0, 0</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: ;,,,;, 0, 0</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: *;AC/AN, 1, 1</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.samtools.reference.TwoBitSequenceFileTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.samtools.reference.TwoBitSequenceFileTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.samtools.reference.TwoBitSequenceFileTest@17d99928</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.tools.sam2tsv.Sam2TsvTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.tools.sam2tsv.Sam2TsvTest<br>Parameters: ./src/test/resources/toy.bam, ./src/test/resources/toy.fa</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.tools.sam2tsv.Sam2TsvTest@61a52fbd</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.tools.sam2tsv.Sam2TsvTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.tools.sam2tsv.Sam2TsvTest<br>Parameters: ./src/test/resources/S1.bam, ./src/test/resources/rotavirus_rf.fa</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.tools.sam2tsv.Sam2TsvTest@61a52fbd</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest@2aafb23c</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.samtools.util.SimpleIntervalTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.samtools.util.SimpleIntervalTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.samtools.util.SimpleIntervalTest@33a10788</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest.test01()'><b>test01</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest<br>Parameters: ##fileformat=VCFv4.2
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	S1	S2
+</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest@3ab39c39</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.test02()'><b>test02</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest.test02()'><b>test02</b><br>Test class: com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest@2aafb23c</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest.test02()'><b>test02</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest<br>Parameters: ##fileformat=VCFv4.2
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	S1	S2
+</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest@3ab39c39</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest.test03()'><b>test03</b><br>Test class: com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest@2aafb23c</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest.test03()'><b>test03</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest<br>Parameters: ##fileformat=VCFv4.2
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	S1	S2
+</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest@3ab39c39</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest.test04()'><b>test04</b><br>Test class: com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest@2aafb23c</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest.test05()'><b>test05</b><br>Test class: com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.tools.vcftrios.DeNovoDetectorTest@2aafb23c</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest.test1()'><b>test1</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest@66048bfd</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest.test1()'><b>test1</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest@233c0b17</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.FilterIteratorTest.test1()'><b>test1</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.FilterIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.FilterIteratorTest@7bb11784</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest.test2()'><b>test2</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest</td>
+<td><div><pre>java.lang.IllegalStateException: Data are not ordered... got 2 after 4 comparator(curr,previous) returns: -1
+	at com.github.lindenb.jvarkit.util.iterator.MergingIterator.advance(MergingIterator.java:84)
+	at htsjdk.samtools.util.AbstractIterator.next(AbstractIterator.java:57)
+	at com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest.test2(MergingIteratorTest.java:49)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.doWork(MiniTestNG.java:76)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.main(MiniTestNG.java:86)
+... Removed 22 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1572098393", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1572098393'><pre>java.lang.IllegalStateException: Data are not ordered... got 2 after 4 comparator(curr,previous) returns: -1
+	at com.github.lindenb.jvarkit.util.iterator.MergingIterator.advance(MergingIterator.java:84)
+	at htsjdk.samtools.util.AbstractIterator.next(AbstractIterator.java:57)
+	at com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest.test2(MergingIteratorTest.java:49)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.privateRun(TestRunner.java:648)
+	at org.testng.TestRunner.run(TestRunner.java:505)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
+	at org.testng.TestNG.runSuites(TestNG.java:1049)
+	at org.testng.TestNG.run(TestNG.java:1017)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.doWork(MiniTestNG.java:76)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.main(MiniTestNG.java:86)
+</pre></div></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest@66048bfd</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest.test2()'><b>test2</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest@233c0b17</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest.test3()'><b>test3</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.MergingIteratorTest@66048bfd</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest.test3()'><b>test3</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest</td>
+<td><div><pre>java.lang.IllegalStateException: got 10 after 100
+	at com.github.lindenb.jvarkit.util.iterator.EqualRangeIterator.advance(EqualRangeIterator.java:115)
+	at com.github.lindenb.jvarkit.util.iterator.EqualRangeIterator.advance(EqualRangeIterator.java:39)
+	at htsjdk.samtools.util.AbstractIterator.hasNext(AbstractIterator.java:44)
+	at htsjdk.samtools.util.AbstractIterator.next(AbstractIterator.java:52)
+	at com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest.test3(EqualRangeIteratorTest.java:52)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.doWork(MiniTestNG.java:76)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.main(MiniTestNG.java:86)
+... Removed 22 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1610525991", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1610525991'><pre>java.lang.IllegalStateException: got 10 after 100
+	at com.github.lindenb.jvarkit.util.iterator.EqualRangeIterator.advance(EqualRangeIterator.java:115)
+	at com.github.lindenb.jvarkit.util.iterator.EqualRangeIterator.advance(EqualRangeIterator.java:39)
+	at htsjdk.samtools.util.AbstractIterator.hasNext(AbstractIterator.java:44)
+	at htsjdk.samtools.util.AbstractIterator.next(AbstractIterator.java:52)
+	at com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest.test3(EqualRangeIteratorTest.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.privateRun(TestRunner.java:648)
+	at org.testng.TestRunner.run(TestRunner.java:505)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
+	at org.testng.TestNG.runSuites(TestNG.java:1049)
+	at org.testng.TestNG.run(TestNG.java:1017)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.doWork(MiniTestNG.java:76)
+	at com.github.lindenb.jvarkit.tools.tests.MiniTestNG.main(MiniTestNG.java:86)
+</pre></div></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest@233c0b17</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.LineIteratorTest.testArray()'><b>testArray</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.LineIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.LineIteratorTest@7006c658</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/FAB23716.nanopore.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/HG02260.transloc.chr9.14.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/S1.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/S2.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/S3.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/S4.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/S5.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/toy.bam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.log.ProgressFactoryTest.testBam01()'><b>testBam01</b><br>Test class: com.github.lindenb.jvarkit.util.log.ProgressFactoryTest<br>Parameters: ./src/test/resources/toy.sam</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.log.ProgressFactoryTest@591f989e</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.DelegateCharSequenceTest.testCharSeq()'><b>testCharSeq</b><br>Test class: com.github.lindenb.jvarkit.lang.DelegateCharSequenceTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.DelegateCharSequenceTest@1ae369b7</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.AbstractCharSequenceTest.testCharSeq()'><b>testCharSeq</b><br>Test class: com.github.lindenb.jvarkit.lang.AbstractCharSequenceTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.AbstractCharSequenceTest@2b80d80f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testCharSequenceIterator()'><b>testCharSequenceIterator</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.io.IOUtilsTest.testCompressed()'><b>testCompressed</b><br>Test class: com.github.lindenb.jvarkit.io.IOUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.io.IOUtilsTest@47fd17e3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testCount()'><b>testCount</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testEQ()'><b>testEQ</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: T00000000000001, T1</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testEQ()'><b>testEQ</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: 00000000000001t, 1T</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.io.IOUtilsTest.testFileSuffix()'><b>testFileSuffix</b><br>Test class: com.github.lindenb.jvarkit.io.IOUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.io.IOUtilsTest@47fd17e3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.bio.samfilter.SamRecordFilterFactoryTest.testFilters()'><b>testFilters</b><br>Test class: com.github.lindenb.jvarkit.util.bio.samfilter.SamRecordFilterFactoryTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.bio.samfilter.SamRecordFilterFactoryTest@3aa9e816</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.bio.fasta.ContigNameConverterTest.testFromOneDictionary()'><b>testFromOneDictionary</b><br>Test class: com.github.lindenb.jvarkit.util.bio.fasta.ContigNameConverterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.bio.fasta.ContigNameConverterTest@6fffcba5</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testGE()'><b>testGE</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: ABC, bcd</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testGE()'><b>testGE</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: T001, t02</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testGE()'><b>testGE</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: 1t, 00002T</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testGE()'><b>testGE</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: 1, 00009999999999999999999999999999999999999999999999999999999999</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest.testIsAVcf()'><b>testIsAVcf</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.VCFUtilsTest@3ab39c39</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.bio.SequenceDictionaryUtilsTest.testIsGRCh37()'><b>testIsGRCh37</b><br>Test class: com.github.lindenb.jvarkit.util.bio.SequenceDictionaryUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.bio.SequenceDictionaryUtilsTest@3834d63f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.bio.SequenceDictionaryUtilsTest.testIsHuman()'><b>testIsHuman</b><br>Test class: com.github.lindenb.jvarkit.util.bio.SequenceDictionaryUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.bio.SequenceDictionaryUtilsTest@3834d63f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testLT()'><b>testLT</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: ABC, bcd</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testLT()'><b>testLT</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: T001, t02</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testLT()'><b>testLT</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: 1t, 00002T</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.SmartComparatorTest.testLT()'><b>testLT</b><br>Test class: com.github.lindenb.jvarkit.lang.SmartComparatorTest<br>Parameters: 1, 00009999999999999999999999999999999999999999999999999999999999</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.SmartComparatorTest@7cdbc5d3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.LineIteratorTest.testList()'><b>testList</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.LineIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.LineIteratorTest@7006c658</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest.testNextTarget()'><b>testNextTarget</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.EqualRangeIteratorTest@233c0b17</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.iterator.LineIteratorTest.testReader()'><b>testReader</b><br>Test class: com.github.lindenb.jvarkit.util.iterator.LineIteratorTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.iterator.LineIteratorTest@7006c658</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.io.IOUtilsTest.testRemoteInputStream()'><b>testRemoteInputStream</b><br>Test class: com.github.lindenb.jvarkit.io.IOUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.io.IOUtilsTest@47fd17e3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.io.IOUtilsTest.testRemoteReader()'><b>testRemoteReader</b><br>Test class: com.github.lindenb.jvarkit.io.IOUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.io.IOUtilsTest@47fd17e3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testSequenceList01()'><b>testSequenceList01</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testSequenceList02()'><b>testSequenceList02</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testSequenceList03()'><b>testSequenceList03</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringArray01()'><b>testStringArray01</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringArray02()'><b>testStringArray02</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringArray03()'><b>testStringArray03</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringIterator()'><b>testStringIterator</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringList01()'><b>testStringList01</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringList02()'><b>testStringList02</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringList03()'><b>testStringList03</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.lang.CharSplitterTest.testStringStream()'><b>testStringStream</b><br>Test class: com.github.lindenb.jvarkit.lang.CharSplitterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.lang.CharSplitterTest@61443d8f</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.testValid()'><b>testValid</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: AC/AN, 1, 1</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.testValid()'><b>testValid</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: AF, 1, 1</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.testValid()'><b>testValid</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: x_*, 1, 0</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.testValid()'><b>testValid</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: x_*;,,AC/AN;;AF,,,,, 3, 2</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.testValid()'><b>testValid</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: , 0, 0</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.testValid()'><b>testValid</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: ;,,,;, 0, 0</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest.testValid()'><b>testValid</b><br>Test class: com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest<br>Parameters: *;AC/AN, 1, 1</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.vcf.AFExtractorFactoryTest@34033bd0</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.util.CounterTest.testWithInt()'><b>testWithInt</b><br>Test class: com.github.lindenb.jvarkit.util.CounterTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.util.CounterTest@2eee9593</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.io.IOUtilsTest.testWrite()'><b>testWrite</b><br>Test class: com.github.lindenb.jvarkit.io.IOUtilsTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.io.IOUtilsTest@47fd17e3</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest.wholeContig()'><b>wholeContig</b><br>Test class: com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest@2fc14f68</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest.withComma()'><b>withComma</b><br>Test class: com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest@2fc14f68</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest.withDict()'><b>withDict</b><br>Test class: com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest@2fc14f68</td></tr>
+<tr>
+<td title='com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest.withoutDict()'><b>withoutDict</b><br>Test class: com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest</td>
+<td></td>
+<td>0</td>
+<td>com.github.lindenb.jvarkit.samtools.util.IntervalParserFactoryTest@2fc14f68</td></tr>
+</table><p>
+</body>
+</html>

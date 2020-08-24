@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="960" started-at="2020-01-13T13:36:01Z" finished-at="2020-01-13T13:36:02Z">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="960" started-at="2020-01-13T13:36:01Z" finished-at="2020-01-13T13:36:02Z">
+      <class name="com.github.lindenb.jvarkit.tools.bam2svg.BamToSVGTest">
+        <test-method status="PASS" signature="test01()[pri:0, instance:com.github.lindenb.jvarkit.tools.bam2svg.BamToSVGTest@4f4a7090]" name="test01" duration-ms="938" started-at="2020-01-13T13:36:01Z" finished-at="2020-01-13T13:36:02Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test01 -->
+      </class> <!-- com.github.lindenb.jvarkit.tools.bam2svg.BamToSVGTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "tools.dtd">
+<tools>
+
+<tool main-class="com.github.lindenb.jvarkit.tools.misc.VcfFilterSequenceOntology">
+	<label>Filter a VCF file annotated with SNPEff or VEP with terms from Sequence-Ontology</label>
+	<wiki>&base_wiki;VcfFilterSequenceOntology</wiki>
+	<command>&gzcat_input; | java -cp  <classpath/> <main-class/> 
+#for  s in $accessions 
+ -A '$s'
+#end for
+$inverse $noreason -o ${output}.vcf.gz  &amp;&amp; mv  ${output}.vcf.gz ${output} </command>
+	<inputs>
+		&input_vcf;
+		<repeat name="accessions" title="accessions">
+			 <param name="acn" type="text" label="SO Accession Number">
+			 	<validator type="regex" message="must match with SO:(number)">SO\:[0-9]+</validator>
+			 </param>
+		</repeat>
+		 <param name="inverse" type="boolean" checked="false" label="inverse selection"  truevalue="-v" falsevalue=""/>
+		 <param name="noreason" type="boolean" checked="false" label="disable reasoning"  truevalue="-d" falsevalue=""/>
+	</inputs>
+	<outputs>
+		&output_vcf;
+	</outputs>
+	<description>
+<h3>Examples</h3>
+
+	</description>	
+</tool>
+
+
+<tool main-class="com.github.lindenb.jvarkit.tools.vcffilterjs.VCFFilterJS">
+	<label>Filters a VCF with Javascript</label>
+	<wiki>&base_wiki;VCFFilterJS</wiki>
+	<command>&gzcat_input; | java -cp  <classpath/> <main-class/> -e '${expression}' -o ${output}.vcf.gz &amp;&amp; mv  ${output}.vcf.gz ${output} </command>
+
+	<inputs>
+		&input_vcf;
+		<param name="expression" type="text" label="javascript expression">
+			<sanitizer>
+					<valid initial="string.printable">
+         				<add source="&apos;" target="\&apos;"/>
+       			 	</valid>
+			</sanitizer>
+		</param>
+	</inputs>
+	<outputs>
+		&output_vcf;
+	</outputs>
+	<description></description>
+</tool>
+
+
+<tool main-class="com.github.lindenb.jvarkit.tools.misc.VcfHead">
+	<label>Print first variants of a VCF</label>
+	<wiki>&base_wiki;VcfHead</wiki>
+	<command>&gzcat_input; | java -cp  <classpath/> <main-class/> -n '${num}' -o ${output}.vcf.gz &amp;&amp; mv  ${output}.vcf.gz ${output}</command>
+
+	<inputs>
+		&input_vcf;
+		<param name="num" type="integer" label="Number of variants" min="0" value="10"/>
+	</inputs>
+	<outputs>
+		&output_vcf;
+	</outputs>
+	<description></description>
+</tool>
+
+
+<tool main-class="com.github.lindenb.jvarkit.tools.misc.VcfTail">
+	<label>Print last variants of a VCF</label>
+	<wiki>&base_wiki;VcfHead</wiki>
+	<command>&gzcat_input; | java -cp  <classpath/> <main-class/> -n '${num}' -o ${output}.vcf.gz  &amp;&amp; mv  ${output}.vcf.gz ${output}</command>
+
+	<inputs>
+		&input_vcf;
+		<param name="num" type="integer" label="Number of variants" min="0" value="10"/>
+	</inputs>
+	<outputs>
+		&output_vcf;
+	</outputs>
+	<description></description>
+</tool>
+
+
+<tool main-class="com.github.lindenb.jvarkit.tools.vcftrios.VCFTrios">
+	<label>Check for mendelian incompatibilities in a VCF</label>
+	<wiki>&base_wiki;VCFTrio</wiki>
+	<command>&gzcat_input; | java -cp  <classpath/> <main-class/> $filter -p $ped -o ${output}.vcf.gz &amp;&amp; mv  ${output}.vcf.gz ${output}</command>
+	<inputs>
+		&input_vcf;
+		<param name="filter" type="boolean" checked="false" label="Create a FILTER in the FILTER column"  truevalue="-f" falsevalue=""/>
+		<param name="ped"  type="data" format="tabular" label="Pedigree file (Family/name/father/mother/sex)"/>
+	</inputs>
+	<outputs>
+		&output_vcf;
+	</outputs>
+	<description></description>
+</tool>
+
+<tool main-class="com.github.lindenb.jvarkit.tools.groupbygene.GroupByGene">
+	<label>Group VCF (+ VEP + SnpEff) data by gene/transcript</label>
+	<wiki>&base_wiki;GroupByGene</wiki>
+	<command>&gzcat_input; | java -cp  <classpath/> <main-class/> -o ${output}.tsv &amp;&amp; mv  ${output}.tsv ${output}</command>
+	<inputs>
+		&input_vcf;
+	</inputs>
+	<outputs>
+		&output_vcf;
+	</outputs>
+	<description></description>
+</tool>
+
+
+
+
+</tools>
