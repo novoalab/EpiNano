@@ -61,6 +61,7 @@ EpiNano will extract a set of 'features' from direct RNA sequencing reads, which
 - deletion frequency 
 - insertion frequency 
 - sumErr 
+
 These features can be organized in per base and per kmer formats
 
 ### Modes of Running EpiNano  
