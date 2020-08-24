@@ -1,4 +1,0 @@
-You will find in this folder csv files that can be used as input for SVM training and prediction.
-You can use the example data to test either SVM predictions (data was not used for training) or to test the SVM training.
-Please refer to the help message of SVM.py for usage information.
-
