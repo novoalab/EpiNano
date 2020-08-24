@@ -1,4 +1,8 @@
 # Changelog
+## Changed - 2020-08-23
+Epinano V1.2
+Added Epinano_DiffErr, Epinano_Plot, and Epinano_Current_Intensity modules.
+Intoduce sum_err and delta_err metrics.
 
 ## Changed - 2019-12-09
 This is a slim version. All scripts have been updated to python3.

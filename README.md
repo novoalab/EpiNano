@@ -111,6 +111,9 @@ The following softwares and modules were used by EpiNano
 | pandas  | 0.23.4        |
 | sklearn  | 0.20.2     |
 | nanopolish | 0.12.4 |
+| dask     |  2.5.2  |
+| biopython |  1.76  |
+ 
 
 
 ## Getting the code
