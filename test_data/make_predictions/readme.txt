@@ -1,6 +1,5 @@
 ## known modification sites
-this is from a real biological example.
-known modiified sites are 2826 and 2880.
+this is a real biological example with known pseudoU modifications at sites 2826 and 2880.
 
 
 ## reference file
