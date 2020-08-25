@@ -1,4 +1,0 @@
-Best accuracy 91.25475285171103 %  obtained with kernel = rbf
- 90.11406844106465 % accuracy obtained with kernel = linear
- 71.48288973384031 % accuracy obtained with kernel = poly
- 90.11406844106465 % accuracy obtained with kernel = sigmoid
