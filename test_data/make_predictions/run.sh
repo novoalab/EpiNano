@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [ ! -f "../../misc/jvarkit/dist/sam2tsv.jar" ]; then
- echo "../../misc/jvarkit/dist/sam2tsv.jar not found!"
+if [ ! -f "../../misc/sam2tsv.jar" ]; then
+ echo "../../misc/sam2tsv.jar not found!"
  echo "please place/link sam2tsv.jar to that place"
  echo "reference file shoule be indexed with samtools faidx"
  echo "reference file shoule have a sequence dictionary file created with picard.jar"
@@ -25,8 +25,8 @@ echo "reads can also be mapped to reference genome with minimap2"
 
 
 echo "compute varitants/error frequencies from bam file"
-python ../../Epinano_Variants.py -R ref.fa -b wt.bam -t 6 -T t -s ../../misc/jvarkit/dist/sam2tsv.jar
-python ../../Epinano_Variants.py -R ref.fa -b ko.bam -t 6 -T t -s ../../misc/jvarkit/dist/sam2tsv.jar
+python ../../Epinano_Variants.py -R ref.fa -b wt.bam -t 6 -T t -s ../../misc/sam2tsv.jar
+python ../../Epinano_Variants.py -R ref.fa -b ko.bam -t 6 -T t -s ../../misc/sam2tsv.jar
 
 echo "predict based on deviance of mis" 
 echo "AND"
