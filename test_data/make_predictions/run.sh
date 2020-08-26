@@ -9,7 +9,7 @@ if [ ! -f "../../misc/sam2tsv.jar" ]; then
 fi
 
 
-echo "Basecalling and reads mapping commands are shown but not executed to save time"
+echo "Basecalled reads and reads mapping commands are shown but are not going to be executed to save time"
 
 echo "basecalling with guppy3.1.5"
 echo "CMDs:"
