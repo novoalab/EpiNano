@@ -2,7 +2,7 @@
 
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads 
 
-* PLEASE NOTE: WE HAVE RECENTLY UPGRADED THE REPO FROM EPINANO 1.1 for 1.2 (details below)
+* NEW: WE HAVE RECENTLY UPGRADED THE REPO FROM EPINANO 1.1 for 1.2 (details below)
 
 
 ## Table of Contents  
