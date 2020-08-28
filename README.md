@@ -2,6 +2,8 @@
 
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads 
 
+* PLEASE NOTE: WE HAVE RECENTLY UPGRADED THE REPO FROM EPINANO 1.1 for 1.2. More details below
+
 
 ## Table of Contents  
 - [Upgrades](#Upgrades) 
@@ -19,18 +21,19 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 ## Upgrades  
 
 **EpiNano 1.2** 
-- latest version, includes pretrained m6A models derived from sequences base-called with *Guppy* v 3.1.5  
-* NOTE: WE UPGRADED THE REPO FROM EPINANO 1.1 for 1.2 
+- Latest version, released August 2020. 
+* Includes pretrained m6A models derived from sequences base-called with *Guppy* v 3.1.5. 
+* Pretrained models can also be used to detect other RNA modifications (tested for pseudouridine, other modifications: not tested).    
 * This version of EpiNano allows to make predictions using two different strategies: *EpiNano-Error* and *EpiNano-SVM*. 
-* This version now includes modules for visualizing your RNA modification predictions 
+* This version now includes modules for visualizing your RNA modification predictions (*EpiNano_Plot*)
 
 <img src="image/EpiNano_modes.png" width='800' height='400'>
 
 *EpiNano-Error* can only be run in pairwise mode (e.g. WT and KO or KD). It combines the different types of base-calling errors that appear in a given dataset (mismatches, deletions, insertions) as well as alterations in per-base-calling qualities. RNA modification predictions are based on the differences in error patterns observed in two matched samples. This strategy can be used with FASTQ data base-called with any given base-calling algorithm version.  
 
-*EpiNano-SVM* can be run using either pre-trained models for a given RNA modification, or by building your own models. The first versions of Epinano (1.1. and 1.0) allowed the user to run the code in standalone mode (i.e. only 1 condition). However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. Therefore, EpiNano (version 1.2) provides models trained with features capturing differences between samples. 
+*EpiNano-SVM* can be run using either pre-trained models for a given RNA modification, or by building your own models. However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. Therefore, EpiNano (version 1.2) provides models trained with features capturing differences between samples. 
 
-**EpiNano 1.1** - a slimmer version of v1.0, written in python3 is available [here](https://github.com/enovoa/EpiNano/releases).  
+**EpiNano 1.1** - a slimmer version of version 1.0, written in python3 is available [here](https://github.com/enovoa/EpiNano/releases).  
 * This version is the one currently implemented in [MasterOfPores](https://www.frontiersin.org/articles/10.3389/fgene.2020.00211), a workflow to analyze direct RNA sequencing data. 
 
 * The major differences with EpiNano 1.0 are (i) it is faster (ii) Uses python3 instead of python2 (iii) Does not extract current intensity in the feature table, as this feature was not used to train the final models. 
