@@ -2,7 +2,7 @@
 
 ### How to train my own SVM model?
 
-In this folder you fill find the folder the script [train_test.sh](https://github.com/enovoa/EpiNano/tree/master/test_data/train_models/train_test.sh), with commands illustrating how to train SVM models and test their accuracies.
+In this folder you will find the script [train_test.sh](https://github.com/enovoa/EpiNano/tree/master/test_data/train_models/train_test.sh), with commands illustrating how to train SVM models and test their accuracies.
 
 ### How to prepare the input data to train and test my own models?
 
