@@ -10,11 +10,11 @@ In this folder you will also find error and electric signal features extracted w
 
 ### How to train my own SVM model?
 
-In this folder you fill find the folder **train_test.sh** with commands to train SVM models and test their accuracies.
+In this folder you fill find the folder the script **train_test.sh**, with commands illustrating how to train SVM models and test their accuracies.
 
 ### How to train and test my own models?
 
-You can also find in ../make_predictions/run.sh how to prepare feature table for training and making predictions. 
+You can also find in EpiNano/test_data/make_predictions/ folder the script **run.sh**, with commands showing how to prepare feature table for training and making predictions. 
 
 ### Additional observations
 
