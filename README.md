@@ -55,9 +55,9 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## About EpiNano  
 
-EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads.  
+*EpiNano* is a tool to identify RNA modifications present in direct RNA sequencing reads.  
 
-EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification or not. Features directly extracted and derived include:  
+*EpiNan*o will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification or not. Features directly extracted and derived include:  
 
 - current intensity and duration
 - read quality 
@@ -70,10 +70,10 @@ EpiNano will extract a set of 'features' from direct RNA sequencing reads, which
 These features can be organized in per base and per kmer formats
 
 ### Modes of Running EpiNano  
+ 
+In EpiNano 1.2, we introduce delta-features, features capturing difference between modified and un-modified sites and sum_err, a metric computed by combining different types of errors and even base quality scores. These new metrics represent our attempt to steer around the limitation related to the fact that different types of RNA base modifications tend to introduce different types of sequencing errors. 
 
-In EpiNano1.2, we introduce delta-features, features capturing difference between modified and un-modified sites and sum_err, a metric computed by combining different types of errors and even base quality scores. These new metrics represent our attempt to steer around the limitation related to the fact that different types of RNA base modifications tend to introduce different types of sequencing errors. 
-
-EpiNano version 1.2 can predict RNA-modified sites in two different ways:  
+*EpiNano* version 1.2 can predict RNA-modified sites in two different ways:  
 
 1. **EpiNano-Error** 
 * Base-calling algorithm independent. 
@@ -84,7 +84,7 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 * Can use both base-calling error features as well as current signals features 
 * It can be used to train your own models as well as be applied to datasets for which a pre-trained model is available (m6A) 
 * The available m6A SVM models has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. 
-* This time we offered a model trained with delta features, i.e., features capturing difference between modified and un-modified samples.  
+* We also offer SVM models trained with delta features, i.e., features capturing difference between modified and un-modified samples. These models can be applied to detect other RNA modifications apart from m6A (tested on pseudouridine). 
 
 ### Considerations when using EpiNano  
 
