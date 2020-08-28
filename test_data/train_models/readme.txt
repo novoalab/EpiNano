@@ -1,6 +1,4 @@
-We do not put fast5 and/or fastq files in this git repo due to file-size limit.
-
-Raw fast5 files for curlcakes can be found at https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP174366
+'Curlcake' fast5 and/or fastq files used to train the SVM models can be found at https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP174366
 
 Reference sequences are in cc.fasta
 
