@@ -20,8 +20,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## Upgrades  
 
-**EpiNano 1.2** 
-- Latest version, released August 2020. 
+**EpiNano 1.2** - current version
 * Includes pretrained m6A models derived from sequences base-called with *Guppy* v 3.1.5. 
 * Pretrained models can also be used to detect other RNA modifications (tested for pseudouridine, other modifications: not tested).    
 * This version of EpiNano allows to make predictions using two different strategies: *EpiNano-Error* and *EpiNano-SVM*. 
