@@ -1,6 +1,6 @@
-'Curlcake' fast5 and/or fastq files used to train the SVM models can be found at https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP174366
+Raw data used to train the SVM models (i.e. m6A-modified and unmodified 'curlcakes') can be found at https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP174366
 
-Reference sequences are in cc.fasta
+Reference sequences can be found in cc.fasta
 
 We provide error and electric signal features extracted with Epinano_Variants and Epinano_Current_Intensity scripts.
 
