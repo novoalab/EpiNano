@@ -93,7 +93,7 @@ In EpiNano 1.2, we introduce delta-features, features capturing difference betwe
 
 * EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown). Coupling a "control" (KD/KO) is not required in earlier Epinano versions, but is highly recommended. 
 
-* You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9)). In the latest version of EpiNano (1.2) we provided scripts to predict RNA modifications using both modes (EpiNano-Error and EpiNano-SVM). 
+* You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (i.e., **EpiNano-Error**, as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (i.e., **EpiNano-SVM**, as used [here](https://www.nature.com/articles/s41467-019-11713-9)). 
 
 * EpiNano does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level. 
 
