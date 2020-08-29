@@ -101,7 +101,7 @@ In EpiNano 1.2, we introduce delta-features, features capturing difference betwe
 
 * Pre-trained models to predict m6A sites are included in each release. Please note that if you use pre-trained m6A models, your data should be base-called with the SAME base-calling algorithm and version (i.e. Guppy 3.1.5 if you use EpiNano 1.2, and Albacore 2.1.7 if you use EpiNano 1.0 or 1.1). 
 
-* If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate. 
+* If you are using a different base-calling algorithm version, we recommend you to use EpiNano-Error rather than EpiNano-SVM.
 
 ### Pre-requisites  
 
