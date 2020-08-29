@@ -190,7 +190,8 @@ This is optional. Users who are interested in exploring the electric signals inc
 
 Note 1: Please add the /path/to/nanopolish to environmental **$PATH** variable, otherwise the script will fail. 
 ```
-sh Epinano_Current.sh -h
+$ sh Epinano_Current.sh -h
+
 Epinano_Current.sh [-h] [-b bam -r reads -f genome/transriptome reference -d fast5dir -t threads -m bam_file_mapping_type]
 
         it runs nanopolish eventalign; aggreagets current intensity values associated with single positions
@@ -218,7 +219,8 @@ ii) **EpiNano-SVM** uses an SVM algorithm to train models and predict modificati
 
 Note 1: different types of RNA base modification show distinct biases toward the spefic types of errors. Thus, offered *Epinano_sumErr.py* to combine mismatches, indels and even quality scores. Just like the independent types of errors, the combined error is internally performed when running *Epinano_ErrDiff.R*. 
 ```
-Rscript Epinano_DiffErr.R -h
+$ Rscript Epinano_DiffErr.R -h
+
 Usage:
         DiffErr.R v0.1 compares a given feature between two samples. It predict potential modified sites mainly through two methods:
                 1. compute deviance of selected featuers between samples and then calculate z-scores. Outliers or potential modified sites will then
@@ -269,7 +271,8 @@ Options:
 EpiNano 1.2 includes pre-trained models (found in *$EPINANO_HOME/models/*), which have been trained using synthetic molecules (curlcakes) with and without introduced m6A modifications. However, the user can train their own models using **EpiNano_Predict**, employing the features generated with *EpiNano_Variants.py* and/or *EpiNano_Current.py* as shown in the previous steps.  The relevant commands can be found in *test_data/train_models/*.
 
 ```
-python Epinano_Predict.py -h
+$ python Epinano_Predict.py -h
+
 Command:  Epinano_Predict.py -h
 usage: Epinano_Predict.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL]
                           [-t TRAIN] [-mc MODIFICATION_STATUS_COLUMN] -p
