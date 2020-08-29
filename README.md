@@ -190,7 +190,7 @@ This is optional. Users who are interested in exploring the electric signals inc
 
 Note 1: Please add the /path/to/nanopolish to environmental **$PATH** variable, otherwise the script will fail. 
 ```
-sh ../../Epinano_Current.sh -h
+sh Epinano_Current.sh -h
 Epinano_Current.sh [-h] [-b bam -r reads -f genome/transriptome reference -d fast5dir -t threads -m bam_file_mapping_type]
 
         it runs nanopolish eventalign; aggreagets current intensity values associated with single positions
@@ -218,7 +218,7 @@ ii) **EpiNano-SVM** uses an SVM algorithm to train models and predict modificati
 
 Note 1: different types of RNA base modification show distinct biases toward the spefic types of errors. Thus, offered *Epinano_sumErr.py* to combine mismatches, indels and even quality scores. Just like the independent types of errors, the combined error is internally performed when running *Epinano_ErrDiff.R*. 
 ```
-Rscript ../../Epinano_DiffErr.R -h
+Rscript Epinano_DiffErr.R -h
 Usage:
         DiffErr.R v0.1 compares a given feature between two samples. It predict potential modified sites mainly through two methods:
                 1. compute deviance of selected featuers between samples and then calculate z-scores. Outliers or potential modified sites will then
@@ -269,8 +269,8 @@ Options:
 EpiNano 1.2 includes pre-trained models (found in *$EPINANO_HOME/models/*), which have been trained using synthetic molecules (curlcakes) with and without introduced m6A modifications. However, the user can train their own models using **EpiNano_Predict**, employing the features generated with *EpiNano_Variants.py* and/or *EpiNano_Current.py* as shown in the previous steps.  The relevant commands can be found in *test_data/train_models/*.
 
 ```
-python ../Epinano_Predict.py -h
-Commad:  ../Epinano_Predict.py -h
+python Epinano_Predict.py -h
+Command:  Epinano_Predict.py -h
 usage: Epinano_Predict.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL]
                           [-t TRAIN] [-mc MODIFICATION_STATUS_COLUMN] -p
                           PREDICT -cl COLUMNS
@@ -313,11 +313,11 @@ Example:
 
 ```  
 python $EPINANO_HOME/Epinano_Predict.py 
---train ko_wt_combined.per_site_raw_feature.rrach.5mer.csv 
---predict ko_wt_combined.per_site_raw_feature.rrach.5mer.csv --accuracy_estimation 
---out_prefix train_and_test 
---columns 8,13,23 
---modification_status_column 26  
+	--train ko_wt_combined.per_site_raw_feature.rrach.5mer.csv 
+	--predict ko_wt_combined.per_site_raw_feature.rrach.5mer.csv --accuracy_estimation 
+	--out_prefix train_and_test 
+	--columns 8,13,23 
+	--modification_status_column 26  
 ```  
 
 While the user can choose to train the algorithm with one sample (--train) and test it on another independent sample (--predict), it is also possible to use the same input file both for training and testing the model, as depicted in the example above. In this scenario, Epinano_Predict will train the models with 50% of the input data, and make predictions with the remaining 50% of the data.  
@@ -328,10 +328,10 @@ With the trained models, the user can make predictions of modifications.
 
 ```  
 python $EPINANO_HOME/Epinano_Predict.py 
---model q3.mis3.del3.MODEL.linear.model.dump 
---predict some_sample.per_site.5mer.csv 
---columns 8,13,23  
---out_prefix some_sample.modification 
+	--model q3.mis3.del3.MODEL.linear.model.dump 
+	--predict some_sample.per_site.5mer.csv 
+	--columns 8,13,23  
+	--out_prefix some_sample.modification 
 ``` 
 
  In the command above, we employ a previously trained model ‘q3.mis3.del3.MODEL.linear.model.dump’ that will predict m6A modifications in RRACH k-mers on a dataset that is specified with ‘--predict’. Please remember to filt your dataset before or after making predicitons to keep only RRACH k-mers. 
@@ -347,7 +347,7 @@ python $EPINANO_HOME/Epinano_Predict.py
 This step includes SVM training, prediction and performance assessment using single and multiple features.
 $ python3 SVM.py -h
 
-Commad:  scripts/SVM.py -h
+Command:  scripts/SVM.py -h
 usage: SVM.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL] [-t TRAIN]
               [-mc MODIFICATION_STATUS_COLUMN] -p PREDICT -cl COLUMNS
 
