@@ -2,32 +2,40 @@
 
 Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads 
 
+##
 
-## Table of Contents  - 
-[Upgrades](#Upgrades) - 
-[About EpiNano](#About-EpiNano)  
-- [Modes of Running EpiNano](#Modes-of-Running-EpiNano)  
-- [Considerations when using EpiNano](#Considerations-when-using-EpiNano)  
-- [Pre-requisites](#Pre-requisites) 
+**WE HAVE RECENTLY UPGRADED THE REPO FROM EPINANO 1.1 for 1.2 (details below)**
+
+## Table of Contents  
+- [Upgrades](#Upgrades) 
+- [About EpiNano](#About-EpiNano)  
+	- [Modes of Running EpiNano](#Modes-of-Running-EpiNano)  
+	- [Considerations when using EpiNano](#Considerations-when-using-EpiNano)  
+	- [Pre-requisites](#Pre-requisites) 
 - [Getting the code](#Getting-the-code) 
-- [Running EpiNano 1.2](#Running-EpiNano-1.2) 
-- [Running EpiNano 1.1](#Running-EpiNano-1.1) 
+- [Running EpiNano](#Running-EpiNano-1.2)
+	- [Running EpiNano 1.2](#Running-EpiNano-1.2) 
+	- [Running EpiNano 1.1](#Running-EpiNano-1.1) 
+- [Further Documentation](#Further-Documentation)
 - [Citing this work](#Citing-this-work) 
 - [License](#License) 
 - [Contact](#Contact) 
-## Upgrades  **EpiNano 1.2** 
-- latest version, includes pretrained m6A models derived from sequences base-called with *Guppy* v 3.1.5  
-* NOTE: WE UPGRADED THE REPO FROM EPINANO 1.1 for 1.2 
+
+## Upgrades  
+
+**EpiNano 1.2** - current version
+* Includes pretrained m6A models derived from sequences base-called with *Guppy* v 3.1.5. 
+* Pretrained models can also be used to detect other RNA modifications (tested for pseudouridine, other modifications: not tested).    
 * This version of EpiNano allows to make predictions using two different strategies: *EpiNano-Error* and *EpiNano-SVM*. 
-* This version now includes modules for visualizing your RNA modification predictions 
+* This version now includes modules for visualizing your RNA modification predictions (*EpiNano_Plot*)
 
 <img src="image/EpiNano_modes.png" width='800' height='400'>
 
 *EpiNano-Error* can only be run in pairwise mode (e.g. WT and KO or KD). It combines the different types of base-calling errors that appear in a given dataset (mismatches, deletions, insertions) as well as alterations in per-base-calling qualities. RNA modification predictions are based on the differences in error patterns observed in two matched samples. This strategy can be used with FASTQ data base-called with any given base-calling algorithm version.  
 
-*EpiNano-SVM* can be run using either pre-trained models for a given RNA modification, or by building your own models. The first versions of Epinano (1.1. and 1.0) allowed the user to run the code in standalone mode (i.e. only 1 condition). However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. Therefore, EpiNano (version 1.2) provides models trained with features capturing differences between samples. 
+*EpiNano-SVM* can be run using either pre-trained models for a given RNA modification, or by building your own models. However, we should note that using a matched control (e.g. KO or KD) is still highly recommended, due to the noisy nature of direct RNA sequencing reads, which are 'error'-rich. Moreover, in addition to SVM models trained with "raw" base-calling 'error' features (same as in EpiNano 1.0 and 1.1), in EpiNano 1.2 we now provide SVM models trained with features that capture differences between samples (i.e. difference in mismatch, rather than absolute mismatch frequency), which we find have improved performance. 
 
-**EpiNano 1.1** - a slimmer version of v1.0, written in python3 is available [here](https://github.com/enovoa/EpiNano/releases).  
+**EpiNano 1.1** - a slimmer version of version 1.0, written in python3 is available [here](https://github.com/enovoa/EpiNano/releases).  
 * This version is the one currently implemented in [MasterOfPores](https://www.frontiersin.org/articles/10.3389/fgene.2020.00211), a workflow to analyze direct RNA sequencing data. 
 
 * The major differences with EpiNano 1.0 are (i) it is faster (ii) Uses python3 instead of python2 (iii) Does not extract current intensity in the feature table, as this feature was not used to train the final models. 
@@ -50,9 +58,9 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 ## About EpiNano 1.2 
 
-EpiNano is a tool to identify RNA modifications present in direct RNA sequencing reads.  
+*EpiNano* is a tool to identify RNA modifications present in direct RNA sequencing reads.  
 
-EpiNano will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification or not. Features directly extracted and derived include:  
+*EpiNan*o will extract a set of 'features' from direct RNA sequencing reads, which will be in turn used to predict whether the 'error' is caused by the presence of an RNA modification or not. Features directly extracted and derived include:  
 
 - current intensity and duration
 - read quality 
@@ -65,10 +73,10 @@ EpiNano will extract a set of 'features' from direct RNA sequencing reads, which
 These features can be organized in per base and per kmer formats
 
 ### Modes of Running EpiNano  
+ 
+In EpiNano 1.2, we introduce delta-features, features capturing difference between modified and un-modified sites and sum_err, a metric computed by combining different types of errors and even base quality scores. These new metrics represent our attempt to steer around the limitation related to the fact that different types of RNA base modifications tend to introduce different types of sequencing errors. 
 
-In EpiNano1.2, we introduce delta-features, features capturing difference between modified and un-modified sites and sum_err, a metric computed by combining different types of errors and even base quality scores. These new metrics represent our attempt to steer around the limitation related to the fact that different types of RNA base modifications tend to introduce different types of sequencing errors. 
-
-EpiNano version 1.2 can predict RNA-modified sites in two different ways:  
+*EpiNano* version 1.2 can predict RNA-modified sites in two different ways:  
 
 1. **EpiNano-Error** 
 * Base-calling algorithm independent. 
@@ -79,13 +87,13 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 * Can use both base-calling error features as well as current signals features 
 * It can be used to train your own models as well as be applied to datasets for which a pre-trained model is available (m6A) 
 * The available m6A SVM models has been trained and tested upon a set of 'unmodified' and 'modified' sequences containing m6A at known sites or A. 
-* This time we offered a model trained with delta features, i.e., features capturing difference between modified and un-modified samples.  
+* We also offer SVM models trained with delta features, i.e., features capturing difference between modified and un-modified samples. These models can be applied to detect other RNA modifications apart from m6A (tested on pseudouridine). 
 
 ### Considerations when using EpiNano  
 
 * EpiNano relies on the use of base-calling 'errors' to detect RNA modifications; however, direct RNA sequencing base-calling produces a significant amount of 'errors' in unmodified sequences. Therefore, to obtain higher confidence m6A-modified sites, we recommend to sequence both modified and unmodified datasets (e.g. treated with demethylase, or comparing a wild-type vs knockout/knockdown). Coupling a "control" (KD/KO) is not required in earlier Epinano versions, but is highly recommended. 
 
-* You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (as used [here](https://www.nature.com/articles/s41467-019-11713-9)). In the latest version of EpiNano (1.2) we provided scripts to predict RNA modifications using both modes (EpiNano-Error and EpiNano-SVM). 
+* You can use EpiNano as a feature extractor to predict RNA modifications based on alterations in base-called features (i.e., **EpiNano-Error**, as used [here](https://www.biorxiv.org/content/10.1101/2020.07.06.189969v2)), as well as use the pre-trained SVMs to detect m6A RNA modifications (i.e., **EpiNano-SVM**, as used [here](https://www.nature.com/articles/s41467-019-11713-9)). 
 
 * EpiNano does not have per-read resolution. We are currently working on an improved version of EpiNano to obtain predictions at per-read level. 
 
@@ -93,7 +101,7 @@ EpiNano version 1.2 can predict RNA-modified sites in two different ways:
 
 * Pre-trained models to predict m6A sites are included in each release. Please note that if you use pre-trained m6A models, your data should be base-called with the SAME base-calling algorithm and version (i.e. Guppy 3.1.5 if you use EpiNano 1.2, and Albacore 2.1.7 if you use EpiNano 1.0 or 1.1). 
 
-* If you are using a different base-calling algorithm version, you can still use EpiNano to extract features (i.e. 'errors'), but the SVM predictions (ProbM) will not be accurate. 
+* If you are using a different base-calling algorithm version, we recommend you to use EpiNano-Error rather than EpiNano-SVM.
 
 ### Pre-requisites  
 
@@ -182,7 +190,8 @@ This is optional. Users who are interested in exploring the electric signals inc
 
 Note 1: Please add the /path/to/nanopolish to environmental **$PATH** variable, otherwise the script will fail. 
 ```
-sh ../../Epinano_Current.sh -h
+$ sh Epinano_Current.sh -h
+
 Epinano_Current.sh [-h] [-b bam -r reads -f genome/transriptome reference -d fast5dir -t threads -m bam_file_mapping_type]
 
         it runs nanopolish eventalign; aggreagets current intensity values associated with single positions
@@ -210,7 +219,8 @@ ii) **EpiNano-SVM** uses an SVM algorithm to train models and predict modificati
 
 Note 1: different types of RNA base modification show distinct biases toward the spefic types of errors. Thus, offered *Epinano_sumErr.py* to combine mismatches, indels and even quality scores. Just like the independent types of errors, the combined error is internally performed when running *Epinano_ErrDiff.R*. 
 ```
-Rscript ../../Epinano_DiffErr.R -h
+$ Rscript Epinano_DiffErr.R -h
+
 Usage:
         DiffErr.R v0.1 compares a given feature between two samples. It predict potential modified sites mainly through two methods:
                 1. compute deviance of selected featuers between samples and then calculate z-scores. Outliers or potential modified sites will then
@@ -261,8 +271,9 @@ Options:
 EpiNano 1.2 includes pre-trained models (found in *$EPINANO_HOME/models/*), which have been trained using synthetic molecules (curlcakes) with and without introduced m6A modifications. However, the user can train their own models using **EpiNano_Predict**, employing the features generated with *EpiNano_Variants.py* and/or *EpiNano_Current.py* as shown in the previous steps.  The relevant commands can be found in *test_data/train_models/*.
 
 ```
-python ../Epinano_Predict.py -h
-Commad:  ../Epinano_Predict.py -h
+$ python Epinano_Predict.py -h
+
+Command:  Epinano_Predict.py -h
 usage: Epinano_Predict.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL]
                           [-t TRAIN] [-mc MODIFICATION_STATUS_COLUMN] -p
                           PREDICT -cl COLUMNS
@@ -305,11 +316,11 @@ Example:
 
 ```  
 python $EPINANO_HOME/Epinano_Predict.py 
---train ko_wt_combined.per_site_raw_feature.rrach.5mer.csv 
---predict ko_wt_combined.per_site_raw_feature.rrach.5mer.csv --accuracy_estimation 
---out_prefix train_and_test 
---columns 8,13,23 
---modification_status_column 26  
+	--train ko_wt_combined.per_site_raw_feature.rrach.5mer.csv 
+	--predict ko_wt_combined.per_site_raw_feature.rrach.5mer.csv --accuracy_estimation 
+	--out_prefix train_and_test 
+	--columns 8,13,23 
+	--modification_status_column 26  
 ```  
 
 While the user can choose to train the algorithm with one sample (--train) and test it on another independent sample (--predict), it is also possible to use the same input file both for training and testing the model, as depicted in the example above. In this scenario, Epinano_Predict will train the models with 50% of the input data, and make predictions with the remaining 50% of the data.  
@@ -320,15 +331,15 @@ With the trained models, the user can make predictions of modifications.
 
 ```  
 python $EPINANO_HOME/Epinano_Predict.py 
---model q3.mis3.del3.MODEL.linear.model.dump 
---predict some_sample.per_site.5mer.csv 
---columns 8,13,23  
---out_prefix some_sample.modification 
+	--model q3.mis3.del3.MODEL.linear.model.dump 
+	--predict some_sample.per_site.5mer.csv 
+	--columns 8,13,23  
+	--out_prefix some_sample.modification 
 ``` 
 
  In the command above, we employ a previously trained model ‘q3.mis3.del3.MODEL.linear.model.dump’ that will predict m6A modifications in RRACH k-mers on a dataset that is specified with ‘--predict’. Please remember to filt your dataset before or after making predicitons to keep only RRACH k-mers. 
 
-## Running the code: EpiNano 1.1
+## Running EpiNano 1.1
 
 * Build feature table (on which predictions will be made)
 
@@ -339,7 +350,7 @@ python $EPINANO_HOME/Epinano_Predict.py
 This step includes SVM training, prediction and performance assessment using single and multiple features.
 $ python3 SVM.py -h
 
-Commad:  scripts/SVM.py -h
+Command:  scripts/SVM.py -h
 usage: SVM.py [-h] [-k KERNEL] [-o OUT_PREFIX] [-a] [-M MODEL] [-t TRAIN]
               [-mc MODIFICATION_STATUS_COLUMN] -p PREDICT -cl COLUMNS
 
@@ -399,9 +410,12 @@ With the example svm input files from example/svm_input folder:
 ```
 
 
-### Further Documentation on EpiNano 1.1
+## Further Documentation 
 
-Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage on EpiNano 1.1
+Please check [HERE](https://github.com/enovoa/EpiNano/tree/master/test_data/train_models) for additional information on usage on **EpiNano 1.2** 
+
+Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage on **EpiNano 1.1**
+
 
 ## Citing this work
 If you find this work useful, please cite:
