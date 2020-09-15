@@ -120,7 +120,11 @@ cleanup <- function(input, label, coverage, feature) {
 
 dat1  <- cleanup(ko, 'ko', coverage, feature)
 dat2  <- cleanup(wt, 'wt', coverage, feature)
+#write.table (combine,file="ko.csv",sep=",",quote=FALSE, row.names=FALSE)
+#write.table (combine,file="wt.csv",sep=",",quote=FALSE, row.names=FALSE)
 combine <- merge(dat1, dat2, by="chr_pos")
+#write.table (combine,file="combine.csv",sep=",",quote=FALSE, row.names=FALSE)
+
 
 #primary_filt <- function (combine, feature, feature_deviance) {
 	#delta = paste("delta_", feature, sep="")
@@ -136,7 +140,6 @@ univariate_outlier <- function (combine, Threshold, deviance, feature) {
 	combine$delta <- abs (combine$wt_value - combine$ko_value)
 	names(combine)[ncol(combine)] <- delta
 	combine$z_scores <- scores (combine[,ncol(combine)], type="z")  # aka, analyze delta feature 
-	#print (c ('minimum-diff', deviance))
 	combine$z_score_prediction <- ifelse(combine$z_scores > Threshold & combine[delta] > deviance, "mod", "unm")
 	colnames (combine)[which (names(combine) == "ko_value")] <- paste ("ko","feature",sep="_")
 	colnames (combine)[which (names(combine) == "wt_value")] <- paste ("wt","feature",sep="_")
@@ -215,51 +218,45 @@ bar_plot <- function (df, feature, out_pdf) {
         axis.line = element_line(colour = "black", size=0.5)))
 
 	dev.off()
-
 #	ggsave (out_pdf)
 }
-
-#
-#plt <- plt + ggrepel::geom_text_repel(
-            #data = dta,
-            #ggplot2::aes_string(paste0("Dim.", cmpX), paste0("Dim.", cmpY), label="Label"),
-            #size = 2,
-            #box.padding = ggplot2::unit(0.35, "lines"),
-            #point.padding = ggplot2::unit(0.3, "lines"),
-            #color="#222222",
-            #segment.color="#BBBBBB"
-        #) 
 
 n <- 0 
 for (chr in Chrs) {
 	sub <- combine[grepl(chr, combine$chr_pos, fixed=TRUE), ]
 	#sub <- primary_filt (sub, feature, deviance)
-	delta_feature <-univariate_outlier(sub, threshold, deviance, feature)
-	lm_feature <- multi_variate_outlier(sub, deviance, feature)
 
-	if (n==0) {
-		write.table (delta_feature, file=out1, sep=",", quote=FALSE, row.names=FALSE)
-		write.table (lm_feature, file=out2, sep=",", quote=FALSE, row.names=FALSE)
-	} else {
-		write.table (delta_feature, file=out1, sep=",", append=TRUE, col.names=FALSE, row.names=FALSE, quote=FALSE)
-		write.table (lm_feature, file=out2, sep=",", append=TRUE, col.names=FALSE, row.names=FALSE, quote=FALSE)	
-	}
+	nrows = nrow (sub)
+	if (nrows>0) {  
+		#sub_out = paste (chr,"sub.out.csv",sep="")
+		print (chr)
+		#write.table(sub, file=sub_out, sep=",", quote=FALSE, row.names=FALSE)
+		delta_feature <-univariate_outlier(sub, threshold, deviance, feature)
+		lm_feature <- multi_variate_outlier(sub, deviance, feature)
 
-	pos<-c()
-	for (x in strsplit(delta_feature$chr_pos,' ', 4)) {pos <- c(pos, x[2])}
-	delta_feature$Position <- as.numeric (pos)
+		if (n==0) {
+			write.table (delta_feature, file=out1, sep=",", quote=FALSE, row.names=FALSE)
+			write.table (lm_feature, file=out2, sep=",", quote=FALSE, row.names=FALSE)
+		} else {
+			write.table (delta_feature, file=out1, sep=",", append=TRUE, col.names=FALSE, row.names=FALSE, quote=FALSE)
+			write.table (lm_feature, file=out2, sep=",", append=TRUE, col.names=FALSE, row.names=FALSE, quote=FALSE)	
+		}
+		pos<-c()
+		for (x in strsplit(delta_feature$chr_pos,' ', 4)) {pos <- c(pos, x[2])}
+		delta_feature$Position <- as.numeric (pos)
 	#delta_feature <- delta_feature [order(delta_feature$Position),]
 
-	pos<-c()
-	for (x in strsplit(lm_feature$chr_pos,' ', 4)) {pos <- c(pos, x[2])}
-	lm_feature$Position <- as.numeric (pos)
+		pos<-c()
+		for (x in strsplit(lm_feature$chr_pos,' ', 4)) {pos <- c(pos, x[2])}
+		lm_feature$Position <- as.numeric (pos)
 	#lm_feature <- lm_feature [order(lm_feature$Position),]
 	
-	n <- n + 1
-	if (plot) {
-		barplot <- paste (chr,".",prefix,".","delta-",feature,".bar.pdf", sep="")
-		bar_plot (delta_feature, paste ("delta_",feature, sep=""), barplot)
-		xyplot <- paste (chr,prefix,"linear-regression","scatter.pdf", sep=".")
-		scatter_plot (lm_feature, feature, xyplot)
+		n <- n + 1
+		if (plot) {
+			barplot <- paste (chr,".",prefix,".","delta-",feature,".bar.pdf", sep="")
+			bar_plot (delta_feature, paste ("delta_",feature, sep=""), barplot)
+			xyplot <- paste (chr,prefix,"linear-regression","scatter.pdf", sep=".")
+			scatter_plot (lm_feature, feature, xyplot)
+		}
 	}
 }
