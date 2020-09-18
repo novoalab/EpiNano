@@ -621,7 +621,7 @@ def slide_per_site_var_for_unsorted_data (per_site_var,win=5):
 		ref,pos,strand = (ary[0],ary[1],ary[3])
 		contents[(ref,pos,strand)] = line.rstrip()
 	prefix =  per_site_var.replace ('.per_site.var.csv','') # ".".join (per_site_var.split('.')[:-1])
-	out_tmp = prefix +'.per_site_var.{}mer.tmp'.format(win)
+	out_tmp = prefix +'.per.site.var.{}mer.tmp'.format(win)
 	outh1= open (out_tmp,'w')
 	header = '#Kmer,window,Relative_pos,Ref,Ref_Pos,base,strand,cov,q_mean,q_median,q_std,mis,ins,del'
 	outh1.write (header+'\n')
@@ -714,7 +714,7 @@ def slide_per_site_var_for_unsorted_data (per_site_var,win=5):
 		except:
 			sys.stderr.write ('problematic line for cov:' + l.strip())
 	f.close()
-	out2 = prefix + '.per_site.{}mer.csv'.format(win)
+	out2 = prefix + '.per.site.{}mer.csv'.format(win)
 	outh2 = open (out2,'w')
 	q_in_head = ",".join (["q{}".format(i) for i in range(1,win+1)])
 	mis_in_head = ",".join (["mis{}".format(i) for i in range(1,win+1)])
