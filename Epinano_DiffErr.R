@@ -229,7 +229,7 @@ for (chr in Chrs) {
 	nrows = nrow (sub)
 	if (nrows>0) {  
 		#sub_out = paste (chr,"sub.out.csv",sep="")
-		print (chr)
+		#print (chr)
 		#write.table(sub, file=sub_out, sep=",", quote=FALSE, row.names=FALSE)
 		delta_feature <-univariate_outlier(sub, threshold, deviance, feature)
 		lm_feature <- multi_variate_outlier(sub, deviance, feature)
