@@ -8,7 +8,7 @@ import sys
 
 usage = "_USAGE_:	python {} {} {} {}".format ("Epinano_delta_sumErr.py", "WT_sumErr", "KO_sum_Err", "output")
 usage += """
-		applicable for results from Epinano_sum_err.py either single sites or kmer...
+		applicable for results from Epinano_sum_err.py either single sites or kmer wsie...
 
 """
 
