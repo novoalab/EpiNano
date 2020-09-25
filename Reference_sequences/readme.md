@@ -8,12 +8,12 @@ Yeast genome reference
 - [Yeast_sk1.fa](https://github.com/enovoa/EpiNano/tree/master/Reference_sequences/Yeast_sk1.fa)
 
 
-Modified sites identified with orthogonal method 
+Modified m6A sites identified with orthogonal method in Yeast
 -----------------------------
 
 - [known.modifications.txt](https://github.com/enovoa/EpiNano/tree/master/Reference_sequences/known.modifications.txt)
 
-These m6A sites were identified by Schwartz et al., 2013 (PMCID: PMC3956118) in Yeast(SK1) transcriptome, and is the same identical list that is provided as Supplementary Material by Schwartz et al.
+These m6A sites were identified by Schwartz et al., 2013 (PMCID: PMC3956118) in S. cerevisiae SK1 transcriptome, and is the same identical list that is provided as Supplementary Material by Schwartz et al.
 
 These sites were used for assessment and validation of Epinano.
 
