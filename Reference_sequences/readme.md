@@ -11,7 +11,7 @@ Yeast genome reference
 Modified sites identified with orthogonal method 
 -----------------------------
 
-**known.modifications.txt**
+- [known.modifications.txt](https://github.com/enovoa/EpiNano/tree/master/Reference_sequences/known.modifications.txt)
 
 These m6A sites were identified by Schwartz et al., 2013 (PMCID: PMC3956118) in Yeast(SK1) transcriptome, and is the same identical list that is provided as Supplementary Material by Schwartz et al.
 
@@ -23,7 +23,7 @@ The coordinates of this file are 1-based.
 Curlcake (cc) sequences
 -----------------------
 
-**cc.fasta**
+- [cc.fasta](https://github.com/enovoa/EpiNano/tree/master/Reference_sequences/cc.fasta)
 
 These files were used in Liu and Begik et al., 2019. https://doi.org/10.1038/s41467-019-11713-9
 
