@@ -16,4 +16,5 @@ cc.fasta
 
 
 These files were used in Liu and Begik et al., 2019. https://doi.org/10.1038/s41467-019-11713-9
+
 Downloading of relevant Fast5 and reads files has been denoted in the paper. 
