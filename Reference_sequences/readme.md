@@ -1,5 +1,5 @@
 
-This folder contains reference sequences used in Liu and Begik et al., 2019 (PMID: 31501426).
+This folder contains reference sequences used in Liu*, Begik* et al., 2019 (PMID: 31501426).
 ---------------------------
 
 Yeast genome reference 
@@ -13,18 +13,18 @@ Modified sites identified with orthogonal method
 
 **known.modifications.txt**
 
-There sites were identified by Schwartz et al., 2013 (PMCID: PMC3956118) in Yeast(SK1) transcriptome. 
+These m6A sites were identified by Schwartz et al., 2013 (PMCID: PMC3956118) in Yeast(SK1) transcriptome, and is the same identical list that is provided as Supplementary Material by Schwartz et al.
 
-They were used for assessment and validation of epinano.
+These sites were used for assessment and validation of Epinano.
 
-The cooridiantes in this file is 1-based.
+The coordinates of this file are 1-based.
 
 
-Curlcakes sequences
+Curlcake (cc) sequences
 -----------------------
 
 **cc.fasta**
 
 These files were used in Liu and Begik et al., 2019. https://doi.org/10.1038/s41467-019-11713-9
 
-Downloading of relevant Fast5 and reads files has been denoted in the paper. 
+FASTQ and Fast5 files of m6A-modified and unmodified CCs are available in SRA and GEO (see Data availability section of the paper)  
