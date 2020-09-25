@@ -5,7 +5,7 @@ This folder contains reference sequences used in Liu*, Begik* et al., 2019 (PMID
 Yeast genome reference 
 ---------------------
 
-**Yeast_sk1.fa**
+- [Yeast_sk1.fa](https://github.com/enovoa/EpiNano/tree/master/Reference_sequences/Yeast_sk1.fa]
 
 
 Modified sites identified with orthogonal method 
