@@ -10,17 +10,20 @@ Description: prepare for delta features
 '''
 
 usage = """
-	python Epinano_make_delta.py <modified sample feature table> <unmodified sample feature table> <windown size of feature table>
+	python Epinano_make_delta.py <modified sample feature table> <unmodified sample feature table> <minimum coverage at sites>  <windown size of feature table>
+	if not specified, slided window size is 0
+	otherwise, windown size = kmer size
 """
 
-if (len (sys.argv) < 4):
+if (len (sys.argv) < 5):
 	print (usage, file=sys.stderr)
 	exit (0)
 
 #~~~~~~~~~~~~~~~ arguments 
 mod = sys.argv[1]
 unm = sys.argv[2]
-kmerLen = int(sys.argv[3])
+cov = int (sys.argv[3])
+kmerLen = int(sys.argv[4])
 
 #~~~~~~~~~~~~~~~ information to fetch 
 idx = list(range(4))
@@ -44,37 +47,50 @@ with open (mod,'r') as fh:
 	for l in fh:
 		if l.startswith ('#'):
 			continue 
+			
 		ary = l.rstrip().split(',')
+		depth = ary[4].split(':')
+		middle = int(len (depth)/2)
+		if int(depth[middle]) < cov:
+			#print ('site', ary[:5],'is not deep enough', file=sys.stderr)
+			continue
 		idx = ",".join (ary[:4])
 		var = np.array (ary[qidx[0]:didx[-1]+1]).astype(float)
-		#cur = np.array (ary[26:]).astype (float)
-		#cur[-3:] = np.log10(cur[-3:]) # duration time transformed 
 		modinfo[idx].append (var)
-		#modinfo[idx].append (cur)
 
-unminfo = defaultdict(list)
-with open (unm,'r') as fh:
-	for l in fh:
-		if l.startswith ('#'):
-			continue 
-		ary = l.rstrip().split(',')
-		idx = ",".join (ary[:4])
-		var = np.array (ary[qidx[0]:didx[-1]+1]).astype(float)
-		#cur = np.array (ary[26:]).astype (float)
-		#cur[-3:] = np.log10(cur[-3:])
-		unminfo[idx].append (var)
-		#unminfo[idx].append (cur)
 
 hk = '#Kmer,Window,Ref,Strand'
 hq = ",".join ([f'DeltaQ{str(i+1)}' for i in range (kmerLen)])
 hm = ",".join ([f'DeltaMis{str(i+1)}' for i in range (kmerLen)])
 hi = ",".join ([f'DeltaIns{str(i+1)}' for i in range (kmerLen)])
 hd = ",".join ([f'DeltaDel{str(i+1)}' for i in range (kmerLen)])
-
 header = ",".join ([hk, hq, hm, hi, hd])
 print (header)
 
-delta = defaultdict(list)
+unminfo = defaultdict(list)
+with open (unm,'r') as fh:
+	for l in fh:
+		if l.startswith ('#'): 
+			continue 
+		ary = l.rstrip().split(',')
+		depth = ary[4].split(':')
+		middle = int(len (depth)/2)
+		if int(depth[middle]) < cov:
+			#print ('site', ary[:5],'is not deep enough', file=sys.stderr)
+			continue
+		idx = ",".join (ary[:4])
+		var = np.array (ary[qidx[0]:didx[-1]+1]).astype(float)
+		if idx in modinfo:
+			delta = modinfo[idx] - var 
+			#delta = np.array (delta[0][:]).astype(str)
+			delta = ",".join (map (str,delta[0]))
+			print (idx,delta,sep=",")
+		#unminfo[idx].append (var)
+
+exit() 
+
+'''
+#delta = defaultdict(list)
 for k in modinfo.keys():
 	if k in unminfo: 
 		var = modinfo[k][0] - unminfo[k][0]
@@ -85,3 +101,4 @@ for k in modinfo.keys():
 		unminfo[k] = None 
 		print (k,var,sep=',')
 		#print (k,var,cur,sep=',')
+'''

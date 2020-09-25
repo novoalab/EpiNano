@@ -24,17 +24,19 @@ def split_list (array, size):
 		yield array[i:i+size]
 	
 ##Ref,pos,base,strand,cov,q_mean,q_median,q_std,mis,ins,del
-def sum_per_site_var (fh,out):
+def sum_per_site_var (fh,out,depth):
 	for l in fh:
 		ary = l.rstrip().split (',')
 		if l.startswith ('#'):
 			print (",".join (ary[:5]), 'sum_err', sep =",", file=out)
 			continue 
+		if int(ary[4]) < depth:
+			continue 
 		err = np.sum (np.array (ary[-3:]).astype(float))
 		print (",".join (ary[:5]), str(err), sep=",", file = out)
 	
 ##Kmer,Window,Ref,Strand,Coverage,q1,q2,q3,q4,q5,mis1,mis2,mis3,mis4,mis5,ins1,ins2,ins3,ins4,ins5,del1,del2,del3,del4,del5	
-def sum_kmer_var(fh, kmer, out):
+def sum_kmer_var(fh, kmer, out, depth):
 	err_head = ''
 	for i in range(1,kmer+1):
 		err_head = err_head+','+'sum_err'+str(i)
@@ -43,23 +45,29 @@ def sum_kmer_var(fh, kmer, out):
 		if l.startswith ('#'):
 			print ('#Ref,pos,base,strand,cov', err_head, sep="", file=out) 
 			continue 
+		middle = int(kmer/2)
+		cov = int (ary[4].split(':')[middle])
+		if cov < depth:
+			continue 
 		chunks = list (split_list (ary[5+kmer:], kmer))
 		df = pd.DataFrame (np.array (chunks).astype(float), columns = list(string.ascii_lowercase[:kmer]))
 		err = ",".join (map (str, list (df.sum())))
 		rearranged_columns = "{},{},{},{},{}".format(ary[2],ary[1],ary[0],ary[3],ary[4])
 		print (rearranged_columns, err, sep=",", file= out)	
 		
-def sum_per_site_basecalling_err_and_var (fh,  out):
+def sum_per_site_basecalling_err_and_var (fh,  out, depth):
 	for l in fh:
 		ary = l.rstrip().split (',')
 		if l.startswith ('#'):
 			print (",".join ([ary[0], ary[1], ary[2], ary[3], ary[4]]), 'sum_err', sep =",", file=out)
 			continue 
+		if int(ary[4]) < depth:
+			continue 
 		q = float(ary[5]) * 0.1 * -1 
 		err = np.sum (np.array ([10**q, ary[-3], ary[-2], ary[-1]]).astype(float))
 		print (",".join (ary[:5]), str(err), sep=",", file = out)
 	
-def sum_kmer_basecalling_err_and_var (fh, kmer, out):
+def sum_kmer_basecalling_err_and_var (fh, kmer, out, depth):
 	err_head = ''
 	for i in range(1,kmer+1):
 		err_head = err_head+','+'sum_err'+str(i)
@@ -67,6 +75,10 @@ def sum_kmer_basecalling_err_and_var (fh, kmer, out):
 		ary = l.rstrip().split(',')
 		if l.startswith ('#'):
 			print ('#Ref,pos,base,strand,cov' , err_head, sep="", file=out) 
+			continue 
+		middle = int(kmer/2)
+		cov = int (ary[4].split(':')[middle])
+		if cov < depth:
 			continue 
 		chunks = list (split_list (ary[5:], kmer))
 		df = pd.DataFrame (np.array (chunks).astype(float), columns = list(string.ascii_lowercase[:kmer]))
@@ -81,6 +93,7 @@ def main ():
 									it can be kmer based or single-site bases''')
 	parser.add_argument ('--kmer', type=int, required=True, help='''if kmer-size is 0, program will take it for single-position based; 
 										otherwsie, program will process input file with the window size indiciated by --kmer-size''')
+	parser.add_argument('--depth', type=int, default=30, help="minimum depth at site of concern (only consider middle site in kmers) ; default is 30")
 	parser.add_argument ('--out', type=str, help='output file; if given results will be stored in it; otherwise, results will be directed to stdout')
 	parser.add_argument ('--quality', action='store_true', help='including base-calling erorr probability inferred from base-calling quality scores')
 	args	 = parser.parse_args() 
@@ -88,15 +101,16 @@ def main ():
 	
 	fh = openfile (args.file)
 	out = open (args.out, 'w') if args.out else sys.stdout 
+	depth = args.depth 
 	
 	if args.kmer == 0 and not args.quality:
-		sum_per_site_var (fh, out)
+		sum_per_site_var (fh, out, depth)
 	elif args.kmer > 0 and not args.quality:
-		sum_kmer_var (fh, args.kmer, out)
+		sum_kmer_var (fh, args.kmer, out, depth)
 	elif args.kmer ==0 and args.quality:
-		sum_per_site_basecalling_err_and_var (fh, out)
+		sum_per_site_basecalling_err_and_var (fh, out, depth)
 	elif args.kmer > 0 and args.quality:
-		sum_kmer_basecalling_err_and_var (fh, args.kmer, out)
+		sum_kmer_basecalling_err_and_var (fh, args.kmer, out, depth)
 		
 if __name__ == "__main__":
 	main ()
