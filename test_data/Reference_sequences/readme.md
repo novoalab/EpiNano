@@ -7,6 +7,9 @@ Modified sites identified with orthogonal method
 -----------------------------
 
 known.modifications.txt
+
+These sites was used for assessment and validation epinano.
+
 The cooridiantes in this file is 1-based.
 
 Curlcakes sequences
