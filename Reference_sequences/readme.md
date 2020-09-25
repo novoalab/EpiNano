@@ -8,7 +8,7 @@ Yeast genome reference
 - [Yeast_sk1.fa](https://github.com/enovoa/EpiNano/tree/master/Reference_sequences/Yeast_sk1.fa)
 
 
-Modified m6A sites identified with orthogonal method in Yeast
+List of "known" M6A-modified sites in yeast, identified with orthogonal method (m6A-seq)
 -----------------------------
 
 - [known.modifications.txt](https://github.com/enovoa/EpiNano/tree/master/Reference_sequences/known.modifications.txt)
