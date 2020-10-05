@@ -26,8 +26,8 @@ def openfile (fn):
 # 5mer sumerr
 #Ref,pos,base,strand,cov,sum_err1,sum_err2,sum_err3,sum_err4,sum_err5
 
-ko=sys.argv[1]
-wt=sys.argv[2]
+ko=sys.argv[2]
+wt=sys.argv[1]
 out = sys.argv[3]
 
 
