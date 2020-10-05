@@ -8,9 +8,9 @@ sh ../../misc/Epinano_LabelSamples.sh -m rep1.mod.middleAs.5mer.csv -u rep1.unm.
 sh ../../misc/Epinano_LabelSamples.sh -m rep2.mod.middleAs.5mer.csv -u rep2.unm.middleAs.5mer.csv -o rep2.raw.5mer.csv
 
 echo "create delta features; This is only feasible when you have paired modified and unmodified samples!"
-python ../../misc/Epinano_make_delta.py rep1.mod.middleAs.5mer.csv rep1.unm.middleAs.5mer.csv 5 > rep1.delta.mod.5mer.csv
-python ../../misc/Epinano_make_delta.py rep2.mod.middleAs.5mer.csv rep2.unm.middleAs.5mer.csv 5 > rep2.delta.mod.5mer.csv
-python ../../misc/Epinano_make_delta.py rep1.unm.middleAs.5mer.csv rep2.unm.middleAs.5mer.csv 5 > delta.unm.5mer.csv
+python ../../misc/Epinano_make_delta.py rep1.mod.middleAs.5mer.csv rep1.unm.middleAs.5mer.csv 30 5 > rep1.delta.mod.5mer.csv
+python ../../misc/Epinano_make_delta.py rep2.mod.middleAs.5mer.csv rep2.unm.middleAs.5mer.csv 30 5 > rep2.delta.mod.5mer.csv
+python ../../misc/Epinano_make_delta.py rep1.unm.middleAs.5mer.csv rep2.unm.middleAs.5mer.csv 30 5 > delta.unm.5mer.csv
 
 sh ../../misc/Epinano_LabelSamples.sh -m rep1.delta.mod.5mer.csv -u delta.unm.5mer.csv -o rep1.delta.5mer.csv
 sh ../../misc/Epinano_LabelSamples.sh -m rep2.delta.mod.5mer.csv -u delta.unm.5mer.csv -o rep2.delta.5mer.csv
