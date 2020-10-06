@@ -754,7 +754,7 @@ def print_last_consecutive_lines (lines, outfh):
 			consecutive_lines.append (window + ',' + relative_pos +','+contents[k])
 		else:
 			kmer = kmer + 'N'
-			consecutive_lines.append (window +','+relative_pos+','+'Null')
+			consecutive_lines.append (window +','+relative_pos+','+","+",".join (['NA']*12))
 			
 	consecutive_lines.append (window +',' + '+0' +','+",".join (middle))
 	kmer = kmer + middle[2]
@@ -766,7 +766,7 @@ def print_last_consecutive_lines (lines, outfh):
 			consecutive_lines.append (window + ',' + relative_pos+','+contents[k])
 		else:
 			kmer = kmer + 'N'
-			consecutive_lines.append (window +',' + relative_pos+','+'Null')
+			consecutive_lines.append (window +',' + relative_pos+','+",".join (['NA']*12))
 	for l in consecutive_lines:
 		print (kmer+','+l, file=outfh)
 		
@@ -790,8 +790,8 @@ def slide_per_site_var (per_site_var,win=5):
 	eof = fh.seek (-1,2)
 	fh.seek(0,0)
 	head = fh.readline () 
-	
 	lines = [] 
+
 	for _ in range (win):
 		l = fh.readline().decode('utf-8').rstrip()
 		if l:
@@ -800,7 +800,7 @@ def slide_per_site_var (per_site_var,win=5):
 		print ('not enough sites to be slided',file=sys.stderr)
 	
 	contents = OrderedDict()
-	
+
 	for line in lines:
 		ary = line.strip().split(',')
 		ref,pos,strand = (ary[0], ary[1], ary[3])
@@ -865,11 +865,12 @@ def slide_per_site_var (per_site_var,win=5):
 	ary = [] 
 	for l in tmpfh:
 		ary = l.rstrip().split(',')
-		if len (ary) < 14:
-			continue
-		window = (ary[0], ary[1], ary[3], ary[6])		
+		try:
+			window = (ary[0], ary[1], ary[3], ary[6])		
+		except:
+			print (l.rstrip())
 		if window != current_win:
-			cov, q, mis, ins, dele  = [], [], [], [], []
+			cov, q, mis, ins, dele = [], [], [], [], []
 			for ele in lines:
 				q.append (ele[8])
 				mis.append (ele[11])
@@ -886,15 +887,13 @@ def slide_per_site_var (per_site_var,win=5):
 			lines = []
 		lines.append (ary)
 	# last 5 lines
-	cov, q, mis, ins,dele  = [], [], [], [], []
+	cov, q, mis, ins, dele  = [], [], [], [], []
 	for ele in lines:
-		if len (ary) <14:
-			continue 
 		q.append (ele[8])
 		mis.append (ele[11])
 		ins.append (ele[12])
 		dele.append (ele[13])
-		cov.append(ary[7])
+		cov.append (ele[7])
 	Qs = ",".join (q)
 	Mis = ",".join (mis)
 	Ins = ",".join (ins)
@@ -1027,7 +1026,7 @@ def per_read_var (tsv):
 			last_del[line_num] = half
 			adj_fh.write ( ','.join(map (str, ary)) + '\n')
 	adj_fh.close()
-	os.remove (del_tmp)
+#	os.remove (del_tmp)
 	return adjusted_file
 
 def split_tsv_for_per_read_var (tsv, q, number_threads):
