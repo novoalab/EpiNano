@@ -825,7 +825,7 @@ def slide_per_site_var (per_site_var,win=5):
 		consecutive_lines.append (window+',+0' +','+",".join (middle))
 		kmer = kmer +middle[2]
 		for i in range(1,win//2+1):
-			k = (ref,str(int(pos) + i),strand)
+			k = (ref,str(int(pos)+i),strand)
 			relative_pos = '+'+str(i)
 			if k in contents:
 				kmer = kmer +contents[k].split(',')[2]
@@ -862,8 +862,11 @@ def slide_per_site_var (per_site_var,win=5):
 	current_win = (firstline[0], firstline[1], firstline[3], firstline[6])
 	lines = []
 	lines.append (firstline)
+	ary = [] 
 	for l in tmpfh:
 		ary = l.rstrip().split(',')
+		if len (ary) < 14:
+			continue
 		window = (ary[0], ary[1], ary[3], ary[6])		
 		if window != current_win:
 			cov, q, mis, ins, dele  = [], [], [], [], []
@@ -885,6 +888,8 @@ def slide_per_site_var (per_site_var,win=5):
 	# last 5 lines
 	cov, q, mis, ins,dele  = [], [], [], [], []
 	for ele in lines:
+		if len (ary) <14:
+			continue 
 		q.append (ele[8])
 		mis.append (ele[11])
 		ins.append (ele[12])
