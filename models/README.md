@@ -15,4 +15,4 @@ tr2pr1.delta_sum_err1.delta_sum_err2.delta_sum_err3.delta_sum_err4.delta_sum_err
 sum_err feature can be derived using *Epinano_sumErr.py*, with --kmer 0 if input is per.site.var.csv or --kmer 5 if input is per.site.var.5mer.csv
 delta_sum_err can be computed with *Epinano_delta_sumErr.py*
 
-## feel free to train models on your preferred motifs !!! 
+## feel free to train models on your preferred motifs and features !!! 
