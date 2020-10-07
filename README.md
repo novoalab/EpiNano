@@ -182,7 +182,7 @@ Note 1: it is possible to organize the variants in any kmer length using *$EPINA
 
 Note 2: the users should split the computations for each reference sequences if the reference genome is large. 
 
-### STEP 2. Extraction of current intensity values 
+### STEP 2. Extract current intensity values 
 
 This is optional. Users who are interested in exploring the electric signals including current intensities and duration time can rely on this to extract the relevant information.  User can also use the extracted features to train SVM models.
 
