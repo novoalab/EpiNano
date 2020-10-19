@@ -8,15 +8,69 @@ import subprocess
 import argparse
 import multiprocessing as mp
 from multiprocessing import Process, Manager 
-from functools import partial 
 from sys import __stdout__
-from epinano_modules import * 
-import dask
 import dask.dataframe as dd 
-import pandas as pd 
+from collections import defaultdict 
+from collections import OrderedDict 
+import numpy as np 
 
 #~~~~~~~~~~~~~~~~~~~~ private function ~~~~~~~~
 # func1 subprocess call linux cmmands 
+
+def openfile(f):
+	if f.endswith ('.gz'):
+		fh = gzip.open (f,'rt')
+	elif f.endswith ('bz') or f.endswith ('bz2'):
+		fh = bz2.open(f,'rt')
+	else:
+		fh = open(f,'rt')
+	return fh
+
+def spot_empty_tsv (tsv):
+        ary = []
+        cnt = 0
+        with open (tsv,'r')  as fh:
+                for l in fh:
+                        if cnt <2:
+                                ary.append (l)
+                        else:
+                                break
+                        cnt += 1
+        return True if len (ary)>1 else False
+
+
+
+def split_tsv_for_per_site_var_freq(tsv, folder, q, number_threads, num_reads_per_chunk=4000):
+	head = next(tsv)
+	firstline = next (tsv)
+	current_rd = firstline.split()[0]
+	rd_cnt = 1
+	idx = 0
+	out_fn = "{}/CHUNK_{}.txt".format(folder, idx)
+	out_fh = open (out_fn,'w')
+	print (firstline.rstrip(), file=out_fh)
+	try:
+		for line in tsv:
+			rd = line.split()[0]
+			if current_rd != rd:
+				rd_cnt += 1
+				current_rd = rd
+				if ((rd_cnt-1) % num_reads_per_chunk == 0 and rd_cnt >= num_reads_per_chunk):
+					out_fh.close()
+					q.put ((idx, out_fn))
+					idx += 1
+					out_fn = "{}/CHUNK_{}.txt".format(folder,idx)
+					out_fh = open (out_fn, 'w')
+			print (line.rstrip(), file = out_fh)
+		out_fh.close()
+		q.put ((idx, out_fn))
+	except:
+		raise
+		sys.stderr.write("split tsv file on reads failed\n")
+	finally:
+		for _ in range(number_threads):
+			q.put(None)
+
 def file_exist (file):
 	return os.path.exists (file)
 	
@@ -30,42 +84,13 @@ def stdin_stdout_gen (stdin_stdout):
 	for l in stdin_stdout:
 		if isinstance (l,bytes):
 			yield (l.decode('utf-8'))
-			#sys.stderr.write (l.decode('utf-8')+'\n')
 		else:
 			yield l 
-			#sys.stderr.write (l+'\n')	
-	
-def print_from_stdout (stdout_lst, outputfh):
-	for i, o in enumerate (stdout_lst):
-		for l in o: 
-			if l.decode().startswith ('#'):
-				if i >1 :
-					continue
-			outputfh.write(l.decode())		   
-#~~~~~~~
 
-def reads_mapping (reads_file, reference_file, ncpus, dtype):
-	'''
-	dtype: can be t[ranscriptome] or g[enome]
-	'''
-	dtype = dtype.lower()
-	cmd_map = ''
-	if args.type.startswith ("t"):
-		cmd_map = f"minimap2 -ax map-ont -t {ncpus} -k 5 --MD " \
-						f"{reference_file} {reads_file}|samtools view -hSb  - " \
-						f"| samtools sort -@ {ncpus} - {reads_file}" 
-	else:
-		cmd_map = f"minimap2 -ax splice -uf -k14 -t {n_cpus} --MD " \
-							f"{args.reference} {reads_file}|samtools view -hSb - " \
-							f"| samtools sort -@ {args.threads} - {reads_file}" 
-	return  cmd_map 
-	
-
-def _bam_to_tsv (bam_file,  reference_file, sam2tsv, type):
+def java_bam_to_tsv (bam_file,  reference_file, sam2tsv, type):
 	'''
 	type: reference types,i.e., trans or genome 
 	'''
-	
 	awk_forward_strand = """ awk '{if (/^#/) print $0"\tSTARAND"; else print $0"\t+"}' """
 	awk_reverse_strand = """ awk '{if (/^#/) print $0"\tSTARAND"; else print $0"\t-"}' """
 	cmds = []
@@ -73,7 +98,6 @@ def _bam_to_tsv (bam_file,  reference_file, sam2tsv, type):
 	if type.lower().startswith ("t"):	
 		cmd =  f"samtools view -h -F 3860 {bam_file} | java -jar  {sam2tsv} -r {reference_file} "\
 			f" | {awk_forward_strand}"		
-		#subprocess_cmd (cmd)
 		cmds = [cmd]
 	else:
 		cmd1 = (f"samtools view -h -F 3860 {bam_file} | java -jar  {sam2tsv} -r {reference_file} "
@@ -83,6 +107,86 @@ def _bam_to_tsv (bam_file,  reference_file, sam2tsv, type):
 		cmds = [cmd1,cmd2]
 	return cmds 
 # data frame 
+def tsv_to_freq_multiprocessing_with_manager (tsv_reads_chunk_q, out_dir):
+	'''
+		mutliprocessing
+		produced with sam2tsv.jar with strand information added
+		read read-flags reference       read-pos        read-base       read-qual       ref-pos ref-base                cigar-op                strand
+		a3194184-d809-42dc-9fa1-dfb497d2ed6a    0       cc6m_2244_T7_ecorv      0       C       #       438     G       S       +
+	'''
+	for idx, tsv_small_chunk in iter (tsv_reads_chunk_q.get, None):
+		filename = "{}/small_{}.freq".format(out_dir, idx)
+		outh = open (filename,'w')
+		mis = defaultdict(int) # mismatches
+		mat = defaultdict (int) #matches
+		ins = defaultdict(int) # insertions
+		dele = defaultdict(int) # deletions
+		cov = OrderedDict ()  # coverage
+		ins_q = defaultdict(list)
+		aln_mem = []  #read, ref, refpos; only store last entry not matching insertion
+		pos = defaultdict(list) # reference positions
+		base = {} # ref base
+		qual = defaultdict(list)
+		read_bases = defaultdict (dict)
+                #READ_NAME     FLAG    CHROM   READ_POS  BASE   QUAL  REF_POS REF  OP   STRAND
+                #read read-flags        reference       read-pos        read-base       read-qual       ref-pos ref-base                cigar-op                strand
+		#print ("tsv to freq for chunking",idx)
+		with open (tsv_small_chunk, 'r') as fh:
+			for line in fh:
+				if line.startswith ('#'):
+					continue
+				ary = line.rstrip().split()
+				if ary[-2] in ['M','m']:
+					k = (ary[2], int (ary[-4]), ary[-1]) #
+					cov[k] = cov.get(k,0) + 1
+					aln_mem = []
+					aln_mem.append((ary[0],ary[2],int(ary[-4]), ary[-1]))
+					qual[k].append (ord(ary[-5])-33)
+					base[k] = ary[-3].upper()
+					read_bases[k][ary[4]] = read_bases[k].get(ary[4], 0) + 1
+					if (ary[-3] != ary[4]):
+						mis[k] += 1
+					else:
+						mat[k] += 1
+				if ary[-2] == 'D':
+					k = (ary[2], int(ary[-4]), ary[-1])
+					cov[k] = cov.get(k,0) + 1
+					aln_mem = []
+					aln_mem.append((ary[0],ary[2],int(ary[-4]), ary[-1]))
+					base[k] = ary[-3].upper()
+					dele[k] = dele.get(k,0) + 1
+				if ary[-2] == 'I':
+					last_k = aln_mem[-1][1],aln_mem[-1][2],aln_mem[-1][3] # last alignment with match/mismatch/del
+					next_k = (ary[2], last_k[1] + 1,last_k[2])
+					if last_k[0] != ary[2]:
+						pass
+					ins_k_up = (ary[0], ary[2], last_k[1],last_k[2])
+					ins_k_down = (ary[0], ary[2], last_k[1] + 1,last_k[2])
+					if (ins_k_down) not in ins_q:
+						ins[next_k] = ins.get(next_k,0) + 1
+						ins_q[ins_k_down].append(ord(ary[-5])-33)
+					if (ins_k_up) not in ins_q:
+						ins[last_k] = ins.get(last_k,0) + 1
+						ins_q[ins_k_up].append(ord(ary[-5])-33)
+		header = '#Ref,pos,base,cov,mat,mis,ins,del,qual,strand,bases\n'
+		outh.write(header)
+		os.remove (tsv_small_chunk)	
+		for k in cov.keys():
+			depth = cov.get (k,0)
+			Mis = mis.get (k,0)
+			Mat = mat.get (k,0)
+			Del = dele.get (k,0)
+			q_lst = qual.get (k,[0])
+			try:
+				q_lst = ':'.join (map (str, q_lst))+':'  # dataframe sum
+				num_ins = ins.get (k,0)
+				bases_counts = "0:0:0:0:"
+				if k in read_bases:
+					bases_counts = ":".join ([str(read_bases[k].get(l,0)) for l in 'ACGT'])
+				inf = "{},{},{},{},{},{},{},{},{},{},{}:\n".format (k[0], k[1], base[k], depth, Mat, Mis, num_ins, Del, q_lst, k[2], bases_counts)
+				outh.write (inf)
+			except:
+				sys.stderr.write ("file {} {} does not work\n".format (tsv,k))
 
 def df_is_not_empty(df):
 	'''
@@ -96,229 +200,147 @@ def df_is_not_empty(df):
 	except:
 		return False
 	
-def df_proc (small_files_dir, outprefix):
-	
-	plusout = outprefix+'.plus_strand.per.site.var.csv'
-	minusout = outprefix+'.minus_strand.per.site.var.csv'
-	#outfh.write(header)
-	#custom_sum = dd.Aggregation('custom_sum', lambda x: x.agg (":".join(str(x))), lambda x0: x0.agg(":".join(str(x0))))
-	df = dd.read_csv ("{}/small_*.freq".format(small_files_dir)) 
-	df_plus = df[df['strand'] == '+']
-	df_minus = df[df['strand'] == '-']
-	
-	outs = [] 
-	if df_is_not_empty (df_plus):
-		df_groupy (df_plus, plusout)
-		outs.append (plusout)
-	if df_is_not_empty (df_minus):
-		df_groupy(df_minus, minusout)
-		outs.append (minusout)
-	return outs 
-
-def df_groupy(df, out):
-	outfh = open (out,'w')
+def df_proc (df, outfn):
+	'''
+	input is a dataframe for either forward or reverse strand
+	'''
+	if not df_is_not_empty (df):
+		print ("empty dataframe for {}".format(outfn), file=sys.stderr)
+		return None
+	outfh = open (outfn, 'w')
 	header = "#Ref,pos,base,strand,cov,q_mean,q_median,q_std,mis,ins,del"
-	print (header, file = outfh)
+	print (header, file=outfh)
 	gb = df.groupby(['#Ref','pos','base','strand']).agg({
                'cov':['sum'],
                'mis':['sum'],
                'ins':['sum'],
                'del':['sum'],
                'qual':['sum']})
-	gb.reset_index()
-	for i,j in gb.iterrows():
-		i = ",".join (map (str, list(i)))
-		cov = j['cov'].values[0]
-		mis = '%0.5f' % (j['mis'].values[0]/cov)
-		ins = '%0.5f' % (j['ins'].values[0]/cov)
-		_de = '%0.5f' % (j['del'].values[0]/cov)
-		q = np.array (j['qual'].str.split(':').values[0][:-1]).astype(int)  #quality sting ends with ':'
-		qmn,qme,qst = '%0.5f' % np.mean(q), '%0.5f' % np.median(q), '%0.5f' % np.std(q)
-		outfh.write ("{},{},{},{},{},{},{},{}\n".format(i,cov,qmn,qme,qst,mis,ins,_de))
-	outfh.close()
+	gb = gb.reset_index()
+	for row in gb.itertuples():
+		coor = ",".join (map (str,row[1:5]))
+		cov, mis, ins, _del, qual = row[5:]
+		mis = '%0.5f' % (mis/cov)
+		ins = '%0.5f' % (ins/cov)
+		_de = '%0.5f' % (_del/cov)
+		q = np.array ([x for x in qual.split(':') if x ]).astype(int)  
+		qmn,qme,qst = '%0.5f' % np.mean(q), '%0.5f' % np.median(q), '%0.5f' % np.std(q)	
+		outfh.write ("{},{},{},{},{},{},{},{}\n".format(coor,cov,qmn,qme,qst,mis,ins,_de))
+
+def tsv_generator (reference, bam_file, sam2tsv, mapping_type):
+	cmds = java_bam_to_tsv (bam_file, reference, sam2tsv, mapping_type)
+	tsv_gen = []
+	if mapping_type == 't':
+		cmd = subprocess.Popen ((cmds[0]), stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True )
+		returncode = cmd.returncode
+		if returncode:
+			print (res[1], file=sys.stderr)
+			exit()
+		tsv_gen.append (stdin_stdout_gen (cmd.stdout))
+	elif mapping_type == 'g':
+		run1 = subprocess.Popen ((cmds[0]), stdout=subprocess.PIPE, stderr = subprocess.PIPE,shell=True)
+		run2 = subprocess.Popen ((cmds[1]), stdout=subprocess.PIPE, stderr = subprocess.PIPE,shell=True)
+		if any ([run1.returncode, run2.returncode]):
+			res1 = run1.communicate()
+			res2 = run2.communicate()
+			print (res1[1], res2[1], file=sys.stderr)
+			exit()
+		tsv_gen.append (stdin_stdout_gen(run1.stdout))
+		tsv_gen.append (stdin_stdout_gen(run2.stdout))
+		#tsv_gen = itertools.chain (stdin_stdout_gen (run1.stdout), stdin_stdout_gen (run2.stdout))
+	return tsv_gen
+	
+def _prepare_dir (dirname):			
+	if  os.path.exists(dirname):
+		shutil.rmtree (dirname)
+		sys.stderr.write ("{} already exists, will overwrite it\n".format(dirname))
+		os.mkdir (dirname)
+	if not os.path.exists (dirname):
+		os.mkdir (dirname)
 
 #~~~~~~~~~~~~~~~~~~~~~~~ main () ~~~~~~~~~~~~~~~~~~~~~~~
-parser = argparse.ArgumentParser()
-required_args = parser.add_argument_group ('Required Arguments')
-required_args.add_argument ('-R','--reference', help='samtools faidx indexed reference file')
-required_args.add_argument ('-b', '--bam', type=str, help='bam file; if given; no need to offer reads file; mapping will be skipped')
-required_args.add_argument ('-s', '--sam2tsv',type=str, default='',help='/path/to/sam2tsv.jar; needed unless a sam2tsv.jar produced file is already given')
-parser.add_argument ('-f','--file', type=str, help='tsv file generated by sam2tsv.jar; if given, reads mapping and sam2tsv conversion will be skipped')
-parser.add_argument ('-t', '--threads', type=int, default=4,  help='number of threads') 
-parser.add_argument ('-T', '--type', type=str, default="t" ,help="reference types, which is either g(enome) or t(ranscriptome);")
-parser.add_argument ('-w', '--window', type=int, default=0, help= """specify a windown/kmer size to re-organize per site variants on kmer/window basis;
-								By default, this is not performed;
-								 It is recommended to do it seperately with EpiNano/misc/Slide_Variants.py """)
-
-parser.add_argument ('-p','--per_read_variants', action='store_true', help='compute per reads variants statistics')
-args=parser.parse_args()
+def main ():
+	parser = argparse.ArgumentParser()
+	required_args = parser.add_argument_group ('Required Arguments')
+	required_args.add_argument ('-R','--reference', help='''samtools faidx indexed reference file and with
+                        sequence dictionary created using picard
+                        CreateSequenceDictionary''')
+	required_args.add_argument ('-b', '--bam', type=str, help='bam file; if given; no need to offer reads file; mapping will be skipped')
+	required_args.add_argument ('-s', '--sam2tsv',type=str, default='',help='/path/to/sam2tsv.jar; needed unless a sam2tsv.jar produced file is already given')
+	parser.add_argument ('-n', '--number_cpus', type=int, default=4, help='number of CPUs') 
+	parser.add_argument ('-T', '--type', type=str, default="t", help="reference types, which is either g(enome) or t(ranscriptome);")
+	args=parser.parse_args()
 
 #~~~~~~~~~~~~~~~~~~~~~~~ prepare for analysis ~~~~~~~~~~~~~~ 
-tsv_gen = None  # generator 
-prefix = '' 
-#args.reads +'.per_site.var.csv'
-def _tsv_gen ():
-	if not args.file:
-		if args.bam:
-			bam_file = args.bam 
-			if not file_exist (bam_file):
-				sys.stderr.write (bam_file+' does not exist; pease double check!\n')
-				exit()
-			else:
-				if not file_exist (args.sam2tsv):
-					sys.stderr.write ("Please offer correctly path to sam2tsv.jar\n".format(args.sam2tsv))
-					exit()
-				if not os.path.exists (bam_file+'.bai'):
-					os.system ('samtools index ' + bam_file + '.bai')
-				if not args.reference :
-					sys.stderr.write('requires reference file that was used for reads mapping\n')
-					exit()
-				if not file_exist (args.reference):
-					sys.stderr.write('requires reference file does not exist\n')
-					exit()
-				prefix = bam_file.replace('.bam','')
-				cmds = _bam_to_tsv (bam_file, args.reference, args.sam2tsv, args.type)
-				if args.type[0].lower() == 't': #mappign to transcriptome; only one sam2tsv.jar command 
-					cmd = subprocess.Popen ((cmds[0]),  stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True )
-					tsv_gen = stdin_stdout_gen (cmd.stdout)
-				elif args.type[0].lower() == 'g': #mapping to genome; sam2tsv.jar caled twice for + and - strands 
-					cmd1 = subprocess.Popen ((cmds[0]), stdout=subprocess.PIPE, stderr = subprocess.PIPE,shell=True)
-					cmd2 = subprocess.Popen ((cmds[1]), stdout=subprocess.PIPE, stderr = subprocess.PIPE,shell=True)
-					tsv_gen = itertools.chain (stdin_stdout_gen (cmd1.stdout), stdin_stdout_gen (cmd2.stdout))
+	tsv_gen = None  # generator 
+	prefix = '' 
+ 
+	if args.reference:
+		if not file_exist (args.reference):
+			sys.stderr.write (args.reference + ' does not exist')
+			exit()
+		ref_faidx = args.reference +'.fai'
+		if not file_exist (ref_faidx):
+			sys.stderr.write (ref_faidx + ' needs to be created with samtools faidx')
+			exit()		
+	if args.bam:
+		bam_file = args.bam 
+		if not file_exist (bam_file):
+			sys.stderr.write (bam_file+' does not exist; please double check!\n')
+			exit()
 		else:
-			if args.reads and args.reference:
-				bam_file = args.reads + '.bam'
-				prefix = args.reads 
-				#~~~~~~~~~~~~~ minimap2 mapping commands ~~~~~~~~~~~~~~~~~~~~~~~~~
-				cmd_map = reads_mapping (args.reads, args.reference, args.threads, args.type)
-				sys.stderr.write ("++++ mapping command: \n")
-				sys.stderr.write (cmd_map)
-				proc = subprocess.Popen ((cmd_map), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-				o, e = proc.communicate ()
-				if (proc.returncode):
-					sys.stderr.write ('++++ mapping is UNsuccessful:\n')
-					sys.stderr.write ('!!!! '+str(e)+'\n')
-				else:
-					sys.stderr.write ('++++ mapping is Successful\n')
-					os.system ('samtools index ' + args.reads+'.bam')
-					sys.stderr.write ('+++convert bam to tsv\n')
-					cmds = 	_bam_to_tsv (bam_file, args.reference, args.sam2tsv, args.type)
-				if args.type[0].lower() == 't': #mappign to transcriptome; only one sam2tsv.jar command 
-					cmd = subprocess.Popen ((cmds[0]),  stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True )
-					tsv_gen = stdin_stdout_gen (cmd.stdout)
-				elif args.type[0].lower() == 'g': #mapping to genome; sam2tsv.jar caled twice for + and - strands 
-					cmd1 = subprocess.Popen ((cmds[0]), stdout=cmd3.stdin, stderr = subprocess.PIPE,shell=True)
-					cmd2 = subprocess.Popen ((cmds[1]), stdout=cmd3.stdin, stderr = subprocess.PIPE,shell=True)
-					tsv_gen = itertools.chain (stdin_stdout_gen (cmd1.stdout), stdin_stdout_gen (cmd2.stdout))
-			else:
-				if not file_exist (args.reads):
-					sys.stderr.write('please supply reads file\n')
-				elif not file_exist (args.reference):
-					sys.stderr.write('please supply reference file\n')
+			if not file_exist (args.sam2tsv):
+				sys.stderr.write ("Please offer correctly path to sam2tsv.jar\n".format(args.sam2tsv))
 				exit()
-	else:
-		if  args.file:
-			tsv_file = args.file 
-			prefix = tsv_file.replace ('.tsv','')
-			if os.path.exists (args.file):
-				fh = openfile (tsv_file)
-				firstline = fh.readline()
-				fh.close()
-				if len (firstline.rstrip().split()) != 10:
-					sys.stderr.write('tsv file is not in right format!')
-					sys.stderr.write('tsv files should contain these columns {}\n'.format("#READ_NAME     FLAG    CHROM   READ_POS        BASE    QUAL    REF_POS REF     OP      STARAND"))
-				sys.stderr.write (tsv_file + ' already exists; will skip reads mapping and sam2tsv conversion \n')			
-				tsv_gen = openfile (tsv_file)
-			else:
-				sys.stderr.write (tsv_file + ' does not exist; please double check \n')
-				exit()
-	return tsv_gen, prefix 
-#~~~~~~~~~~~~~~~~  SAM2TSV ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-################# funciton run commands ########################### 
-#~~~~~~~~~~~~~~~~ split tsv  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-tsv_gen, prefix = _tsv_gen()
-tmp_dir = prefix + '.tmp_splitted'
-if  os.path.exists(tmp_dir):
-	shutil.rmtree (tmp_dir)
-	sys.stderr.write ("{} already exists, will overwrite it\n".format(tmp_dir))
-os.mkdir (tmp_dir)
+			if not os.path.exists (bam_file+'.bai'):
+				sys.stderr.write ('bam file not indexed!\nstarting indexing it ...')
+				os.system ('samtools index ' + bam_file + '.bai')
+			if not args.reference :
+				sys.stderr.write('requires reference file that was used for reads mapping\n')
+	if args.sam2tsv:
+		sam2tsv = args.sam2tsv
+		if not file_exist (sam2tsv):
+			print (sam2tsv,'does not exist, Please provide it properly.', file=sys.stderr)
+			exit()
 
-number_threads = args.threads 
-manager = Manager()
-q = manager.Queue(args.threads)
-#~~~~~~~~~~~~~~~~ compute per site variants frequecies ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#1 calculate variants frequency for each small splitted file 
-processes = []
-ps = Process (target = split_tsv_for_per_site_var_freq, args = (tsv_gen, q, number_threads, 1500))
-processes.append (ps)
 
-for _ in range(number_threads):
-	ps = Process (target= tsv_to_freq_multiprocessing_with_manager, args = (q, tmp_dir))
-	processes.append (ps) 
-for ps in processes:
-	ps.daemon = True
-	ps.start()
-for ps in processes:
-	ps.join()
+	prefix = args.bam.replace ('.bam','')
+	tsviter_lst = tsv_generator (args.reference, args.bam, args.sam2tsv, args.type)
 
-#2 combine small files and produce varinats frequencies per ref-position
-#persite_var = prefix +'.per_site.var.csv'
-var_files = df_proc (tmp_dir, prefix)
+	strands = ["plus_strand", "minus_strand"]
 
-if  os.path.exists(tmp_dir):
-	pool = mp.Pool(args.threads)
-	tmp_files = glob.glob("{}/small*".format(tmp_dir))
-	pool.map(_rm,  tmp_files)
-	shutil.rmtree(tmp_dir)
-#print ("per site variants frequencies table has been generated", file = sys.stderr)
-#3 sliding window per site variants --> for making predicitons 
-if args.window:
-	print (args.window,'mer')
-	kmer = args.window 
-	print ("slice per site variants frequencies table on {}mer basis".format (kmer), file=sys.stderr)
-	if len (var_files) == 1:
-		slide_per_site_var(var_files[0], kmer)
-	elif len (var_files) == 2:
-		pool = mp.Pool(2)
-		pool.starmap(slide_per_site_var, (var_files,kmer))
-		pool.close(); pool.join()
+	tmp_dir = prefix + '_TMP_'
+	_prepare_dir (tmp_dir)
 
-# per read variants 
-if args.per_read_variants:
-	tsv_gen, prefix =_tsv_gen()
-	outfile = prefix + ".per.read.var.csv"
-	outfh = open (outfile, 'w')
-	outfh.write ("#REF,REF_POS,REF_BASE,STRAND,READ_NAME,READ_POSITION,READ_BASE,BASE_QUALITY,MISMATCH,INSERTION,DELETION" + '\n')
-	outfh.close()
-	per_read_var = outfile 
-	processes = []
-	q = manager.Queue(100)
-	ps = Process (target = split_tsv_for_per_read_var, args = (tsv_gen, q, args.threads))
-	ps.start()
-	processes.append (ps)
-	for _ in range (args.threads):
-		ps = Process (target = per_read_var_multiprocessing, args= (q, args.threads, outfile))
-		processes.append (ps)
-		ps.start()
-	for ps in processes:
-		ps.join()
-	outfh.close()
-	# slide per read var
-	output = prefix + ".per.read.var.5mer.csv"
-	outfh = open (output,'w')
-	outfh.write("#Read,Read_Window,ReadKmer,Ref,RefKmer,Strand,Ref_Window,q1,q2,q3,q4,q5,mis1,mis2,mis3,mis4,mis5,ins1,ins2,ins3,ins4,ins5,del1,del2,del3,del4,del5\n")
-	outfh.close()
-	q = manager.Queue()
-	ps = Process (target = split_reads_for_per_read_var_sliding , args = (per_read_var,q,number_threads))
-	ps.start()
-	for _ in range (number_threads):
-		ps = Process (target = slide_per_read_var_multiprocessing, args = (q, output))
-		processes.append (ps)
-		ps.start()
-	for ps in processes:
-		ps.join()
-	outfh.close()
-exit()	
-
-# finally remove tmp files 
-#4
+	def tsv_to_var (tsvit, tmp_dir, out_var_fn, number_threads):
+		processes = [] 	
+		manager = Manager()
+		q = manager.Queue(number_threads)
+		ps = Process (target = split_tsv_for_per_site_var_freq, args = (tsvit, tmp_dir, q, number_threads, 2000))
+		processes.append (ps) 
+		for _ in range(number_threads):
+			ps = Process (target= tsv_to_freq_multiprocessing_with_manager, args = (q, tmp_dir))
+			processes.append (ps)
+		for ps in processes:
+			ps.daemon = True
+			ps.start()
+		for ps in processes:
+			ps.join()		
+		df = dd.read_csv ("{}/small_*freq".format(tmp_dir))
+		out = out_var_fn 
+		df_proc (df, out_var_fn)
+		if  os.path.exists(tmp_dir):
+			pool = mp.Pool(number_threads)
+			tmp_files = glob.glob("{}/small*".format(tmp_dir))
+			pool.map(_rm,  tmp_files)
+			shutil.rmtree(tmp_dir)
+	
+	for idx, tsvit in enumerate (tsviter_lst):
+		tmp_dir = prefix + '_TMP_'
+		_prepare_dir (tmp_dir)
+		out_var_fn = "{}.{}.per.site.csv".format (prefix, strands[idx])
+		tsv_to_var (tsvit,  tmp_dir, out_var_fn, args.number_cpus)
+	
+	
+if __name__ == "__main__":
+	main()
