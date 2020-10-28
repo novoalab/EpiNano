@@ -25,8 +25,8 @@ echo "reads can also be mapped to reference genome with minimap2"
 
 
 echo "compute varitants/error frequencies from bam file"
-python ../../Epinano_Variants.py -R ref.fa -b wt.bam -t 6 -T t -s ../../misc/sam2tsv.jar
-python ../../Epinano_Variants.py -R ref.fa -b ko.bam -t 6 -T t -s ../../misc/sam2tsv.jar
+python ../../Epinano_Variants.py -R ref.fa -b wt.bam -n 6 -T t -s ../../misc/sam2tsv.jar
+python ../../Epinano_Variants.py -R ref.fa -b ko.bam -n 6 -T t -s ../../misc/sam2tsv.jar
 
 echo "predict based on deviance of mis" 
 echo "AND"
