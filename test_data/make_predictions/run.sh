@@ -31,8 +31,8 @@ python ../../Epinano_Variants.py -R ref.fa -b ko.bam -n 6 -T t -s ../../misc/sam
 echo "predict based on deviance of mis" 
 echo "AND"
 echo "predict based on linear regression model residuals, using mis feature"
-echo "CMD: Rscript ../Epinano_DiffErr.R -k ko.plus_strand.per.site.var.csv  -w wt.plus_strand.per.site.var.csv -t 5 -o HL -c 30 -f sum  -d 0.1 -p"
-Rscript ../../Epinano_DiffErr.R -k ko.plus_strand.per.site.var.csv  -w wt.plus_strand.per.site.var.csv -t 5 -o HL -c 30 -f sum  -d 0.1 -p
+echo "CMD: Rscript ../Epinano_DiffErr.R -k ko.plus_strand.per.site.var.csv  -w wt.plus_strand.per.site.var.csv -t 5 -o HL -c 30 -f mis  -d 0.1 -p"
+Rscript ../../Epinano_DiffErr.R -k ko.plus_strand.per.site.var.csv  -w wt.plus_strand.per.site.var.csv -t 5 -o HL -c 30 -f mis  -d 0.1 -p
 
 echo "similarly we can use the same method but with sum_err"
 echo "generate sum_err (mis, ins, del)"
