@@ -5,7 +5,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from epinano_modules import slide_per_site_var 
 
 usage = '''
-python sys.argv[0] per_site_var kmer_length
+python Slide_Variants.py per_site_var kmer_length
 
 '''
 
