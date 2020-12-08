@@ -11,7 +11,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 - [About EpiNano](#About-EpiNano)  
 	- [Modes of Running EpiNano](#Modes-of-Running-EpiNano)  
 	- [Considerations when using EpiNano](#Considerations-when-using-EpiNano)  
-	- [Pre-requisites required packages](#Pre-requisites required packages) 
+	- [Pre-requisites required packages](#Pre-requisites-required-packages) 
 - [Getting the code](#Getting-the-code) 
 - [Running EpiNano](#Running-EpiNano-1.2)
 	- [Running EpiNano 1.2](#Running-EpiNano-1.2) 
