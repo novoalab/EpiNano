@@ -11,7 +11,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 - [About EpiNano](#About-EpiNano)  
 	- [Modes of Running EpiNano](#Modes-of-Running-EpiNano)  
 	- [Considerations when using EpiNano](#Considerations-when-using-EpiNano)  
-	- [Pre-requisites](#Pre-requisites) 
+	- [Pre-requisites required packages](#Pre-requisites) 
 - [Getting the code](#Getting-the-code) 
 - [Running EpiNano](#Running-EpiNano-1.2)
 	- [Running EpiNano 1.2](#Running-EpiNano-1.2) 
@@ -110,11 +110,11 @@ The following softwares and packages were used by EpiNano
 
 | Software/Packages | Version |  
 | ------------- | ------------- |  
+| java openjdk | 1.8.0 |  
 | minimap2 | 2.14-r886 |  
 | samtools | 0.1.19 |  
 | sam2tsv | a779a30d6af485d9cd669aa3752465132cf21eec |  
 | python | 3.6.7 |  
-| java openjdk | 1.8.0 |  
 | h5py | 2.8.0 |  
 | numpy | 1.15.4 |  
 | pandas | 0.23.4 |  
@@ -122,6 +122,7 @@ The following softwares and packages were used by EpiNano
 | nanopolish | 0.12.4 |  
 | dask | 2.5.2 |  
 | biopython | 1.76 | 
+| pysam | 0.15.3+ |
 | R | 3.6.0 (2019-04-26) |
 | R packages: | | 
 | forcats | 0.4.0 |
