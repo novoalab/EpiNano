@@ -122,6 +122,21 @@ The following softwares and packages were used by EpiNano
 | nanopolish | 0.12.4 |  
 | dask | 2.5.2 |  
 | biopython | 1.76 | 
+| R | 3.6.0 (2019-04-26) |
+| R packages: | | 
+| forcats | 0.4.0 |
+| stringr | 1.4.0 |
+| dplyr | 1.0.1 |    
+| purrr | 0.3.2 |
+| readr   | 1.3.1 |
+| tidyr | 0.8.3  |
+| tibble  | 3.0.3 |
+| tidyverse |1.2.1 |
+| ggrepel | 0.8.1 |
+| car	| 3.0-3  |
+| ggplot2 | 3.1.1 |
+| reshape2 |1.4.3  |
+| outliers | 0.14 |
 
 ## Getting the code  
 
