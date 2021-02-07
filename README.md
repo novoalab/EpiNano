@@ -118,7 +118,7 @@ The following softwares and packages were used by EpiNano
 | h5py | 2.8.0 |  
 | numpy | 1.15.4 |  
 | pandas | 0.23.4 |  
-| sklearn | 0.20.2 |  
+| scikit-learn | 0.20.2 |  
 | nanopolish | 0.12.4 |  
 | dask | 2.5.2 |  
 | biopython | 1.76 | 
@@ -126,6 +126,7 @@ The following softwares and packages were used by EpiNano
 | R | 3.6.0 (2019-04-26) |
 | R packages: | | 
 | forcats | 0.4.0 |
+| optparse| 1.6.6 |
 | stringr | 1.4.0 |
 | dplyr | 1.0.1 |    
 | purrr | 0.3.2 |
