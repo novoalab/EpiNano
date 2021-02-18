@@ -137,6 +137,8 @@ def tsv_to_freq_multiprocessing_with_manager (tsv_reads_chunk_q, out_dir):
 					continue
 				ary = line.rstrip().split()
 				if ary[-2] in ['M','m']:
+					ary[4] = ary[4].upper() # in case soft masked
+					ary[7] = ary[7].upper()
 					k = (ary[2], int (ary[-4]), ary[-1]) #
 					cov[k] = cov.get(k,0) + 1
 					aln_mem = []
