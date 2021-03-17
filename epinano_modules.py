@@ -780,7 +780,7 @@ def slide_per_site_var (per_site_var,win=5):
 	bases mapped to reverse strand have alredy been complemented during above processing 
 	'''
 	#Ref,pos,base,strand,cov,q_mean,q_median,q_std,mis,ins,del
-	prefix =  per_site_var.replace ('.per.site.var.csv','') # ".".join (per_site_var.split('.')[:-1])
+	prefix =  re.sub(r'.per.site.\S+','',per_site_var)# , .replace ('.per.site.csv','') # ".".join (per_site_var.split('.')[:-1])
 	out_tmp = prefix +'.per_site_var.{}mer.tmp'.format(win)
 	if os.path.exists (out_tmp):
 		os.remove (out_tmp)
@@ -849,7 +849,8 @@ def slide_per_site_var (per_site_var,win=5):
 	print_last_consecutive_lines (lines, outfh)
 	outfh.close()
 	
-	out2 = prefix + '.per_site.{}mer.csv'.format(win)
+	#out2 = prefix + '.per_site.{}mer.csv'.format(win)
+	out2 = prefix + '.per.site.{}mer.csv'.format(win)
 	outh2 = open (out2,'w')
 	q_in_head = ",".join (["q{}".format(i) for i in range(1,win+1)])
 	mis_in_head = ",".join (["mis{}".format(i) for i in range(1,win+1)])
@@ -858,11 +859,12 @@ def slide_per_site_var (per_site_var,win=5):
 	outh2.write ('#Kmer,Window,Ref,Strand,Coverage,{},{},{},{}\n'.format(q_in_head, mis_in_head, ins_in_head, del_in_head))
 	
 	tmpfh = open (out_tmp,'r')
+	cov, q, mis, ins, dele = [], [], [], [], []
 	firstline = tmpfh.readline().rstrip().split(',')
 	current_win = (firstline[0], firstline[1], firstline[3], firstline[6])
 	lines = []
 	lines.append (firstline)
-	ary = [] 
+	ary = []
 	for l in tmpfh:
 		ary = l.rstrip().split(',')
 		try:
@@ -870,19 +872,19 @@ def slide_per_site_var (per_site_var,win=5):
 		except:
 			print (l.rstrip())
 		if window != current_win:
-			cov, q, mis, ins, dele = [], [], [], [], []
 			for ele in lines:
 				q.append (ele[8])
 				mis.append (ele[11])
 				ins.append (ele[12])
 				dele.append (ele[13])
-				cov.append(ary[7])
+				cov.append(ele[7])
 			Qs = ",".join (q)
 			Mis = ",".join (mis)
 			Ins = ",".join (ins)
 			Del = ",".join(dele)
 			Cov = ":".join (cov)
 			print (",".join (current_win), Cov, Qs, Mis, Ins, Del, sep=",", file= outh2)
+			cov, q, mis, ins, dele = [], [], [], [], []
 			current_win = window
 			lines = []
 		lines.append (ary)
@@ -903,7 +905,7 @@ def slide_per_site_var (per_site_var,win=5):
 	
 	tmpfh.close()
 	outh2.close()
-	os.remove (out_tmp)
+#	os.remove (out_tmp)
 	return (out2)
 	
 	
