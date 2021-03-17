@@ -905,7 +905,7 @@ def slide_per_site_var (per_site_var,win=5):
 	
 	tmpfh.close()
 	outh2.close()
-#	os.remove (out_tmp)
+	os.remove (out_tmp)
 	return (out2)
 	
 	
