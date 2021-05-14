@@ -17,7 +17,7 @@ There sites were identified by Schwartz et al., 2013 (PMCID: PMC3956118) in Yeas
 
 They were used for assessment and validation of epinano.
 
-The cooridiantes in this file is 1-based.
+The coordinates in this file are 1-based.
 
 
 Curlcakes sequences
