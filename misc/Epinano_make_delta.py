@@ -11,7 +11,7 @@ Description: prepare for delta features
 
 usage = """
 	python Epinano_make_delta.py <modified sample feature table> <unmodified sample feature table> <minimum coverage at sites>  <windown size of feature table>
-	if not specified, slided window size is 0
+	if not specified, slided window size is 1, aka not slided
 	otherwise, windown size = kmer size
 """
 
