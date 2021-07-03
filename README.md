@@ -236,12 +236,13 @@ Note 1: different types of RNA base modification show distinct biases toward the
 $ Rscript Epinano_DiffErr.R -h
 
 Usage:
-        DiffErr.R v0.1 compares a given feature between two samples. It predict potential modified sites mainly through two methods:
-                1. compute deviance of selected featuers between samples and then calculate z-scores. Outliers or potential modified sites will then
-                be determined based on user-defined threshold. Note that this is not suit for our published curlcakes construct data becos they are full of modifications.
-                2. fit a linear regression model between two samples.
+        DiffErr.R v0.1 compares a given feature between two samples. It predicts potential modified sites mainly through two methods:
+                1. Compute deviance of selected featuers between samples and then calculate z-scores. Outliers or potential modified sites will then
+                be determined based on user-defined threshold. Note that this is not suited for 'curlcake' data because they are highly modified (~25% of the bases 
+		in the RNA molecules are modified bases).
+                2. Fit a linear regression model between two samples.
                         1) detect residuals outliers of the given linear model.
-                        2) compute z-scores of residuals for each observation in turn and determine outliers using user-defined z-score threshold.
+                        2) compute z-scores of residuals for each observation and determine outliers using user-defined z-score threshold.
                 Examples:
                         1 compare sum_err between two samples
                         Rscript Epinano_DiffErr.R -k ko.csv -w wt.csv -t 3 -o Test -c 30 -f sum_err  -d 0.1
