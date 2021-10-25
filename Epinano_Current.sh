@@ -61,8 +61,8 @@ if [[ $mapping_type =~ 'g' ]]; then
 	python ${src_d}/misc/Epinano_Current.py --infile ${evaln}.reverse_strand.gz --reference ${reference} --outdir ${evaln}.reverse  --threads ${threads} --strand -
 	python ${src_d}/misc/concat_events.py ${evaln}.forward_events.collapsed
 	python ${src_d}/misc/concat_events.py ${evaln}.reverse_events.collapsed
-	python ${src_d}/misc/Slide_Intensity.py --intensity_table ${evaln}.reverse _events.collapsed/Intensity.collapsed.tsv --window 5
-	python ${src_d}/misc/Slide_Intensity.py --intensity_table ${evaln}.forward _events.collapsed/Intensity.collapsed.tsv --window 5 
+	python ${src_d}/misc/Slide_Intensity.py --intensity_table ${evaln}.reverse_events.collapsed/Intensity.collapsed.tsv --window 5
+	python ${src_d}/misc/Slide_Intensity.py --intensity_table ${evaln}.forward_events.collapsed/Intensity.collapsed.tsv --window 5 
 fi
 
 if [[ $mapping_type =~ 't' ]]; then 
