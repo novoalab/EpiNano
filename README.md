@@ -190,7 +190,7 @@ The '--type' flag indicates the type of mapping, i.e., mapping to reference geno
 
 Example: 
 ```  
-python $EPINANO_HOME/Epinano_Variants.py -n 6 -R reference.fasta -b sample.reads.bam -s /path/to/sam2tsv/sam2tsv.jar --type t 
+python $EPINANO_HOME/Epinano_Variants.py -n 6 -R reference.fasta -b sample.reads.bam -s  $EPINANO_HOME/misc/sam2tsv.jar --type t 
 ```
 Note 1: it is possible to organize the variants in any kmer length using *$EPINANO_HOME/misc/Slide_Variants.py*. 
 
