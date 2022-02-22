@@ -108,6 +108,7 @@ cleanup <- function(input, label, coverage, feature) {
 	input <- input[input$pos>20, ]
 	#Add a column with position 
 	input$position <- paste(input$X.Ref,input$pos, input$base, input$strand)
+	input$sum_err <- rowSums(input[,c("mis", "ins", "del")])
 	#Change column names 
 	input <- input[, c("X.Ref","pos","position", "base", "strand", feature)]
 	colnames(input) <- c("Chr","Position","chr_pos","base","strand", feature)
