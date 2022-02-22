@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-echo "in the follwoing examples we have prior knowlwdgw of modification status"
-echo "please refer to  ../make_predicitons/run.sh for how to prepare feature tables for training or making predicitons !"
+echo "in the following examples we have prior knowledge of modification status"
+echo "please refer to  ../make_predictions/run.sh for how to prepare feature tables for training or making predicitons !"
 echo "combine and label mod and unm samples "
 
 sh ../../misc/Epinano_LabelSamples.sh -m rep1.mod.middleAs.5mer.csv -u rep1.unm.middleAs.5mer.csv -o rep1.raw.5mer.csv
