@@ -67,8 +67,8 @@ for c in cols_in.split(','):
         cols.append(int(c))
 #columns_to_consider = cols #p (int, args['columns'].split(',')) ### 1-based column index e.g.  8,11 (q, mis)
 #cols = [i -1 for i in columns_to_consider]
-cols.sort()
 cols = list (set(cols))
+cols.sort()
 cols = [x-1 for x in cols]
 mod_col = int (args['modification_status_column']) - 1 if args['modification_status_column'] else None
 
