@@ -54,7 +54,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 
 * Does not have models trained with Guppy base-called datasets. 
 
-## About EpiNano 1.2 
+## About EpiNano
 
 *EpiNano* is a tool to identify RNA modifications present in direct RNA sequencing reads.  
 
