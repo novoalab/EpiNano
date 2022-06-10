@@ -13,9 +13,7 @@ Detection of RNA modifications from Oxford Nanopore direct RNA sequencing reads
 	- [Considerations when using EpiNano](#Considerations-when-using-EpiNano)  
 	- [Pre-requisites required packages](#Pre-requisites-required-packages) 
 - [Getting the code](#Getting-the-code) 
-- [Running EpiNano](#Running-EpiNano-1.2)
-	- [Running EpiNano 1.2](#Running-EpiNano-1.2) 
-	- [Running EpiNano 1.1](#Running-EpiNano-1.1) 
+- [Running EpiNano](#Running-EpiNano)
 - [Further Documentation](#Further-Documentation)
 - [Citing this work](#Citing-this-work) 
 - [License](#License) 
@@ -149,7 +147,9 @@ To download the latest version of EpiNano , you just need to clone the repo:
 You can choose to download EpiNano 1.1 [HERE](https://github.com/enovoa/EpiNano/releases)  
 You can choose to download EpiNano 1.0 [HERE](https://github.com/enovoa/EpiNano/releases) 
 
-## Running EpiNano 1.2  
+## Running EpiNano
+
+### a) Running EpiNano 1.2
 
 To train models and assess prediction accuracies, please refer to commands in test_data/train_models/train_test.sh.  
 
@@ -354,7 +354,7 @@ python $EPINANO_HOME/Epinano_Predict.py
 
  In the command above, we employ a previously trained model ‘q3.mis3.del3.MODEL.linear.model.dump’ that will predict m6A modifications in RRACH k-mers on a dataset that is specified with ‘--predict’. Please remember to filt your dataset before or after making predicitons to keep only RRACH k-mers. 
 
-## Running EpiNano 1.1
+### b) Running EpiNano 1.1
 
 * Build feature table (on which predictions will be made)
 
