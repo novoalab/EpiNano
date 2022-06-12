@@ -15,8 +15,8 @@ import time
 
 
 desc = """convert bam to per reference site variants frequencies.
-only relies on pysam, in contrast to epinano_var1.2 and previous versions, which relies on sam2tsv.
-It is less memory demanding than previous versions of epinano_variant.py!
+In contrast to epinano_var1.2 and previous versions, it does not rely on sam2tsv any more.
+It is also less memory demanding!
 """
 
 epilog = '''Author: huanle.liu@crg.eu
