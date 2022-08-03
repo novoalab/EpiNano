@@ -427,9 +427,9 @@ With the example svm input files from example/svm_input folder:
 
 ## Further Documentation 
 
-Please check [HERE](https://github.com/enovoa/EpiNano/tree/master/test_data/train_models) for additional information on usage on **EpiNano 1.2** 
+Please check [HERE](https://github.com/novoalab/EpiNano/tree/master/test_data/train_models) for additional information on usage on **EpiNano 1.2** 
 
-Please check the [Wiki](https://github.com/enovoa/EpiNano/wiki) for additional information on usage on **EpiNano 1.1**
+Please check the [Wiki](https://github.com/novoalab/EpiNano/wiki) for additional information on usage on **EpiNano 1.1**
 
 
 ## Citing this work
