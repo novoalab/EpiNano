@@ -196,6 +196,8 @@ Note 1: it is possible to organize the variants in any kmer length using *$EPINA
 
 Note 2: the users should split the computations for each reference sequences if the reference genome is large. 
 
+Note 3: *UPDATE in EpiNano 1.2.2:* We have now released an **improved version of EpiNano_variants.py that requires less resources**, so can be used with whole genomes. You can find this script [here](https://github.com/novoalab/EpiNano/blob/master/misc/slim_epinano_variants.py), and use it instead of EpiNano_Variants.py. 
+
 ### STEP 2. Extract current intensity values 
 
 This is optional. Users who are interested in exploring the electric signals including current intensities and duration time can rely on this to extract the relevant information.  User can also use the extracted features to train SVM models.
