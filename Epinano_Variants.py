@@ -48,8 +48,9 @@ def mkdir (folder):
 def decimal_format (f):
     return "{0:.{1}f}".format(f,5)
 
-def has_reads_mapped (bam) :
-    return int (pysam.flagstat(bam).split('\n')[4][0]) > 0
+def has_reads_mapped(bam_file):
+     with pysam.AlignmentFile(bam_file, "rb") as bam:
+        return sum(1 for read in bam if not read.is_unmapped) > 0
 
 def has_reads_mapped_to_ref (bam, refseqid):
     bamfh = pysam.AlignmentFile(bam,'rb')
